@@ -1,7 +1,8 @@
 // vertex shader program
 var VSHADER_SOURCE = 
+    'attribute vec4 a_Position;\n' + 
     'void main() {\n' + 
-    '   gl_Position = vec4(0.0, 0.0, 0.0, 1.0);\n' + // coords
+    '   gl_Position = a_Position;\n' + // coords
     '   gl_PointSize = 10.0;\n' + // set point size
     '}\n'
 
@@ -21,6 +22,13 @@ function main() {
 
     //initialize shaders
     if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+        console.log('failed');
+        return;
+    }
+
+    // get storage loc of attribute variable
+    var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+    if (a_Position < 0) {
         console.log('failed');
         return;
     }
