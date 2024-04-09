@@ -16,4 +16,12 @@ function main() {
 
 function handleDrawEvent() {
     //
+    ctx.strokeStyle = 'red';
+    
+    let cx = canvas.width/2;
+    let cy = canvas.height/2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + 75, cy + 50);
+    ctx.stroke();
 }
