@@ -30,10 +30,17 @@ function handleDrawEvent() {
     var v1_xcoord = document.getElementById('v1_xcoord').value;
     var v1_ycoord = document.getElementById('v1_ycoord').value;
     var v1 = new Vector3([v1_xcoord, v1_ycoord, 0.0]);
+
+    // read the xy coords of v2
+    var v2_xcoord = document.getElementById('v2_xcoord').value;
+    var v2_ycoord = document.getElementById('v2_ycoord').value;
+    var v2 = new Vector3([v2_xcoord, v2_ycoord, 0.0]);
     
     // clear the canvas
     ctx.fillStyle = 'rgba(0, 0, 0, 1.0)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     // call drawVector(v1, "red")
     drawVector(v1, "red");
+    // Call drawVector(v2, "blue")
+    drawVector(v2, "blue");
 }
