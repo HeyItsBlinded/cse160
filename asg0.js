@@ -49,7 +49,6 @@ function handleDrawOperationEvent() {
     // clear the canvas
     ctx.fillStyle = 'rgba(0, 0, 0, 1.0)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    console.log('test') // TEST
 
     // Read the values of the text boxes to create v1 and call
     // drawVector(v1, "red")
@@ -57,7 +56,6 @@ function handleDrawOperationEvent() {
     var v1_ycoord = document.getElementById('v1_ycoord').value;
     var v1 = new Vector3([v1_xcoord, v1_ycoord, 0.0]);
     drawVector(v1, "red");
-    console.log('testv1') // TEST
 
     // Read the values of the text boxes to create v1 and call 
     // drawVector(v2, "blue") 
@@ -65,7 +63,6 @@ function handleDrawOperationEvent() {
     var v2_ycoord = document.getElementById('v2_ycoord').value;
     var v2 = new Vector3([v2_xcoord, v2_ycoord, 0.0]);
     drawVector(v2, "blue");
-    console.log('testv2') // TEST
 
     // Read the value of the selector and call the respective 
     // Vector3 function. For add and sub operations, draw a green
@@ -90,5 +87,12 @@ function handleDrawOperationEvent() {
         drawVector(v1, "green");
         v2.div(scal);
         drawVector(v2, "green");
+    } else if (oper == 'norm') {
+        var v1_norm = v1.normalize();
+        var v2_norm = v2.normalize();
+        drawVector(v1_norm, "green");
+        drawVector(v2_norm, "green");
+    } else if (oper == 'mag') {
+        console.log(v1.magnitude(), v2.magnitude());
     }
 }
