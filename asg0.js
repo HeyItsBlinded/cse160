@@ -96,6 +96,8 @@ function handleDrawOperationEvent() {
         console.log(v1.magnitude(), v2.magnitude());
     } else if (oper == 'ang_btwn') {
         console.log(angleBetween(v1, v2));
+    } else if (oper == 'area') {
+        console.log(areaTriangle(v1, v2));
     }
 }
 
@@ -110,4 +112,18 @@ function angleBetween(v1, v2) {
     var rad = Math.acos(dotprod / (mag_v1 * mag_v2));
     rad *= 180 / Math.PI;
     return rad;
+}
+
+function areaTriangle(v1, v2) {
+    // uses the cross function to compute the area of the triangle created 
+    // with v1 and v2. Hint: Remember  ||v1 x v2]]  equals to the area of the 
+    // parallelogram that the vectors span.
+
+    // ||v1 x v2]] / 2
+    // magnitude(crossprod(v1, v2)) / 2
+    var temp = Vector3.cross(v1, v2);
+    var temp2 = new Vector3([temp[0], temp[1], temp[2]]);
+
+    let result = temp2.magnitude() / 2;
+    return result;
 }
