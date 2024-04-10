@@ -10,17 +10,33 @@
         </canvas>
         <script src="asg0.js"></script>
         <script src="lib/cuon-matrix-cse160.js"></script>
-        <!----><br><br>
+
+        <!-- interface -->
+        <legend>v1</legend>
+        <label for="v1_xcoord">x:</label>
+        <input type="text" id="v1_xcoord" name="v1_xcoord"/>
+        <label for="v1_ycoord">y:</label>
+        <input type="text" id="v1_ycoord" name="v1_ycoord"/>
+
+        <!-- <legend>v2</legend>
+        <label for="v2_xcoord">x:</label>
+        <input type="text" id="v2_xcoord" name="v2_xcoord"/>
+        <label for="v2_ycoord">y:</label>
+        <input type="text" id="v2_ycoord" name="v2_ycoord"/> -->
+
+        <!--
+        <br><br>
         <label for="name">v1</label>
-        <input type="text" id="name" name="name" required minlength="4" maxlength="8" size="10" />
-        <!----><br><br>
+        <input type="text" id="name" name="name"/>
+        <br><br>
         <label for="operation-select">Operation</label>
-        <select name="pets" id="operation-select">
+        <select name="operation-select" id="operation-select">
         <option value="">--Please choose an option--</option>
         <option value="add">add</option>
         <option value="sub">sub</option>
         </select>
-        <!----><br><br>
-        <input type="button" value="Submit" onclick="handleDrawEvent()"></input>
+        -->
+        <br><br>
+        <input type="button" value="Draw" onclick="handleDrawEvent()"></input>
     </body>
 </html>
