@@ -94,5 +94,20 @@ function handleDrawOperationEvent() {
         drawVector(v2_norm, "green");
     } else if (oper == 'mag') {
         console.log(v1.magnitude(), v2.magnitude());
+    } else if (oper == 'ang_btwn') {
+        console.log(angleBetween(v1, v2));
     }
+}
+
+function angleBetween(v1, v2) {
+    // uses the dot function to compute the angle between v1 and v2.
+    // Hint: Use the definition of dot product 
+    // dot(v1, v2) = ||v1|| * ||v2|| * cos(alpha)
+    var mag_v1 = v1.magnitude();
+    var mag_v2 = v2.magnitude();
+    var dotprod = Vector3.dot(v1, v2);
+
+    var rad = Math.acos(dotprod / (mag_v1 * mag_v2));
+    rad *= 180 / Math.PI;
+    return rad;
 }
