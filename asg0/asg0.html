@@ -3,42 +3,62 @@
     <head>
         <meta charset="'utf-8"/>
         <title>draw rect</title>
+        <!-- <style>
+            #canvasContainer {
+                width: 100%;
+                text-align:center;
+                margin-bottom: 0px;
+            }
+            canvas {
+                display: inline;
+            }
+            #interface input[type='button']{
+                background-color: blanchedalmond;
+            }
+            label {
+                font-family: "Lucida Console", "Courier New", monospace;
+            }
+        </style> -->
     </head>
     <body onload="main()">
-        <canvas id="example" width="400" height="400">
-            please use browser that supports canvas
+        <!-- <div id="canvasContainer"> -->
+            <canvas id="example" width="400" height="400">
+                please use browser that supports canvas
         </canvas>
+        </div>
+
         <script src="asg0.js"></script>
         <script src="lib/cuon-matrix-cse160.js"></script>
 <br>
         <!-- interface -->
-        <label for="v1_xcoord">v1 x:</label>
-        <input type="text" id="v1_xcoord" name="v1_xcoord"/>
-        <label for="v1_ycoord">y:</label>
-        <input type="text" id="v1_ycoord" name="v1_ycoord"/>
-<br>      
-        <label for="v2_xcoord">v2 x:</label>
-        <input type="text" id="v2_xcoord" name="v2_xcoord"/>
-        <label for="v2_ycoord">y:</label>
-        <input type="text" id="v2_ycoord" name="v2_ycoord"/>
-<br>
-        <input type="button" value="Draw" onclick="handleDrawEvent()"></input>
-<br><br>
-        <label for="operation">Operation:</label>
-        <select id="operation">
-            <option value="">-- select one --</option>
-            <option value="add">add</option>
-            <option value="sub">subtract</option>
-            <option value="mul">multiply</option>
-            <option value="div">divide</option>
-            <option value="mag">magnitude</option>
-            <option value="norm">normalize</option>
-            <option value="ang_btwn">angle between</option>
-            <option value="area">area (of triangle)</option>
-        </select>
-        <label for="scalar">Scalar:</label>
-        <input type="text" id="scalar" name="scalar"/>
-<br>
-        <input type="button" value="Draw" onclick="handleDrawOperationEvent()"></input>
+        <div id="interface">
+            <label for="v1_xcoord">v1 x:</label>
+            <input type="text" id="v1_xcoord" name="v1_xcoord"/>
+            <label for="v1_ycoord">y:</label>
+            <input type="text" id="v1_ycoord" name="v1_ycoord"/>
+            <label for="v2_xcoord">v2 x:</label>
+            <input type="text" id="v2_xcoord" name="v2_xcoord"/>
+            <label for="v2_ycoord">y:</label>
+            <input type="text" id="v2_ycoord" name="v2_ycoord"/>
+    <br>
+            <input type="button" value="Draw" onclick="handleDrawEvent()"></input>
+    <br><br>
+            <label for="operation">Operation:</label>
+            <select id="operation">
+                <option value="">-- select one --</option>
+                <option value="add">add</option>
+                <option value="sub">subtract</option>
+                <option value="mul">multiply</option>
+                <option value="div">divide</option>
+                <option value="mag">magnitude</option>
+                <option value="norm">normalize</option>
+                <option value="ang_btwn">angle between</option>
+                <option value="area">area (of triangle)</option>
+            </select>
+            <label for="scalar">Scalar:</label>
+            <input type="text" id="scalar" name="scalar"/>
+    <br>
+            <input type="button" value="Draw" onclick="handleDrawOperationEvent()"></input>
+    <!-- </div> -->
     </body>
 </html>
