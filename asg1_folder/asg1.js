@@ -72,7 +72,8 @@ var g_points = [];  // The array for the position of a mouse press
 var g_colors = [];  // The array to store the color of a point
 
 function click(ev) {
-    [x, y] = convertCoordinatesEventToGL(ev);
+    // extract event click, return it in webGL coords
+    let [x, y] = convertCoordinatesEventToGL(ev);
 
     // Store the coordinates to g_points array
     g_points.push([x, y]);
@@ -92,7 +93,7 @@ function click(ev) {
 
 function convertCoordinatesEventToGL(ev) {
     var x = ev.clientX; // x coordinate of a mouse pointer
-    var y = ev.clientY; // y coordinate of a mouse pointer  
+    var y = ev.clientY; // y coordinate of a mouse pointer
     var rect = ev.target.getBoundingClientRect();
 
     x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
@@ -109,11 +110,11 @@ function renderAllShapes() {
     for(var i = 0; i < len; i++) {
         var xy = g_points[i];
         var rgba = g_colors[i];
+        // Pass the position of a point to a_Position variable
+        gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
+        // Pass the color of a point to u_FragColor variable
+        gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
+        // Draw
+        gl.drawArrays(gl.POINTS, 0, 1);
     }
-    // Pass the position of a point to a_Position variable
-    gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
-    // Pass the color of a point to u_FragColor variable
-    gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
-    // Draw
-    gl.drawArrays(gl.POINTS, 0, 1);
 }
