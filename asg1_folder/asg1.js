@@ -84,28 +84,62 @@ function addActionsUI() {
 function main() {
     setupWebGL();
     connectVariablesToGLSL();
+
     // set up actions for html ui elements
     addActionsUI();
+
     // Register function (event handler) to be called on a mouse press
     canvas.onmousedown = click;
+
     // Specify the color for clearing <canvas>
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-var g_ShapesList = [];
+class Point {
+    constructor(){
+        this.type = 'point';
+        this.position = [0.0, 0.0, 0.0];
+        this.color = [1.0, 1.0, 1.0, 1.0];
+        this.size = 5.0;
+    }
+
+    render() {
+        var xy = this.position;
+        var rgba = this.color;
+        var size = this.size;
+        // var xy = g_shapesList[i].position;
+        // var rgba = g_shapesList[i].color;
+        // var size = g_shapesList[i].size;
+
+        // Pass the position of a point to a_Position variable
+        gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
+        // Pass the color of a point to u_FragColor variable
+        gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
+        // pass the size of a point to u_Size variable
+        gl.uniform1f(u_Size, size);
+
+        // Draw
+        gl.drawArrays(gl.POINTS, 0, 1);
+    }
+}
+
+var g_shapesList = [];
+// var g_points = [];  // The array for the position of a mouse press
+// var g_colors = [];  // The array to store the color of a point
+// var g_sizes = [];
 
 function click(ev) {
     // extract event click, return it in webGL coords
     let [x, y] = convertCoordinatesEventToGL(ev);
 
-    // create and store to new point
     let point = new Point();
     point.position = [x,y];
     point.color = g_selectedColor.slice();
     point.size = g_selectedSize;
-    g_ShapesList.push(point);
+    g_shapesList.push(point);
 
     // draw all shapes in/on the canvas
     renderAllShapes();
@@ -126,10 +160,10 @@ function renderAllShapes() {
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
 
+    var len = g_shapesList.length;
     // var len = g_points.length;
-    var len = g_ShapesList.length;
 
     for(var i = 0; i < len; i++) {
-        g_ShapesList.render()
+        g_shapesList[i].render();
     }
 }
