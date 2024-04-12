@@ -120,8 +120,9 @@ function areaTriangle(v1, v2) {
     // ||v1 x v2]] / 2
     // magnitude(crossprod(v1, v2)) / 2
     var temp = Vector3.cross(v1, v2);
-    var temp2 = new Vector3([temp[0], temp[1], temp[2]]);
+    // var temp2 = new Vector3([temp[0], temp[1], temp[2]]);
 
-    let result = temp2.magnitude() / 2;
+    let result = temp.magnitude() / 2;
+    // temp.magnitude() / 2
     return result;
 }
