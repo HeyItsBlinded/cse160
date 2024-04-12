@@ -1,7 +1,7 @@
 br {
     display: block;
     content: ''; 
-    margin: 10px;
+    margin-bottom: 5px;
 }
 #canvasContainer {
     width: 100%;
@@ -20,7 +20,8 @@ canvas {
 #interface input[type='button']{
     background-color: blanchedalmond;
     padding: 5px;
-    margin-top: 8px;
+    margin-top: 5px;
+    margin-bottom: 20px;
 }
 
 label {

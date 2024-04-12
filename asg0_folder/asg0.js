@@ -1,5 +1,4 @@
-// to avoid potential scoping issues
-let canvas;
+let canvas; // to avoid potential scoping issues
 let ctx;
 
 function main() {
@@ -8,7 +7,6 @@ function main() {
         console.log('failed to retrieve canvas');
         return;
     }
-
     ctx = canvas.getContext('2d');
 
     ctx.fillStyle = 'rgba(0, 0, 0, 1.0)';
@@ -17,11 +15,11 @@ function main() {
 
 function drawVector(v, color) {
     ctx.strokeStyle = color;
-    let cx = canvas.width/2;
-    let cy = canvas.height/2;
+    let cx = canvas.width / 2;
+    let cy = canvas.height / 2;
     ctx.beginPath();
     ctx.moveTo(cx, cy);
-    ctx.lineTo(cx+v.elements[0]*20, cy-v.elements[1]*20);
+    ctx.lineTo(cx + v.elements[0] * 20, cy - v.elements[1] * 20);
     ctx.stroke();
 }
 
@@ -37,11 +35,11 @@ function handleDrawEvent() {
     var v2 = new Vector3([v2_xcoord, v2_ycoord, 0.0]);
     
     // clear the canvas
+    // call drawVector(v1, "red")
+    // Call drawVector(v2, "blue")
     ctx.fillStyle = 'rgba(0, 0, 0, 1.0)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // call drawVector(v1, "red")
     drawVector(v1, "red");
-    // Call drawVector(v2, "blue")
     drawVector(v2, "blue");
 }
 
@@ -93,11 +91,11 @@ function handleDrawOperationEvent() {
         drawVector(v1_norm, "green");
         drawVector(v2_norm, "green");
     } else if (oper == 'mag') {
-        console.log(v1.magnitude(), v2.magnitude());
+        console.log("v1 magnitude: ", v1.magnitude(), "   v2 magnitude: ", v2.magnitude());
     } else if (oper == 'ang_btwn') {
-        console.log(angleBetween(v1, v2));
+        console.log("angle between v1 & v2: ", angleBetween(v1, v2));
     } else if (oper == 'area') {
-        console.log(areaTriangle(v1, v2));
+        console.log("area of triangle created by v1 & v2: ", areaTriangle(v1, v2));
     }
 }
 
