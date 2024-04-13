@@ -68,7 +68,7 @@ function connectVariablesToGLSL() {
 const POINT = 0;
 const TRIANGLE = 1;
 const CIRCLE = 2;
-const CUSTOM = 3; // NEW!
+// const CUSTOM = 3; // NEW!
 
 // global vars for ui
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
@@ -95,7 +95,7 @@ function addActionsUI() {
     document.getElementById('segmentSlide').addEventListener('mouseup',  function() { g_selectedSegment = this.value; });
 
     // NEW!
-    document.getElementById('custom').onclick = function() { g_selectedType = CUSTOM };
+    // document.getElementById('custom').onclick = function() { g_selectedType = CUSTOM };
 }
 
 function main() {
@@ -115,6 +115,13 @@ function main() {
 
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // TESTING CUSTOM
+    document.getElementById('custom').addEventListener('click', function() {
+        // console.log('custom button clicked');
+        var painting = new Custom();
+        painting.render();
+    })
 }
 
 var g_shapesList = [];
@@ -132,8 +139,8 @@ function click(ev) {
     } else  if (g_selectedType == CIRCLE) {
         point = new Circle();
         point.segments = g_selectedSegment;
-    } else if (g_selectedType == CUSTOM) {  // NEW!
-        point = new Custom();
+    // } else if (g_selectedType == CUSTOM) {  // NEW!
+    //     point = new Custom();
     }
 
     point.position = [x,y];
