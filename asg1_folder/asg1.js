@@ -121,14 +121,7 @@ var g_shapesList = [];
 
 function click(ev) {
     // extract event click, return it in webGL coords
-    // let [x, y] = convertCoordinatesEventToGL(ev); // COMMENTED - solved with ChatGPT
-    let x, y;   // NEW! - solved with ChatGPT
-    if (ev) {
-        [x,y] = convertCoordinatesEventToGL(ev);
-    } else {
-        x = 0;
-        y = 0;
-    }
+    let [x, y] = convertCoordinatesEventToGL(ev);
 
     // create and store new point
     let point;
