@@ -123,13 +123,6 @@ function main() {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
-
-    // CUSTOM FUNCTIONALITY - solved with ChatGPT
-    document.getElementById('custom').addEventListener('click', function() {
-        // console.log('custom button clicked');
-        var custom = new Custom();
-        custom.render();
-    })
 }
 
 var g_shapesList = [];
