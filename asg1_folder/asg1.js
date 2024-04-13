@@ -64,9 +64,14 @@ function connectVariablesToGLSL() {
     }
 }
 
+// constants
+const POINT = 0;
+const TRIANGLE = 1;
+
 // global vars for ui
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
+let g_selectedType = POINT;
 
 // html functionality implementation
 function addActionsUI() {
@@ -74,6 +79,9 @@ function addActionsUI() {
     document.getElementById('green').onclick = function() { g_selectedColor = [0.0, 1.0, 0.0, 1.0]; };
     document.getElementById('red').onclick   = function() { g_selectedColor = [1.0, 0.0, 0.0, 1.0]; };
     document.getElementById('clear').onclick   = function() { g_shapesList = []; renderAllShapes(); };
+
+    document.getElementById('pointButton').onclick   = function() { g_selectedType = POINT };
+    document.getElementById('triangleButton').onclick   = function() { g_selectedType = TRIANGLE };
 
     // sliders
     document.getElementById('redSlide').addEventListener('mouseup',   function() { g_selectedColor[0] = this.value / 100; });
@@ -102,44 +110,20 @@ function main() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-// class Point {
-//     constructor(){
-//         this.type = 'point';
-//         this.position = [0.0, 0.0, 0.0];
-//         this.color = [1.0, 1.0, 1.0, 1.0];
-//         this.size = 5.0;
-//     }
-
-//     render() {
-//         var xy = this.position;
-//         var rgba = this.color;
-//         var size = this.size;
-//         // var xy = g_shapesList[i].position;
-//         // var rgba = g_shapesList[i].color;
-//         // var size = g_shapesList[i].size;
-
-//         // Pass the position of a point to a_Position variable
-//         gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
-//         // Pass the color of a point to u_FragColor variable
-//         gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
-//         // pass the size of a point to u_Size variable
-//         gl.uniform1f(u_Size, size);
-
-//         // Draw
-//         gl.drawArrays(gl.POINTS, 0, 1);
-//     }
-// }
-
 var g_shapesList = [];
-// var g_points = [];  // The array for the position of a mouse press
-// var g_colors = [];  // The array to store the color of a point
-// var g_sizes = [];
 
 function click(ev) {
     // extract event click, return it in webGL coords
     let [x, y] = convertCoordinatesEventToGL(ev);
 
-    let point = new Point();
+    // create and store new point
+    let point;
+    if (g_selectedType == POINT) {
+        point = new Point();
+    } else {
+        point = new Triangle();
+    }
+
     point.position = [x,y];
     point.color = g_selectedColor.slice();
     point.size = g_selectedSize;
@@ -161,7 +145,6 @@ function convertCoordinatesEventToGL(ev) {
 }
 
 function renderAllShapes() {
-
     // check time at start of function
     var startTime = performance.now();
 
