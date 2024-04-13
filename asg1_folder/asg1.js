@@ -73,6 +73,7 @@ const CIRCLE = 2;
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
 let g_selectedType = POINT;
+let g_selectedSegment = 5;  // NEW!
 
 // html functionality implementation
 function addActionsUI() {
@@ -90,7 +91,7 @@ function addActionsUI() {
     document.getElementById('greenSlide').addEventListener('mouseup', function() { g_selectedColor[1] = this.value / 100; });
     document.getElementById('blueSlide').addEventListener('mouseup',  function() { g_selectedColor[2] = this.value / 100; });
     document.getElementById('sizeSlide').addEventListener('mouseup',  function() { g_selectedSize = this.value; });
-
+    document.getElementById('segmentSlide').addEventListener('mouseup',  function() { g_selectedSegment = this.value; });
 }
 
 function main() {
@@ -126,6 +127,7 @@ function click(ev) {
         point = new Triangle();
     } else {
         point = new Circle();
+        point.segments = g_selectedSegment; // NEW!
     }
 
     point.position = [x,y];
