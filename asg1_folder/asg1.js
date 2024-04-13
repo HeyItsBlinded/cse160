@@ -68,12 +68,13 @@ function connectVariablesToGLSL() {
 const POINT = 0;
 const TRIANGLE = 1;
 const CIRCLE = 2;
+const CUSTOM = 3; // NEW!
 
 // global vars for ui
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
 let g_selectedType = POINT;
-let g_selectedSegment = 5;  // NEW!
+let g_selectedSegment = 5;
 
 // html functionality implementation
 function addActionsUI() {
@@ -92,6 +93,9 @@ function addActionsUI() {
     document.getElementById('blueSlide').addEventListener('mouseup',  function() { g_selectedColor[2] = this.value / 100; });
     document.getElementById('sizeSlide').addEventListener('mouseup',  function() { g_selectedSize = this.value; });
     document.getElementById('segmentSlide').addEventListener('mouseup',  function() { g_selectedSegment = this.value; });
+
+    // NEW!
+    document.getElementById('custom').onclick = function() { g_selectedType = CUSTOM };
 }
 
 function main() {
@@ -117,7 +121,14 @@ var g_shapesList = [];
 
 function click(ev) {
     // extract event click, return it in webGL coords
-    let [x, y] = convertCoordinatesEventToGL(ev);
+    // let [x, y] = convertCoordinatesEventToGL(ev); // COMMENTED - solved with ChatGPT
+    let x, y;   // NEW! - solved with ChatGPT
+    if (ev) {
+        [x,y] = convertCoordinatesEventToGL(ev);
+    } else {
+        x = 0;
+        y = 0;
+    }
 
     // create and store new point
     let point;
@@ -125,9 +136,11 @@ function click(ev) {
         point = new Point();
     } else if (g_selectedType == TRIANGLE) {
         point = new Triangle();
-    } else {
+    } else  if (g_selectedType == CIRCLE) {
         point = new Circle();
-        point.segments = g_selectedSegment; // NEW!
+        point.segments = g_selectedSegment;
+    } else if (g_selectedType == CUSTOM) {  // NEW!
+        point = new Custom();
     }
 
     point.position = [x,y];
