@@ -7,10 +7,11 @@ var VSHADER_SOURCE = `
         gl_PointSize = u_Size;
     }`
 
-// Fragment shader program
+// Fragment shader program - NEW! - uniform vec4 u_Color;
 var FSHADER_SOURCE = `
     precision mediump float;
     uniform vec4 u_FragColor;
+    uniform vec4 u_Color;
     void main() {
         gl_FragColor = u_FragColor;
     }`
@@ -21,6 +22,7 @@ let gl;
 let a_Position;
 let u_FragColor;
 let u_Size;
+let u_Color // NEW!
 
 function setupWebGL() {
     // Retrieve <canvas> element
@@ -57,6 +59,11 @@ function connectVariablesToGLSL() {
         console.log('Failed to get the storage location of u_Size');
     return;
     }
+    u_Color = gl.getUniformLocation(gl.program, 'u_Color'); // NEW!
+    if (!u_Color) {
+        console.log('Failed to get storage loc of u_Color');
+        return;
+    }
 }
 
 // constants
@@ -88,8 +95,11 @@ function addActionsUI() {
     document.getElementById('sizeSlide').addEventListener('mouseup',  function() { g_selectedSize = this.value; });
     document.getElementById('segmentSlide').addEventListener('mouseup',  function() { g_selectedSegment = this.value; });
 
-    // NEW!
     // document.getElementById('custom').onclick = function() { g_selectedType = CUSTOM };
+    document.getElementById('custom').onclick = function() { // NEW!
+        var custom = new Custom();
+        custom.render();
+    };
 }
 
 function main() {
@@ -100,6 +110,15 @@ function main() {
     // Register function (event handler) to be called on a mouse press
     canvas.onmousedown = click;
     canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev) } };
+    
+    // NEW! - for Custom: Write the positions of vertices to a vertex shader
+    var n = initVertexBuffers(gl);
+    if (n < 0) {
+        console.log('Failed to set the positions of the vertices');
+        return;
+    }
+    // ---------------------------------------------------------
+
     // Specify the color for clearing <canvas>
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     // Clear <canvas>
@@ -108,7 +127,6 @@ function main() {
     // CUSTOM FUNCTIONALITY - solved with ChatGPT
     document.getElementById('custom').addEventListener('click', function() {
         // console.log('custom button clicked');
-        // call a function that draws an entire set of triangles ?
         var custom = new Custom();
         custom.render();
     })
@@ -128,7 +146,7 @@ function click(ev) {
     } else  if (g_selectedType == CIRCLE) {
         point = new Circle();
         point.segments = g_selectedSegment;
-    // } else if (g_selectedType == CUSTOM) {  // NEW!
+    // } else if (g_selectedType == CUSTOM) { 
     //     point = new Custom();
     }
     point.position = [x,y];
