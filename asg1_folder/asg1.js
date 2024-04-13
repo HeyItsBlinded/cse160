@@ -68,7 +68,6 @@ function connectVariablesToGLSL() {
 const POINT = 0;
 const TRIANGLE = 1;
 const CIRCLE = 2;
-// const CUSTOM = 3; // NEW!
 
 // global vars for ui
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
@@ -116,11 +115,11 @@ function main() {
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    // TESTING CUSTOM
+    // CUSTOM FUNCTIONALITY - solved with ChatGPT
     document.getElementById('custom').addEventListener('click', function() {
         // console.log('custom button clicked');
-        var painting = new Custom();
-        painting.render();
+        var custom = new Custom();
+        custom.render();
     })
 }
 

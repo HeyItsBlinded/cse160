@@ -1,33 +1,69 @@
+// WHATS ALREADY DONE
+// ---------------------------------
+// Vertex shader program
+// var VSHADER_SOURCE = `
+//     attribute vec4 a_Position;
+//     uniform float u_Size;
+//     void main() {
+//         gl_Position = a_Position;
+//         gl_PointSize = u_Size;
+//     }`
+
+// Fragment shader program
+// var FSHADER_SOURCE = `
+//     precision mediump float;
+//     uniform vec4 u_FragColor;
+//     void main() {
+//         gl_FragColor = u_FragColor;
+//     }`
+
+// function setupwebGL()
+// canvas = document.getElementById('webgl');
+// gl = canvas.getContext("webgl", { preserveDrawingBuffer: true});
+// if (!gl) {
+//     console.log('Failed to get the rendering context for WebGL');
+// return;
+// }
+
+// function connectvarstoGLSL()
+// if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+//     console.log('Failed to intialize shaders.');
+//     return;
+// }
+// a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+// if (a_Position < 0) {
+//     console.log('Failed to get the storage location of a_Position');
+// return;
+// }
+// u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
+// if (!u_FragColor) {
+//     console.log('Failed to get the storage location of u_FragColor');
+// return;
+// }
+// u_Size = gl.getUniformLocation(gl.program, 'u_Size');
+// if (!u_Size) {
+//     console.log('Failed to get the storage location of u_Size');
+// return;
+// }
+
+// ---------------------------------
+
 class Custom{
-    // CURRENT: circle
-    constructor(){
-        this.type = 'custom';
-        this.position = [0.0, 0.0, 0.0];
-        this.color = [1.0, 1.0, 1.0, 1.0];
-        this.size = 10.0;
-        this.segments = 10;
+    constructor() {
+        this.triangle = new Triangle();
+        this.triangle.position = [-0.5, 0.5, 0.0];
+        this.triangle.color = [1.0, 0.0, 0.0, 1.0];
+        this.triangle.size = 20.0;
+
+        this.circle = new Circle();
+        this.circle.position = [0.5, -0.5, 0.0];
+        this.circle.color = [0.0, 0.0, 1.0, 1.0];
+        this.circle.size = 50.0;
     }
- 
     render() {
-        var xy = this.position;
-        var rgba = this.color;
-        var size = this.size;
-
-        gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
-
-        var d = this.size / 200.0 // delta
-
-        let angleStep = 360 / this.segments;
-        for (var angle = 0; angle < 360; angle = angle + angleStep) {
-            let centerPt = [xy[0], xy[1]];
-            let angle1 = angle;
-            let angle2 = angle + angleStep;
-            let vec1 = [Math.cos(angle1 * Math.PI / 180) * d, Math.sin(angle1 * Math.PI / 180) * d];
-            let vec2 = [Math.cos(angle2 * Math.PI / 180) * d, Math.sin(angle2 * Math.PI / 180) * d];
-            let pt1 = [centerPt[0] + vec1[0], centerPt[1] + vec1[1]];
-            let pt2 = [centerPt[0] + vec2[0], centerPt[1] + vec2[1]];
-
-            drawTriangle( [xy[0], xy[1], pt1[0], pt1[1], pt2[0], pt2[1]] );
-        }
+        this.triangle.render();
+        this.circle.render();
+        console.log('both drawn');
     }
  }
+
