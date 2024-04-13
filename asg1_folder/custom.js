@@ -48,25 +48,6 @@
 
 // ---------------------------------
 
-// class Custom{
-//     constructor() {
-//         this.triangle = new Triangle();
-//         this.triangle.position = [-0.5, 0.5, 0.0];
-//         this.triangle.color = [1.0, 0.0, 0.0, 1.0];
-//         this.triangle.size = 20.0;
-
-//         this.circle = new Circle();
-//         this.circle.position = [0.5, -0.5, 0.0];
-//         this.circle.color = [0.0, 0.0, 1.0, 1.0];
-//         this.circle.size = 50.0;
-//     }
-//     render() {
-//         this.triangle.render();
-//         this.circle.render();
-//         console.log('both drawn');
-//     }
-//  }
-
 class Custom{
     constructor() {
         this.triangle1 = new Triangle();
