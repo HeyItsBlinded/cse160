@@ -3,39 +3,44 @@
     <head>
         <meta charset="utf-8" />
         <title>colored points</title>
+        <link rel="stylesheet" href="asg1_style.css">
     </head>
     <body onload="main()">
         <a href="../index.html">back to hub</a>
         <br>
-        <canvas id="webgl" width="400" height="400">
-            Please use browser supporting "canvas"
-        </canvas>
-        <!-- <script src="../lib/cuon-matrix-cse160.js"></script> -->
-        <script src="../lib/webgl-utils.js"></script>
-        <script src="../lib/webgl-debug.js"></script> 
-        <script src="../lib/cuon-utils.js"></script>
-        <script src="asg1.js"></script>
-        <script src="points.js"></script>
-        <script src="triangle.js"></script>
-        <script src="circle.js"></script>
-        <script src="custom.js"></script>
-        <br>
-        <p id="numdot">[DISPLAY]</p>
-        <button type="button" id="green">green</button>
-        <button type="button" id="red">red</button>
-        <button type="button" id="clear">clear</button>
-        <br><br>
-        <button type="button" id="pointButton">point</button>
-        <button type="button" id="triangleButton">triangle</button>
-        <button type="button" id="circleButton">circle</button>
-        <br><br>
-        red <input type="range" min="0" max="100" value="0" class="slider" id="redSlide">
-        green <input type="range" min="0" max="100" value="0" class="slider" id="greenSlide">
-        blue <input type="range" min="0" max="100" value="0" class="slider" id="blueSlide">
-        <br><br>
-        size <input type="range" min="5" max="40" value="0" class="slider" id="sizeSlide">
-        segments (circle) <input type="range" min="5" max="20" value="0" class="slider" id="segmentSlide">
-        <br><br>
-        <button type="button" id="custom">custom</button> <!-- NEW! -->
+        <div id="canvasContainer">
+            <canvas id="webgl" width="400" height="400">
+                Please use browser supporting "canvas"
+            </canvas>
+            <!-- <script src="../lib/cuon-matrix-cse160.js"></script> -->
+            <script src="../lib/webgl-utils.js"></script>
+            <script src="../lib/webgl-debug.js"></script> 
+            <script src="../lib/cuon-utils.js"></script>
+            <script src="asg1.js"></script>
+            <script src="points.js"></script>
+            <script src="triangle.js"></script>
+            <script src="circle.js"></script>
+            <script src="custom.js"></script>
+            <br>
+            <p id="numdot">[DISPLAY]</p>
+        </div>
+        <div id="interface">
+            <button type="button" id="green">green</button>
+            <button type="button" id="red">red</button>
+            <button type="button" id="clear">clear</button>
+            <br><br>
+            <button type="button" id="pointButton">point</button>
+            <button type="button" id="triangleButton">triangle</button>
+            <button type="button" id="circleButton">circle</button>
+            <br><br>
+            red <input type="range" min="0" max="100" value="0" class="slider" id="redSlide">
+            green <input type="range" min="0" max="100" value="0" class="slider" id="greenSlide">
+            blue <input type="range" min="0" max="100" value="0" class="slider" id="blueSlide">
+            <br><br>
+            size <input type="range" min="5" max="40" value="0" class="slider" id="sizeSlide">
+            segments (circle) <input type="range" min="5" max="20" value="0" class="slider" id="segmentSlide">
+            <br><br>
+            <button type="button" id="custom">custom</button> <!-- NEW! -->
+        </div>
     </body>
 </html>

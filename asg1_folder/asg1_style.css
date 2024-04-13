@@ -1,0 +1,25 @@
+br {
+    display: block;
+    content: ''; 
+    margin-bottom: 5px;
+}
+#canvasContainer {
+    width: 100%;
+    text-align:center;
+    margin-bottom: 2px;
+}
+
+canvas {
+    display: inline;
+}
+
+p {
+    margin-top: 2px;
+}
+
+button {
+    background-color: blanchedalmond;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
