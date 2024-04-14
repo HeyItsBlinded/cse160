@@ -7,7 +7,7 @@ var VSHADER_SOURCE = `
         gl_PointSize = u_Size;
     }`
 
-// Fragment shader program - NEW!
+// Fragment shader program
 var FSHADER_SOURCE = `
     precision mediump float;
     uniform vec4 u_FragColor;
@@ -17,7 +17,7 @@ var FSHADER_SOURCE = `
 
 // global variables
 let canvas;
-let gl;
+let gl;     // NEW!
 let a_Position;
 let u_FragColor;
 let u_Size;

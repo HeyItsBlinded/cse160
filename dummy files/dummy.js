@@ -63,7 +63,7 @@ function main() {
   gl.drawArrays(gl.TRIANGLES, 3, 3);
 
   gl.uniform4f(u_Color, 1.0, 0.0, 0.0, 1.0);  //t1 color
-  gl.drawArrays(gl.TRIANGLES, 6, 3);
+  gl.drawArrays(gl.TRIANGLES, 6, 6);
 }
 
 // SET TRIANGLES HERE
@@ -72,8 +72,9 @@ function initVertexBuffers(gl) {
     0.25, 0.4, 0.25, -0.4, -0.25, -0.4, // v0 to v3
     -0.25, -0.4, -0.25, 0.4, 0.25, 0.4, // v3 to v6
     1.0,0.0,   1.0,-0.5,   0.5,0.-0.5, // t1
+    1.0,1.0,   0.5,0.5,   1.0,0.5, // t2
   ]);
-  var n = 9; // The number of vertices
+  var n = 12; // The number of vertices
 
   // Create a buffer object
   var vertexBuffer = gl.createBuffer();
