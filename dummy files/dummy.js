@@ -56,8 +56,11 @@ function main_2() {
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   // SET COLORS HERE
-  gl.uniform4f(u_Color, 0.380, 0.746, 0.880, 1.0);  // BODY_COLOR
-  gl.drawArrays(gl.TRIANGLES, 0, 15);
+  gl.uniform4f(u_Color, 0.5, 0.0, 1.0, 1.0); // LWING_COLOR
+  gl.drawArrays(gl.TRIANGLES, 0, 15);   
+
+  gl.uniform4f(u_Color, 0.956, 0.643, 0.376, 1.0);  // BODY_COLOR
+  gl.drawArrays(gl.TRIANGLES, 16, 15);
 
   // gl.uniform4f(u_Color, 0.956, 0.643, 0.376, 1.0);
   // gl.drawArrays(gl.TRIANGLES, 3, 3);
@@ -69,14 +72,21 @@ function main_2() {
 // SET TRIANGLES HERE
 function initVertexBuffers(gl) {
   var vertices = new Float32Array([
+    // LWING
+    -0.45,0.45,   -0.90,0.35,  -0.90,0.15, // w1
+    -0.45,0.45,   -0.90,0.15, -0.85,-0.10, // w2
+    -0.45,0.45,   -0.85,-0.10,-0.50,-0.20, // w3
+    -0.45,0.45,   -0.50,-0.20, 0.00,-0.20, // w4
+    -0.45,0.45,    0.00,-0.20, 0.00,0.15,  // w5        
+
     // BODY
     -0.05,0.30,   0.00,0.25,   0.05,0.30, // t1
     -0.05,0.10,   0.00,0.30,   0.05,0.10, // t2
     -0.05,0.10,   -0.05,-0.10, 0.05,0.10, // t3
     -0.05,-0.10,  0.05,-0.10,  0.05,0.10, // t4
-    -0.05,-0.10,  0.05,-0.10,  0.00,-0.50,// t4
+    -0.05,-0.10,  0.05,-0.10,  0.00,-0.50,// t5
   ]);
-  var n = 15; // The number of vertices
+  var n = 30; // The number of vertices
 
   // Create a buffer object
   var vertexBuffer = gl.createBuffer();
