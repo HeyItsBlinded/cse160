@@ -7,11 +7,10 @@ var VSHADER_SOURCE = `
         gl_PointSize = u_Size;
     }`
 
-// Fragment shader program - NEW! - uniform vec4 u_Color;
+// Fragment shader program - NEW!
 var FSHADER_SOURCE = `
     precision mediump float;
     uniform vec4 u_FragColor;
-
     void main() {
         gl_FragColor = u_FragColor;
     }`
@@ -59,11 +58,11 @@ function connectVariablesToGLSL() {
         console.log('Failed to get the storage location of u_Size');
     return;
     }
-    u_Color = gl.getUniformLocation(gl.program, 'u_Color'); // NEW!
-    if (!u_Color) {
-        console.log('Failed to get storage loc of u_Color');
-        return;
-    }
+    // u_Color = gl.getUniformLocation(gl.program, 'u_Color'); // NEW!
+    // if (!u_Color) {
+    //     console.log('Failed to get storage loc of u_Color');
+    //     return;
+    // }
 }
 
 // constants
@@ -112,7 +111,7 @@ function main() {
     canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev) } };
     
     // NEW! - for Custom: Write the positions of vertices to a vertex shader
-    var n = initVertexBuffers(gl);
+    var n = initVertexBuffer(gl);
     if (n < 0) {
         console.log('Failed to set the positions of the vertices');
         return;
