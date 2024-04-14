@@ -25,7 +25,7 @@ class Triangle {
 }
 
 function drawTriangle(vertices) {
-  var n = 3; // The number of vertices
+  var n = vertices.length / 2; // NEW! - solved with chatGPT - OG: var n =3
   // Create a buffer object
   var vertexBuffer = gl.createBuffer();
   if (!vertexBuffer) {

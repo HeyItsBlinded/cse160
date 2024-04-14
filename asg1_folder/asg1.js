@@ -20,7 +20,7 @@ let canvas;
 let a_Position;
 let u_FragColor;
 let u_Size;
-var g_shapesList = [];
+let g_shapesList = [];
 
 // constants
 const POINT = 0;
@@ -92,8 +92,9 @@ function addActionsUI() {
     // document.getElementById('custom').onclick = function() { g_selectedType = CUSTOM };
     document.getElementById('custom').onclick = function() { // NEW!
         console.log('custom clicked!');
-        // var custom = new Custom();
-        // custom.render();
+        var custom = new Custom();
+        custom.render();
+        renderAllShapes();
     };
 }
 
