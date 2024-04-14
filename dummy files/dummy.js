@@ -103,11 +103,11 @@ function initVertexBuffers(gl) {
 }
 
 // Event listener for button click
-document.getElementById('switchButton').addEventListener('change', function () {
-  if (this.checked) {
-    main_2();
-  } else {
-    gl.clear(gl.COLOR_BUFFER_BIT);
-  }
+// document.getElementById('switchButton').addEventListener('change', function () {
+//   if (this.checked) {
+//     main_2();
+//   } else {
+//     gl.clear(gl.COLOR_BUFFER_BIT);
+//   }
   
-});
+// });

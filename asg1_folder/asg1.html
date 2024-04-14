@@ -42,12 +42,17 @@
             segments (circle) <input type="range" min="5" max="20" value="0" class="slider" id="segmentSlide">
             <br><br>
             <!-- <button type="button" id="custom">custom</button>  -->
-            <!--NEW--><input type="checkbox" id="switchButton">
+            <!-- NEW<input type="checkbox" id="switchButton"> -->
+            <button type="button" id="switchButton">custom</button>
 
         </div>
-        <script>
-            document.getElementById('switchButton').addEventListener('change', function () {
-            if (this.checked) {
+        <script> 
+            // NEW! - solved with ChatGPT
+            var useMain2 = false;
+
+            document.getElementById('switchButton').addEventListener('click', function () {
+            useMain2 = !useMain2
+            if (useMain2) {
                 main_2();
             } else {
                 gl.clear(gl.COLOR_BUFFER_BIT);
