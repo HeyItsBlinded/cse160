@@ -20,6 +20,19 @@ let canvas;
 let a_Position;
 let u_FragColor;
 let u_Size;
+var g_shapesList = [];
+
+// constants
+const POINT = 0;
+const TRIANGLE = 1;
+const CIRCLE = 2;
+
+// global vars for ui
+let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
+let g_selectedSize = 5;
+let g_selectedType = POINT;
+let g_selectedSegment = 5;
+
 
 function setupWebGL() {
     // Retrieve <canvas> element
@@ -57,17 +70,6 @@ function connectVariablesToGLSL() {
     return;
     }
 }
-
-// constants
-const POINT = 0;
-const TRIANGLE = 1;
-const CIRCLE = 2;
-
-// global vars for ui
-let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
-let g_selectedSize = 5;
-let g_selectedType = POINT;
-let g_selectedSegment = 5;
 
 // html functionality implementation
 function addActionsUI() {
@@ -109,8 +111,6 @@ function main() {
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
 }
-
-var g_shapesList = [];
 
 function click(ev) {
     // extract event click, return it in webGL coords
