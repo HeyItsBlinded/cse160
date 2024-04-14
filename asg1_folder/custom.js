@@ -49,26 +49,7 @@
 // ---------------------------------
 
 class Custom{
-    // constructor() {
-    //     this.triangle1 = new Triangle();
-    //     this.triangle1.position = [-0.5, 0.5, 0.0];
-    //     this.triangle1.color = [1.0, 0.0, 0.0, 1.0];
-    //     this.triangle1.size = 20.0;
-
-    //     this.triangle2 = new Triangle();
-    //     this.triangle2.position = [0.5, 0.5, 0.0];
-    //     this.triangle2.color = [0.0, 0.0, 1.0, 1.0];
-    //     this.triangle2.size = 20.0;
-    // }
     render() {
-        // this.triangle1.render();
-        // this.triangle2.render();
-        // console.log('both drawn');
-
-        // NEW! --------------
-        // gl.clearColor(0.0, 0.0, 0.0, 1.0);
-        // gl.clear(gl.COLOR_BUFFER_BIT);
-
         // set colors
         gl.uniform4f(u_Color, 0.380, 0.746, 0.880, 1.0);  // t1
         gl.drawArrays(gl.TRIANGLES, 0, 3);
