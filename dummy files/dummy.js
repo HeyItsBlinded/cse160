@@ -1,54 +1,46 @@
-// Vertex shader program - INCLUDED
-// vars not included:
-// u_Size
-// gl_PointSize
-var VSHADER_SOURCE =
-  'attribute vec4 a_Position;\n' +
-  'void main() {\n' +
-  '  gl_Position = a_Position;\n' +
-  '}\n';
-
-// Fragment shader program - INCLUDED
-var FSHADER_SOURCE =
-  'precision mediump float;\n' + 
-  'uniform vec4 u_Color;\n' + 
-  'void main() {\n' + 
-  ' gl_FragColor = u_Color;\n' + 
-  '}\n'
-
 var u_Color;
+var gl;
 
-// SAME
-function setupWebGL() { 
+// Vertex shader program
+var VSHADER_SOURCE = `
+    attribute vec4 a_Position;
+    uniform float u_Size;
+    void main() {
+        gl_Position = a_Position;
+        gl_PointSize = u_Size;
+    }`
+
+var FSHADER_SOURCE = `
+    precision mediump float;
+    uniform vec4 u_Color;
+    void main() {
+        gl_FragColor = u_Color;
+    }`
+
+function setupWebGL() {
   canvas = document.getElementById('webgl');
-  gl = canvas.getContext("webgl", { preserveDrawingBuffer: true});
+  gl = canvas.getContext('webgl', { preserveDrawingBuffer: true });
   if (!gl) {
-      console.log('Failed to get the rendering context for WebGL');
-  return;
+    console.log('Failed to get the rendering context for WebGL');
+    return;
   }
 }
 
-// DIFF -
-// not included:
-// a_Position
-// u_Size
-// u_Color SAME AS u_FragColor
 function connectVariablesToGLSL() {
-    if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
-        console.log('Failed to intialize shaders.');
-        return;
-    }
-    u_Color = gl.getUniformLocation(gl.program, 'u_Color');
-    if (!u_Color) {
-      console.log('failed to get loc of u_Color');
-      return;
-    }
+  if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+    console.log('Failed to intialize shaders.');
+    return;
+  }
+  u_Color = gl.getUniformLocation(gl.program, 'u_Color');
+  if (!u_Color) {
+    console.log('failed to get loc of u_Color');
+    return;
+  }
 }
 
-
 function main() {
-    setupWebGL();
-    connectVariablesToGLSL();
+  setupWebGL();
+  connectVariablesToGLSL();
 
   // Write the positions of vertices to a vertex shader
   var n = initVertexBuffers(gl);
@@ -74,8 +66,8 @@ function main() {
 // SET TRIANGLES HERE
 function initVertexBuffers(gl) {
   var vertices = new Float32Array([
-    0.25,0.4,   0.25,-0.4,   -0.25,-0.4, // v0 to v3
-    -0.25,-0.4,   -0.25,0.4,   0.25,0.4  // v3 to v6
+    0.25, 0.4, 0.25, -0.4, -0.25, -0.4, // v0 to v3
+    -0.25, -0.4, -0.25, 0.4, 0.25, 0.4 // v3 to v6
   ]);
   var n = 6; // The number of vertices
 
@@ -97,10 +89,20 @@ function initVertexBuffers(gl) {
     return -1;
   }
 
-// Assign the buffer object to a_Position variable
+  // Assign the buffer object to a_Position variable
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
   // Enable the assignment to a_Position variable
   gl.enableVertexAttribArray(a_Position);
 
   return n;
 }
+
+// Event listener for button click
+document.getElementById('switchButton').addEventListener('change', function () {
+  if (this.checked) {
+    main();
+  } else {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+  }
+  
+});
