@@ -51,9 +51,9 @@
 class Custom{
     render() {
         // set colors
-        gl.uniform4f(u_Color, 0.380, 0.746, 0.880, 1.0);  // t1
+        gl.uniform4f(u_FragColor, 0.380, 0.746, 0.880, 1.0);  // t1
         gl.drawArrays(gl.TRIANGLES, 0, 3);
-        gl.uniform4f(u_Color, 0.956, 0.643, 0.376, 1.0);  // t2
+        gl.uniform4f(u_FragColor, 0.956, 0.643, 0.376, 1.0);  // t2
         gl.drawArrays(gl.TRIANGLES, 3, 3);
         // -------------------
     }
