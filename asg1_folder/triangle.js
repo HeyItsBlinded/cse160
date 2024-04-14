@@ -4,12 +4,18 @@ class Triangle {
         this.position = [0.0, 0.0, 0.0];
         this.color = [1.0, 1.0, 1.0, 1.0];
         this.size = 5.0;
+        // this.vertices = [ // NEW! - solved with chatGPT
+        //   0.0, 0.0,
+        //   0.5, 0.0,
+        //   0.25, 0.5
+        // ];
     }
 
     render() {
         var xy = this.position;
         var rgba = this.color;
         var size = this.size;
+        // var vertices = this.vertices; // NEW! - solved with chatGPT
 
         // pass the pos of a point to a_Position variable
         // gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
@@ -19,13 +25,15 @@ class Triangle {
         gl.uniform1f(u_Size, size);
 
         // draw
+        // var n = vertices.length / 2;  // NEW!
+        // drawTriangle(vertices); // NEW!
         var d = this.size / 200.0; // delta
-        drawTriangle( [xy[0], xy[1], xy[0] + d, xy[1], xy[0], xy[1] + d] );
+        drawTriangle( [xy[0], xy[1], xy[0] + d, xy[1], xy[0], xy[1] + d] ); // NEW! - solved with chatGPT - OG: [xy[0], xy[1], xy[0] + d, xy[1], xy[0], xy[1] + d]
     }
 }
 
 function drawTriangle(vertices) {
-  var n = vertices.length / 2; // NEW! - solved with chatGPT - OG: var n =3
+  var n = vertices.length / 2; // NEW! - solved with chatGPT - var n = 3
   // Create a buffer object
   var vertexBuffer = gl.createBuffer();
   if (!vertexBuffer) {
