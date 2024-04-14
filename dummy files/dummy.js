@@ -2,7 +2,7 @@ var u_Color;
 var gl;
 
 // Vertex shader program
-var VSHADER_SOURCE = `
+var VSHADER_SOURCE_CUSTOM = `
     attribute vec4 a_Position;
     uniform float u_Size;
     void main() {
@@ -10,7 +10,7 @@ var VSHADER_SOURCE = `
         gl_PointSize = u_Size;
     }`
 
-var FSHADER_SOURCE = `
+var FSHADER_SOURCE_CUSTOM = `
     precision mediump float;
     uniform vec4 u_Color;
     void main() {
@@ -27,7 +27,7 @@ function setupWebGL() {
 }
 
 function connectVariablesToGLSL() {
-  if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+  if (!initShaders(gl, VSHADER_SOURCE_CUSTOM, FSHADER_SOURCE_CUSTOM)) {
     console.log('Failed to intialize shaders.');
     return;
   }
