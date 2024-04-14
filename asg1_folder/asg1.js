@@ -17,11 +17,9 @@ var FSHADER_SOURCE = `
 
 // global variables
 let canvas;
-let gl;     // NEW!
 let a_Position;
 let u_FragColor;
 let u_Size;
-let u_Color // NEW!
 
 function setupWebGL() {
     // Retrieve <canvas> element
@@ -58,11 +56,6 @@ function connectVariablesToGLSL() {
         console.log('Failed to get the storage location of u_Size');
     return;
     }
-    // u_Color = gl.getUniformLocation(gl.program, 'u_Color'); // NEW!
-    // if (!u_Color) {
-    //     console.log('Failed to get storage loc of u_Color');
-    //     return;
-    // }
 }
 
 // constants
@@ -96,8 +89,9 @@ function addActionsUI() {
 
     // document.getElementById('custom').onclick = function() { g_selectedType = CUSTOM };
     document.getElementById('custom').onclick = function() { // NEW!
-        var custom = new Custom();
-        custom.render();
+        console.log('custom clicked!');
+        // var custom = new Custom();
+        // custom.render();
     };
 }
 
@@ -109,14 +103,6 @@ function main() {
     // Register function (event handler) to be called on a mouse press
     canvas.onmousedown = click;
     canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev) } };
-    
-    // NEW! - for Custom: Write the positions of vertices to a vertex shader
-    var n = initVertexBuffer(gl);
-    if (n < 0) {
-        console.log('Failed to set the positions of the vertices');
-        return;
-    }
-    // ---------------------------------------------------------
 
     // Specify the color for clearing <canvas>
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -138,8 +124,6 @@ function click(ev) {
     } else  if (g_selectedType == CIRCLE) {
         point = new Circle();
         point.segments = g_selectedSegment;
-    // } else if (g_selectedType == CUSTOM) { 
-    //     point = new Custom();
     }
     point.position = [x,y];
     point.color = g_selectedColor.slice();
