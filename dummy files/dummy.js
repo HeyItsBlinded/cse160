@@ -17,7 +17,7 @@ var FSHADER_SOURCE_CUSTOM = `
         gl_FragColor = u_Color;
     }`
 
-function setupWebGL() {
+function setupWebGL_2() {
   canvas = document.getElementById('webgl');
   gl = canvas.getContext('webgl', { preserveDrawingBuffer: true });
   if (!gl) {
@@ -26,7 +26,7 @@ function setupWebGL() {
   }
 }
 
-function connectVariablesToGLSL() {
+function connectVariablesToGLSL_2() {
   if (!initShaders(gl, VSHADER_SOURCE_CUSTOM, FSHADER_SOURCE_CUSTOM)) {
     console.log('Failed to intialize shaders.');
     return;
@@ -38,9 +38,9 @@ function connectVariablesToGLSL() {
   }
 }
 
-function main() {
-  setupWebGL();
-  connectVariablesToGLSL();
+function main_2() {
+  setupWebGL_2();
+  connectVariablesToGLSL_2();
 
   // Write the positions of vertices to a vertex shader
   var n = initVertexBuffers(gl);
@@ -105,7 +105,7 @@ function initVertexBuffers(gl) {
 // Event listener for button click
 document.getElementById('switchButton').addEventListener('change', function () {
   if (this.checked) {
-    main();
+    main_2();
   } else {
     gl.clear(gl.COLOR_BUFFER_BIT);
   }

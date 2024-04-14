@@ -90,11 +90,11 @@ function addActionsUI() {
     document.getElementById('segmentSlide').addEventListener('mouseup',  function() { g_selectedSegment = this.value; });
 
     // document.getElementById('custom').onclick = function() { g_selectedType = CUSTOM };
-    document.getElementById('custom').onclick = function() { // NEW!
-        console.log('custom clicked!');
+    // document.getElementById('custom').onclick = function() { // NEW!
+    //     console.log('custom clicked!');
         // var custom = new Custom();
         // custom.render();
-    };
+    // };
 }
 
 function main() {
