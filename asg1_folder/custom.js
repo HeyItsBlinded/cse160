@@ -147,6 +147,53 @@ class Custom {
             0.35,-0.20
         ];
         g_shapesList.push(w16);
+
+        // BODY 1 - 5
+        var b1 = new CustomTriangle();
+        b1.color = [0.860, 0.576, 0.00860, 1.0];
+        b1.vertices = [
+            -0.05,0.30,
+            0.00,0.25,
+            0.05,0.30
+        ];
+        g_shapesList.push(b1);
+
+        var b2 = new CustomTriangle();
+        b2.color = [0.860, 0.576, 0.00860, 1.0];
+        b2.vertices = [
+            -0.05,0.10,
+            0.00,0.30,
+            0.05,0.10
+        ];
+        g_shapesList.push(b2);
+
+        var b3 = new CustomTriangle();
+        b3.color = [0.860, 0.576, 0.00860, 1.0];
+        b3.vertices = [
+            -0.05,0.10,
+            -0.05,-0.10,
+            0.05,0.10
+        ];
+        g_shapesList.push(b3);
+
+        var b4 = new CustomTriangle();
+        b4.color = [0.860, 0.576, 0.00860, 1.0];
+        b4.vertices = [
+            0.05,0.10,
+            -0.05,-0.10,
+            0.05,-0.10
+        ];
+        g_shapesList.push(b4);
+
+        var b5 = new CustomTriangle();
+        b5.color = [0.860, 0.576, 0.00860, 1.0];
+        b5.vertices = [
+            -0.05,-0.10,
+            0.05,-0.10,
+            0.00,-0.50
+        ];
+        g_shapesList.push(b5);
+
         console.log('all 20 printed');
 
     }
