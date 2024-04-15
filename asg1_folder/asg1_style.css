@@ -40,6 +40,7 @@ br {
 }
 
 img {
+    padding: 1%;
     width: 400px;
     height: auto; /* Maintain aspect ratio */
   }

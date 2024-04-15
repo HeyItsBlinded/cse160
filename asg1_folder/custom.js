@@ -204,14 +204,180 @@ class Custom2{
 
     }
     render() {
-        var b5 = new CustomTriangle();
-        b5.color = [0.860, 0.576, 0.00860, 1.0];
-        b5.vertices = [
-            -0.05,-0.10,
-            0.05,-0.10,
-            0.00,-0.50
+        var f1 = new CustomTriangle();
+        f1.color = [0.700, 0.545, 0.434, 1.0];
+        f1.vertices = [
+            -0.45,0.20,
+            -0.15,0.50,
+            -0.30,-0.65
         ];
-        g_shapesList.push(b5);
+        g_shapesList.push(f1);
+
+        var f2 = new CustomTriangle();
+        f2.color = [0.700, 0.545, 0.434, 1.0];
+        f2.vertices = [
+            -0.15,0.50,
+            0.30,0.50,
+            -0.30,-0.65
+        ];
+        g_shapesList.push(f2);
+
+        var f3 = new CustomTriangle();
+        f3.color = [0.700, 0.545, 0.434, 1.0];
+        f3.vertices = [
+            0.30,0.50,
+            0.70,0.20,
+            -0.30,-0.65
+        ];
+        g_shapesList.push(f3);
+
+        var f4 = new CustomTriangle();
+        f4.color = [0.700, 0.545, 0.434, 1.0];
+        f4.vertices = [
+            0.70,0.20,
+            0.55,-0.35,
+            -0.30,-0.65
+        ];
+        g_shapesList.push(f4);
+
+        var f5 = new CustomTriangle();
+        f5.color = [0.700, 0.545, 0.434, 1.0];
+        f5.vertices = [
+            0.55,-0.35,
+            0.05,-0.70,
+            -0.30,-0.65
+        ];
+        g_shapesList.push(f5);
+
+        // NECK
+        var n1 = new CustomTriangle();
+        n1.color = [0.700, 0.545, 0.434, 1.0];
+        n1.vertices = [
+            0.60,-0.10,
+            0.25,-0.10,
+            0.60,-0.85
+        ];
+        g_shapesList.push(n1);
+
+        var n2 = new CustomTriangle();
+        n2.color = [0.700, 0.545, 0.434, 1.0];
+        n2.vertices = [
+            0.25,-0.10,
+            0.25,-0.85,
+            0.60,-0.85
+        ];
+        g_shapesList.push(n2);
+
+        // EAR
+        var e1 = new CustomTriangle();
+        e1.color = [0.700, 0.545, 0.434, 1.0];
+        e1.vertices = [
+            0.65,0.10,
+            0.75,0.05,
+            0.50,-0.15
+        ];
+        g_shapesList.push(e1);
+
+        var e2 = new CustomTriangle();
+        e2.color = [0.700, 0.545, 0.434, 1.0];
+        e2.vertices = [
+            0.75,0.05,
+            0.80,-0.05,
+            0.50,-0.15
+        ];
+        g_shapesList.push(e2);
+
+        var e3 = new CustomTriangle();
+        e3.color = [0.700, 0.545, 0.434, 1.0];
+        e3.vertices = [
+            0.80,-0.05,
+            0.70,-0.20,
+            0.50,-0.15
+        ];
+        g_shapesList.push(e3);
+
+        var e4 = new CustomTriangle();
+        e4.color = [0.700, 0.545, 0.434, 1.0];
+        e4.vertices = [
+            0.70,-0.20,
+            0.60,-0.20,
+            0.50,-0.15
+        ];
+        g_shapesList.push(e4);
+
+        // GLASSES
+        var g1 = new CustomTriangle();
+        g1.color = [0.266, 0.0656, 0.410, 1.0];
+        g1.vertices = [
+            -0.05,-0.10,
+            -0.30,-0.15,
+            -0.30,-0.30
+        ];
+        g_shapesList.push(g1);
+
+        var g2 = new CustomTriangle();
+        g2.color = [0.266, 0.0656, 0.410, 1.0];
+        g2.vertices = [
+            -0.05,-0.10,
+            -0.05,-0.25,
+            -0.30,-0.30
+        ];
+        g_shapesList.push(g2);
+
+        var g3 = new CustomTriangle();
+        g3.color = [0.266, 0.0656, 0.410, 1.0];
+        g3.vertices = [
+            -0.05,-0.10,
+            -0.30,-0.15,
+            0.45,0.05
+        ];
+        g_shapesList.push(g3);
+
+        var g4 = new CustomTriangle();
+        g4.color = [0.266, 0.0656, 0.410, 1.0];
+        g4.vertices = [
+            0.45,0.05,
+            -0.30,-0.15,
+            0.45,0.00
+        ];
+        g_shapesList.push(g4);
+
+        var g5 = new CustomTriangle();
+        g5.color = [0.266, 0.0656, 0.410, 1.0];
+        g5.vertices = [
+            0.05,-0.05,
+            0.05,-0.25,
+            0.45,0.00
+        ];
+        g_shapesList.push(g5);
+
+        var g6 = new CustomTriangle();
+        g6.color = [0.266, 0.0656, 0.410, 1.0];
+        g6.vertices = [
+            0.45,0.00,
+            0.05,-0.25,
+            0.45,-0.20
+        ];
+        g_shapesList.push(g6);
+
+        // MOUTH
+        var m1 = new CustomTriangle();
+        m1.color = [0.883, 0.909, 0.910, 1.0];
+        m1.vertices = [
+            0.25,-0.35,
+            -0.20,-0.50,
+            -0.10,-0.60
+        ];
+        g_shapesList.push(m1);
+
+        var m2 = new CustomTriangle();
+        m2.color = [0.470, 0.0188, 0.177, 1.0];
+        m2.vertices = [
+            0.25,-0.35,
+            -0.10,-0.60,
+            0.10,-0.55
+        ];
+        g_shapesList.push(m2);
     }
 }
 
