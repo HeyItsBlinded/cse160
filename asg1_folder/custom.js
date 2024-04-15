@@ -204,7 +204,14 @@ class Custom2{
 
     }
     render() {
-        
+        var b5 = new CustomTriangle();
+        b5.color = [0.860, 0.576, 0.00860, 1.0];
+        b5.vertices = [
+            -0.05,-0.10,
+            0.05,-0.10,
+            0.00,-0.50
+        ];
+        g_shapesList.push(b5);
     }
 }
 

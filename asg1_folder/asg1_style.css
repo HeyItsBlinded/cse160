@@ -30,7 +30,19 @@ br {
 #fancySelect {
     margin-left: 25%;
     text-align: left;
+    padding-bottom: 5%;
 }
+
+#drafting {
+    margin-left: 25%;
+    text-align: left;
+    padding-bottom: 5%;
+}
+
+img {
+    width: 400px;
+    height: auto; /* Maintain aspect ratio */
+  }
 
 canvas {
     display: inline;
@@ -74,4 +86,4 @@ button {
     border-radius: 10px;
     cursor: pointer;
   }
-  
+

@@ -16,6 +16,7 @@
         <script src="custom.js"></script>
 
         <a href="../index.html">back to hub</a>
+
         <br>
 
         <p>
@@ -25,6 +26,8 @@
         </p>
 
         <div id="canvasContainer">
+            <button type="button" id="clear">CLEAR CANVAS</button>
+            <br> 
             <canvas id="webgl" width="400" height="400">
                 Please use browser supporting "canvas"
             </canvas>
@@ -34,6 +37,8 @@
         <div id="interface">
 
             <div id="colorSelect">
+                <label>color select</label>
+                <br>
                 <button type="button" id="green">green</button>
                 <button type="button" id="red">red</button>
                 <br>
@@ -45,6 +50,8 @@
             <br><br>
 
             <div id="shapeSelect">
+                <label>shape select</label>
+                <br>
                 <button type="button" id="pointButton">point</button>
                 <button type="button" id="triangleButton">triangle</button>
                 <button type="button" id="circleButton">circle</button>
@@ -60,13 +67,19 @@
             <br><br>
 
             <div id="fancySelect">
+                <label>template select</label>
+                <br>
                 <button type="button" id="custom">butterfly</button>
                 <button type="button" id="custom2">custom2</button>
             </div>
 
             <br>
-            <button type="button" id="clear">CLEAR CANVAS</button>
-            <br>
+
+            <div id="drafting">
+                <label>template mockups</label>
+                <br>
+                <img src="custom.jpeg" alt="my sketch of butterfly">
+            </div>
         </div>
     </body>
 </html>
