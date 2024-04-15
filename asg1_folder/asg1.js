@@ -74,8 +74,16 @@ function connectVariablesToGLSL() {
 // html functionality implementation
 function addActionsUI() {
     // buttons
+    document.getElementById('erase').onclick = function() { 
+        g_selectedColor = [0.0, 0.0, 0.0, 1.0]; 
+        g_selectedType = CIRCLE;
+        console.log('eraser clicked!');
+    };
+    document.getElementById('white').onclick = function() { g_selectedColor = [1.0, 1.0, 1.0, 1.0]; };
     document.getElementById('green').onclick = function() { g_selectedColor = [0.0, 1.0, 0.0, 1.0]; };
     document.getElementById('red').onclick   = function() { g_selectedColor = [1.0, 0.0, 0.0, 1.0]; };
+    document.getElementById('blue').onclick   = function() { g_selectedColor = [0.0, 0.0, 1.0, 1.0]; };
+    document.getElementById('yellow').onclick   = function() { g_selectedColor = [1.00, 0.852, 0.0100, 1.0]; };
     document.getElementById('clear').onclick   = function() { g_shapesList = []; renderAllShapes(); };
 
     document.getElementById('pointButton').onclick   = function() { g_selectedType = POINT };

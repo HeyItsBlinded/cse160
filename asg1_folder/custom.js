@@ -194,7 +194,7 @@ class Custom {
         ];
         g_shapesList.push(b5);
 
-        console.log('all 20 printed');
+        console.log('butterfly printed');
 
     }
 }
@@ -378,6 +378,7 @@ class Custom2{
             0.10,-0.55
         ];
         g_shapesList.push(m2);
+        console.log('blake drawn');
     }
 }
 
