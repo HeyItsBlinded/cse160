@@ -199,6 +199,15 @@ class Custom {
     }
 }
 
+class Custom2{
+    constructor() {
+
+    }
+    render() {
+        
+    }
+}
+
 // make a class called triangle2, works the same as Triangle, but takes in vertices instead of position?
 class CustomTriangle {
     constructor(vertices, color) { // NEW! - got rid of size input

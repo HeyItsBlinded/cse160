@@ -96,6 +96,14 @@ function addActionsUI() {
         custom.render();
         renderAllShapes();
     };
+
+    // CUSTOM 2
+    document.getElementById('custom2').onclick = function() { // NEW!
+        console.log('custom clicked2!');
+        var custom2 = new Custom2();
+        custom2.render();
+        renderAllShapes();
+    };
 }
 
 function main() {
