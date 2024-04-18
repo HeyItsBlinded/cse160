@@ -23,40 +23,50 @@ camera.position.z = 2;
 const scene = new THREE.Scene();
 
 // ----- SHAPES -----
-const geo = new THREE.IcosahedronGeometry(1.0, 2);
-const mat = new THREE.MeshStandardMaterial({
-    color: 0xffffff, 
-    flatShading: true
-});
+const boxWidth = 1;
+const boxHeight = 1;
+const boxDepth = 1;
+const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+const material = new THREE.MeshBasicMaterial( {color: 0x44aabb} );
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
 
-const mesh = new THREE.Mesh(geo, mat);
-scene.add(mesh);
+// const geo = new THREE.IcosahedronGeometry(1.0, 2);
+// const mat = new THREE.MeshStandardMaterial({
+//     color: 0xffffff, 
+//     flatShading: true
+// });
 
-const wireMat = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    wireframe: true
-});
+// const mesh = new THREE.Mesh(geo, mat);
+// scene.add(mesh);
 
-const wireMesh = new THREE.Mesh(geo, wireMat);
-wireMesh.scale.setScalar(1.001);
-mesh.add(wireMesh);
+// const wireMat = new THREE.MeshBasicMaterial({
+//     color: 0xffffff,
+//     wireframe: true
+// });
+
+// const wireMesh = new THREE.Mesh(geo, wireMat);
+// wireMesh.scale.setScalar(1.001);
+// mesh.add(wireMesh);
 
 // ----- LIGHT -----
-const hemiLight = new THREE.HemisphereLight(0x79f14e, 0x80329c);
-scene.add(hemiLight);
+// const hemiLight = new THREE.HemisphereLight(0x79f14e, 0x80329c);
+// scene.add(hemiLight);
 
 // ----- CONTROLS -----
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor= 0.03;
+// const controls = new OrbitControls(camera, renderer.domElement);
+// controls.enableDamping = true;
+// controls.dampingFactor= 0.03;
 
-function animate(t = 0) {
-    requestAnimationFrame(animate);
-    mesh.rotation.y = t* 0.0001;
-    renderer.render(scene, camera);
-    controls.update();
-}
+// function animate(t = 0) {
+//     requestAnimationFrame(animate);
+//     mesh.rotation.y = t* 0.0001;
+//     renderer.render(scene, camera);
+//     controls.update();
+// }
 
 // ----- FUNCTION CALLS -----
-animate();
+// animate();
+
+renderer.render(scene, camera);
 console.log('test test testing');
