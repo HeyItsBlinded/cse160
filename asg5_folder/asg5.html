@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Getting Started with Three.js</title>
-    <style>
+    <title>asg5 | Three.js</title>
+    <!-- <style>
       body {
         margin: 0;
       }
-    </style>
+    </style> -->
     <script type="importmap">
 			{
 				"imports": {
 					"three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
-                    "jsm/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+          "jsm/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
         }
 			}
 		</script>
@@ -22,63 +22,3 @@
     <script type="module" src="asg5.js"></script>
   </body>
 </html>
-
-
-<!-- <!DOCTYPE html>
-<html>
-    <head></head>
-    <body>
-        <canvas id="c" data-engine="three.js r163"></canvas>
-    </body>
-    <script type="importmap"> { "imports": {"three": "../../build/three.module.js"} } </script>
-    <script type="module">
-        import * as THREE from 'three';
-
-function main() {
-    const canvas = document.querySelector('#c');
-    const renderer = new THREE.WebGLRenderer({antialias: true, canvas});
-
-    const fov = 75;
-    const aspect = 2; // canvas default
-    const near = 0.1;
-    const far = 5;
-    const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
-    camera.position.z = 2;
-
-    const scene = new THREE.Scene();
-
-    const boxWidth = 1;
-    const boxHeight = 1;
-    const boxDepth = 1;
-    const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-
-    const material = new THREE.MeshPhongMaterial({color: 0x44aa88});
-
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-
-    renderer.render(scene, camera);
-
-    function render(time) {
-        time *= 0.001;  // convert time to seconds
-
-        cube.rotation.x = time;
-        cube.rotation.y = time;
-
-        renderer.render(scene, camera);
-        requestAnimationFrame(render);
-    }
-    requestAnimationFrame(render);
-
-    const color = 0xFFFFFF;
-    const intensity = 3;
-    const light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(-1, 2, 4);
-    scene.add(light);
-}
-
-main();
-console.log('test test testing');
-    </script>
-</html> -->
