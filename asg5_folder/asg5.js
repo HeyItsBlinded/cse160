@@ -1,4 +1,5 @@
-// WORKS CITED: based on a tutorial by Robot Bobby - 
+// WORKS CITED: 
+// 'WINDOW' based on a tutorial by Robot Bobby - 
 // https://www.youtube.com/watch?v=XPhAR1YdD6o
 
 import * as THREE from "three";
@@ -12,46 +13,47 @@ renderer.setSize(w, h);
 document.body.appendChild(renderer.domElement);
 
 // ----- CAMERA -----
-const fov = 75;
-const aspect = w / h;
+const fov = 115;
+const aspect = w / h;   // maintains aspect ratio
 const near  = 0.1;
-const far = 10;
+const far = 5;
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 camera.position.z = 2;
 
 // ----- SCENE -----
 const scene = new THREE.Scene();
 
+// ----- LIGHT -----
+// const hemiLight = new THREE.HemisphereLight(0x79f14e, 0x80329c);
+// scene.add(hemiLight);
+const color = 0xFFFFFF;
+const intensity = 3;
+const light = new THREE.DirectionalLight(color, intensity);
+light.position.set(-1, 2, 4);
+scene.add(light);
+
 // ----- SHAPES -----
 const boxWidth = 1;
 const boxHeight = 1;
 const boxDepth = 1;
 const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-const material = new THREE.MeshBasicMaterial( {color: 0x44aabb} );
+const material = new THREE.MeshPhongMaterial( {color: 0x44aa88} );
 const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// scene.add(cube);
 
-// const geo = new THREE.IcosahedronGeometry(1.0, 2);
-// const mat = new THREE.MeshStandardMaterial({
-//     color: 0xffffff, 
-//     flatShading: true
-// });
+function makeInstance(geometry, color, x) {
+    const material = new THREE.MeshPhongMaterial({color});
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+    cube.position.x = x;
+    return cube;
+}
 
-// const mesh = new THREE.Mesh(geo, mat);
-// scene.add(mesh);
-
-// const wireMat = new THREE.MeshBasicMaterial({
-//     color: 0xffffff,
-//     wireframe: true
-// });
-
-// const wireMesh = new THREE.Mesh(geo, wireMat);
-// wireMesh.scale.setScalar(1.001);
-// mesh.add(wireMesh);
-
-// ----- LIGHT -----
-// const hemiLight = new THREE.HemisphereLight(0x79f14e, 0x80329c);
-// scene.add(hemiLight);
+const cubes = [
+    makeInstance(geometry, 0x44aa88, 0),
+    makeInstance(geometry, 0x8844aa, -2),
+    makeInstance(geometry, 0xaa8844, 2),
+]
 
 // ----- CONTROLS -----
 // const controls = new OrbitControls(camera, renderer.domElement);
@@ -65,8 +67,22 @@ scene.add(cube);
 //     controls.update();
 // }
 
+function render(time) {
+    time *= 0.001
+    cubes.forEach((cube, ndx) => {
+        const speed= 1 + ndx * 0.1;
+        const rot = time * speed;
+        cube.rotation.x = rot;
+        cube.rotation.y = rot;
+    });
+    renderer.render(scene, camera);
+    requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+
 // ----- FUNCTION CALLS -----
 // animate();
 
-renderer.render(scene, camera);
+// renderer.render(scene, camera);
+// requestAnimationFrame(render);
 console.log('test test testing');
