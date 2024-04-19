@@ -14,9 +14,9 @@ document.body.appendChild(renderer.domElement);
 
 // ----- CAMERA -----
 const fov = 75;
-const aspect = w/h;
-const near = 0.1;
-const far = 5;
+const aspect = w / h;   // maintains aspect ratio
+const near  = 0.1;
+const far = 10;
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 camera.position.z = 2;
 
@@ -26,44 +26,65 @@ const scene = new THREE.Scene();
 // ----- LIGHT -----
 // const hemiLight = new THREE.HemisphereLight(0x79f14e, 0x80329c);
 // scene.add(hemiLight);
-
-// const color = 0xFFFFFF;
-// const intensity = 3;
-// const light = new THREE.DirectionalLight(color, intensity);
-// light.position.set(-1, 2, 4);
-// scene.add(light);
+const color = 0xFFFFFF;
+const intensity = 3;
+const light = new THREE.DirectionalLight(color, intensity);
+light.position.set(-1, 2, 4);
+scene.add(light);
 
 // ----- SHAPES -----
 const boxWidth = 1;
 const boxHeight = 1;
 const boxDepth = 1;
 const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+const material = new THREE.MeshPhongMaterial( {color: 0x44aa88} );
+const cube = new THREE.Mesh(geometry, material);
+// scene.add(cube);
 
-const cubes = []
+const cylinderRadius = 0.5;
+const cylinderHeight = 1;
+const cylinderGeometry = new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cylinderHeight, 32);
+const cylinderMaterial = new THREE.MeshPhongMaterial({ color: 0x8844aa });
+const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+scene.add(cylinder);
+cylinder.position.x = 2;
+const angle = Math.PI / 4;
+cylinder.rotation.x = angle;
 
-// ----- TEXTURES -----
-const loader = new THREE.TextureLoader();
-const texture = loader.load('wall.jpg');
-texture.colorSpace = THREE.SRGBColorSpace;
-const material = new THREE.MeshBasicMaterial( {
-    map: texture
-});
+const isoRadius = 0.45;
+const isoGeometry = new THREE.IcosahedronGeometry(isoRadius);
+const isoMaterial = new THREE.MeshPhongMaterial({ color: 0x0044ff });
+const icosahedron = new THREE.Mesh(isoGeometry, isoMaterial);
+scene.add(icosahedron);
+icosahedron.position.x = -2;
+const isoAngle = Math.PI / 4;
+icosahedron.rotation.x = isoAngle;
 
-const cube = new THREE.Mesh(geometry, material);    // SHAPES CONT.
-scene.add(cube);
-cubes.push(cube);
+// const slabWidth = 0.5;
+// const slabHeight = 1.0;
+// const slabDepth = 0.25;
+// const slabGeometry = new THREE.BoxGeometry(slabWidth, slabHeight, slabDepth);
+// const slabMaterial = new THREE.MeshPhongMaterial({ color: 0x0044ff });
+// const slab = new THREE.Mesh(slabGeometry, slabMaterial);
+// scene.add(slab);
+// const slabAngle = Math.PI / 3;
+// slab.rotation.y = angle;
+
+function makeInstance(geometry, color, x) {
+    const material = new THREE.MeshPhongMaterial({color});
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+    cube.position.x = x;
+    return cube;
+}
+
+const cubes = [
+    makeInstance(geometry, 0x44aa88, 0),
+    // makeInstance(geometry, 0x8844aa, -2),
+    // makeInstance(geometry, 0xaa8844, 2),
+]
 
 // ----- CONTROLS -----
-function resizeRendererToDisplaySize(renderer) {
-    const canvas = renderer.domElement;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    const needResize = canvas.width !== width || canvas.height !== height;
-    if (needResize) {
-        renderer.setSize(width, height, false);
-    }
-    return needResize;
-}
 // const controls = new OrbitControls(camera, renderer.domElement);
 // controls.enableDamping = true;
 // controls.dampingFactor= 0.03;
@@ -77,15 +98,10 @@ function resizeRendererToDisplaySize(renderer) {
 
 function render(time) {
     time *= 0.001
-    if (resizeRendererToDisplaySize(renderer)) {
-        const canvas = renderer.domElement;
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        camera.updateProjectionMatrix();
-    }
     cubes.forEach((cube, ndx) => {
-        const speed = 0.2 + ndx * 0.1;
+        const speed= 1 + ndx * 0.1;
         const rot = time * speed;
-        cube.rotation.x = rot;
+        cube.rotation.x = rot - 0.1;
         cube.rotation.y = rot;
     });
     renderer.render(scene, camera);
