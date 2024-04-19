@@ -3,7 +3,7 @@
 // https://www.youtube.com/watch?v=XPhAR1YdD6o
 
 import * as THREE from "three";
-import {OrbitControls} from "jsm/controls/OrbitControls.js";
+// import {OrbitControls} from "jsm/controls/OrbitControls.js";
 
 // ----- WINDOW -----
 const w = window.innerWidth;
@@ -32,14 +32,18 @@ const light = new THREE.DirectionalLight(color, intensity);
 light.position.set(-1, 2, 4);
 scene.add(light);
 
+// ----- TEXTURES -----
+const loader = new THREE.TextureLoader();
+const texture = loader.load('wall.jpg');
+texture.colorSpace = THREE.SRGBColorSpace;
+
 // ----- SHAPES -----
-const boxWidth = 1;
-const boxHeight = 1;
-const boxDepth = 1;
-const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-const material = new THREE.MeshPhongMaterial( {color: 0x44aa88} );
-const cube = new THREE.Mesh(geometry, material);
-// scene.add(cube);
+// const boxWidth = 1;
+// const boxHeight = 1;
+// const boxDepth = 1;
+// const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+// const material = new THREE.MeshBasicMaterial( {map: texture} );
+// const cube = new THREE.Mesh(geometry, material);
 
 const cylinderRadius = 0.5;
 const cylinderHeight = 1;
@@ -60,58 +64,32 @@ icosahedron.position.x = -2;
 const isoAngle = Math.PI / 4;
 icosahedron.rotation.x = isoAngle;
 
-// const slabWidth = 0.5;
-// const slabHeight = 1.0;
-// const slabDepth = 0.25;
-// const slabGeometry = new THREE.BoxGeometry(slabWidth, slabHeight, slabDepth);
-// const slabMaterial = new THREE.MeshPhongMaterial({ color: 0x0044ff });
-// const slab = new THREE.Mesh(slabGeometry, slabMaterial);
-// scene.add(slab);
-// const slabAngle = Math.PI / 3;
-// slab.rotation.y = angle;
-
-function makeInstance(geometry, color, x) {
-    const material = new THREE.MeshPhongMaterial({color});
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-    cube.position.x = x;
-    return cube;
-}
-
-const cubes = [
-    makeInstance(geometry, 0x44aa88, 0),
-    // makeInstance(geometry, 0x8844aa, -2),
-    // makeInstance(geometry, 0xaa8844, 2),
-]
+const textureLoader = new THREE.TextureLoader();
+const slabTexture = textureLoader.load('wall.jpg');
+const slabWidth = 0.5;
+const slabHeight = 1.0;
+const slabDepth = 0.25;
+const slabGeometry = new THREE.BoxGeometry(slabWidth, slabHeight, slabDepth);
+const slabMaterial = new THREE.MeshPhongMaterial({ map: slabTexture });
+const slab = new THREE.Mesh(slabGeometry, slabMaterial);
+scene.add(slab);
 
 // ----- CONTROLS -----
 // const controls = new OrbitControls(camera, renderer.domElement);
 // controls.enableDamping = true;
 // controls.dampingFactor= 0.03;
 
-// function animate(t = 0) {
-//     requestAnimationFrame(animate);
-//     mesh.rotation.y = t* 0.0001;
-//     renderer.render(scene, camera);
-//     controls.update();
-// }
+function animateSlab() {
+    const rotSpeed = 0.002;
+    const rotAngle = rotSpeed * Date.now(); // Date.now() suggested by chatGPT
+    slab.rotation.y = rotAngle;
 
-function render(time) {
-    time *= 0.001
-    cubes.forEach((cube, ndx) => {
-        const speed= 1 + ndx * 0.1;
-        const rot = time * speed;
-        cube.rotation.x = rot - 0.1;
-        cube.rotation.y = rot;
-    });
     renderer.render(scene, camera);
-    requestAnimationFrame(render);
+    requestAnimationFrame(animateSlab);
 }
-requestAnimationFrame(render);
 
 // ----- FUNCTION CALLS -----
 // animate();
 
-// renderer.render(scene, camera);
-// requestAnimationFrame(render);
+animateSlab();
 console.log('test test testing');
