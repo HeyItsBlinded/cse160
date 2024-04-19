@@ -3,7 +3,9 @@
 // https://www.youtube.com/watch?v=XPhAR1YdD6o
 
 import * as THREE from "three";
-// import {OrbitControls} from "jsm/controls/OrbitControls.js";
+import {OrbitControls} from "jsm/controls/OrbitControls.js";
+import { OBJLoader } from 'three/OBJLoader';
+import { MTLLoader } from 'three/MTLLoader';
 
 // ----- WINDOW -----
 const w = window.innerWidth;
@@ -27,15 +29,39 @@ const scene = new THREE.Scene();
 // const hemiLight = new THREE.HemisphereLight(0x79f14e, 0x80329c);
 // scene.add(hemiLight);
 const color = 0xFFFFFF;
-const intensity = 3;
+const intensity = 2.5;
 const light = new THREE.DirectionalLight(color, intensity);
 light.position.set(-1, 2, 4);
 scene.add(light);
 
-// ----- TEXTURES -----
-const loader = new THREE.TextureLoader();
-const texture = loader.load('wall.jpg');
-texture.colorSpace = THREE.SRGBColorSpace;
+// ----- (BLENDER) OBJS -----
+// VR-Mobil by Vladimir Ilic [CC-BY] via Poly Pizza
+const mtlLoader = new MTLLoader();
+mtlLoader.load('materials.mtl', (mtl) => {
+    mtl.preload();
+    
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    
+    objLoader.load('model.obj', (root) => {
+        root.scale.set(0.5, 0.5, 0.5);
+        root.position.set(0, 0, 0);
+        scene.add(root);
+    });
+});
+
+// {
+//     const mtlLoader = new MTLLoader();
+//     mtlLoader.load('saber copy.mtl', (mtl) => {
+//         mtl.preload();
+//         const objLoader = new OBJLoader();
+//         mtl.materials.Material.side = THREE.DoubleSide;
+//         objLoader.setMaterials(mtl);
+//         objLoader.load('saber copy.obj', (root) => {
+//             scene.add(root);
+//         });
+//     });
+// }
 
 // ----- SHAPES -----
 // const boxWidth = 1;
