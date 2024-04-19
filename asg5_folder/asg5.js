@@ -45,7 +45,7 @@ mtlLoader.load('materials.mtl', (mtl) => {
     
     objLoader.load('model.obj', (root) => {
         root.scale.set(0.5, 0.5, 0.5);
-        root.position.set(0, 0, 0);
+        root.position.set(-1, 0, -0.5);
         scene.add(root);
     });
 });
