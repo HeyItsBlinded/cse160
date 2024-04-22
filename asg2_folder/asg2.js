@@ -1,10 +1,9 @@
 // Vertex shader program
 var VSHADER_SOURCE = `
     attribute vec4 a_Position;
-    uniform float u_Size;
+    uniform mat4 u_ModelMatrix;
     void main() {
-        gl_Position = a_Position;
-        gl_PointSize = u_Size;
+        gl_Position = u_ModelMatrix * a_Position;
     }`
 
 // Fragment shader program
@@ -20,7 +19,8 @@ let canvas;
 let a_Position;
 let u_FragColor;
 let u_Size;
-let g_shapesList = [];
+// let g_shapesList = [];
+let u_ModelMatrix;
 
 // constants
 const POINT = 0;
@@ -63,12 +63,22 @@ function connectVariablesToGLSL() {
         console.log('Failed to get the storage location of u_FragColor');
     return;
     }
-    // get storage location of u_Size
-    u_Size = gl.getUniformLocation(gl.program, 'u_Size');
-    if (!u_Size) {
-        console.log('Failed to get the storage location of u_Size');
-    return;
+    // get storage location of u_ModelMatrix
+    u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
+    if (!u_ModelMatrix) {
+        console.log('failed to get the storage location of u_ModelMatrix');
+        return;
     }
+    // set initial value for this matrix to identity
+    var identityM = new Matrix4();
+    gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
+
+    // get storage location of u_Size
+    // u_Size = gl.getUniformLocation(gl.program, 'u_Size');
+    // if (!u_Size) {
+    //     console.log('Failed to get the storage location of u_Size');
+    // return;
+    // }
 }
 
 // html functionality implementation
@@ -165,18 +175,24 @@ function renderAllShapes() {
     var startTime = performance.now();
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
-    // var len = g_shapesList.length;
-    // for(var i = 0; i < len; i++) {
-    //     g_shapesList[i].render();
-    // }
 
     // draw test triangle
     drawTriangle3D( [-1.0,0.0,0.0,   -0.5,-1.0,0.0,   0.0,0.0,0.0] );
 
-    // draw cube
+    // draw body cube
     var body = new Cube();
     body.color = [1.0,0.0,0.0,1.0];
+    body.matrix.translate(-0.25, -0.5, 0.0);
+    body.matrix.scale(0.5, 1, 0.5);
     body.render();
+
+    // draw left arm
+    var leftArm = new Cube();
+    leftArm.color = [1, 1, 0, 1];
+    leftArm.matrix.setTranslate(0.7, 0, 0.0);
+    leftArm.matrix.rotate(45, 0, 0, 1);
+    leftArm.matrix.scale(0.25, 0.7, 0.5);
+    leftArm.render();
 
     // check time at end of function. show on page - COMMENTED OUT as of 2.1
     // var dur = performance.now() - startTime;
