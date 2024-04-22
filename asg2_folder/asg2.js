@@ -145,22 +145,6 @@ function addActionsUI() {
     };
 }
 
-function main() {
-    setupWebGL();
-    connectVariablesToGLSL();
-    // set up actions for html ui elements
-    addActionsUI();
-    // Register function (event handler) to be called on a mouse press
-    canvas.onmousedown = click;
-    canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev) } };
-
-    // Specify the color for clearing <canvas>
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    // Clear <canvas>
-    // gl.clear(gl.COLOR_BUFFER_BIT);
-    renderAllShapes();
-}
-
 function click(ev) {
     // extract event click, return it in webGL coords
     let [x, y] = convertCoordinatesEventToGL(ev);
@@ -191,6 +175,35 @@ function convertCoordinatesEventToGL(ev) {
     return ([x, y]);
 }
 
+function main() {
+    setupWebGL();
+    connectVariablesToGLSL();
+    // set up actions for html ui elements
+    addActionsUI();
+    // Register function (event handler) to be called on a mouse press
+    canvas.onmousedown = click;
+    canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev) } };
+
+    // Specify the color for clearing <canvas>
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    // Clear <canvas>
+    // gl.clear(gl.COLOR_BUFFER_BIT);
+    // renderAllShapes();
+    requestAnimationFrame(tick);
+}
+
+var g_startTime = performance.now() / 1000.0;
+var g_seconds = performance.now() / 1000.0 - g_startTime;
+
+function tick() {
+    g_seconds = performance.now() / 1000.0 - g_startTime;
+    // console.log(g_seconds); // FOR DEBUG
+    // draw everything
+    renderAllShapes();
+    // tell browser to update again when it has time
+    requestAnimationFrame(tick);
+}
+
 function renderAllShapes() {
     // check time at start of function - COMMENTED OUT as of 2.3
     // var startTime = performance.now();
@@ -214,25 +227,26 @@ function renderAllShapes() {
     body.render();
 
     // draw left arm
-    var leftArm = new Cube();
-    leftArm.color = [1, 1, 0, 1];
-    leftArm.matrix.setTranslate(0.0, -0.5, 0.0);
-    leftArm.matrix.rotate(-5, 1, 0, 0);
-    leftArm.matrix.rotate(-g_yellowAngle, 0, 0, 1);
-    var yellowCoordsMat = new Matrix4(leftArm.matrix);
-    leftArm.matrix.scale(0.25, 0.7, 0.5);
-    leftArm.matrix.translate(-0.5,0,0);
-    leftArm.render();
+    var yellow = new Cube();
+    yellow.color = [1, 1, 0, 1];
+    yellow.matrix.setTranslate(0.0, -0.5, 0.0);
+    yellow.matrix.rotate(-5, 1, 0, 0);
+    // leftArm.matrix.rotate(-g_yellowAngle, 0, 0, 1);
+    yellow.matrix.rotate(45 * Math.sin(g_seconds), 0, 0, 1);
+    var yellowCoordsMat = new Matrix4(yellow.matrix);
+    yellow.matrix.scale(0.25, 0.7, 0.5);
+    yellow.matrix.translate(-0.5,0,0);
+    yellow.render();
 
     // test box
-    var box = new Cube();
-    box.color = [1, 0, 1, 1];
-    box.matrix = yellowCoordsMat;
-    box.matrix.translate(0, 0.7, 0);
-    box.matrix.rotate(-g_magentaAngle,0,0,1);
-    box.matrix.scale(0.3,0.3,0.3);
-    box.matrix.translate(-0.5,0,-0.001);
-    box.render();
+    var magenta = new Cube();
+    magenta.color = [1, 0, 1, 1];
+    magenta.matrix = yellowCoordsMat;
+    magenta.matrix.translate(0, 0.7, 0);
+    magenta.matrix.rotate(-g_magentaAngle,0,0,1);
+    magenta.matrix.scale(0.3,0.3,0.3);
+    magenta.matrix.translate(-0.5,0,-0.001);
+    magenta.render();
 
     // check time at end of function. show on page - COMMENTED OUT as of 2.1
     // var dur = performance.now() - startTime;
