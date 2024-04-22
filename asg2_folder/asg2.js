@@ -2,8 +2,9 @@
 var VSHADER_SOURCE = `
     attribute vec4 a_Position;
     uniform mat4 u_ModelMatrix;
+    uniform mat4 u_GlobalRotateMatrix;
     void main() {
-        gl_Position = u_ModelMatrix * a_Position;
+        gl_Position = u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
     }`
 
 // Fragment shader program
@@ -21,6 +22,7 @@ let u_FragColor;
 let u_Size;
 // let g_shapesList = [];
 let u_ModelMatrix;
+let u_GlobalRotateMatrix;
 
 // constants
 const POINT = 0;
@@ -32,6 +34,7 @@ let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegment = 5;
+let g_globalAngle = 0;
 
 
 function setupWebGL() {
@@ -69,6 +72,13 @@ function connectVariablesToGLSL() {
         console.log('failed to get the storage location of u_ModelMatrix');
         return;
     }
+    // get storage location of u_GlobalRotateMatrix
+    u_GlobalRotateMatrix = gl.getUniformLocation(gl.program, 'u_GlobalRotateMatrix');
+    if (!u_GlobalRotateMatrix) {
+        console.log('failed to get storage location of u_GlobalRotateMatrix');
+        return;
+    }
+
     // set initial value for this matrix to identity
     var identityM = new Matrix4();
     gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
@@ -83,6 +93,10 @@ function connectVariablesToGLSL() {
 
 // html functionality implementation
 function addActionsUI() {
+
+    // CAMERA ANGLE SLIDER
+    document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
+
     // buttons
     document.getElementById('erase').onclick = function() { 
         g_selectedColor = [0.0, 0.0, 0.0, 1.0]; 
@@ -171,17 +185,22 @@ function convertCoordinatesEventToGL(ev) {
 }
 
 function renderAllShapes() {
-    // check time at start of function
-    var startTime = performance.now();
+    // check time at start of function - COMMENTED OUT as of 2.3
+    // var startTime = performance.now();
+
+    // pass matrix to u_ModelMatrix attribute
+    var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
+    gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
+
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     // draw test triangle
-    drawTriangle3D( [-1.0,0.0,0.0,   -0.5,-1.0,0.0,   0.0,0.0,0.0] );
+    // drawTriangle3D( [-1.0,0.0,0.0,   -0.5,-1.0,0.0,   0.0,0.0,0.0] );
 
     // draw body cube
     var body = new Cube();
-    body.color = [1.0,0.0,0.0,1.0];
+    body.color = [1.0, 0.0, 0.0, 1.0];
     body.matrix.translate(-0.25, -0.5, 0.0);
     body.matrix.scale(0.5, 1, 0.5);
     body.render();
@@ -193,6 +212,14 @@ function renderAllShapes() {
     leftArm.matrix.rotate(45, 0, 0, 1);
     leftArm.matrix.scale(0.25, 0.7, 0.5);
     leftArm.render();
+
+    // test box
+    var box = new Cube();
+    box.color = [1, 0, 1, 1];
+    box.matrix.translate(0, 0, -0.5, 0);
+    box.matrix.rotate(-30, 1, 0, 0);
+    box.matrix.scale(0.5, 0.5, 0.5);
+    box.render();
 
     // check time at end of function. show on page - COMMENTED OUT as of 2.1
     // var dur = performance.now() - startTime;

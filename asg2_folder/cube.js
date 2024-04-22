@@ -5,7 +5,7 @@ class Cube {
         this.color = [1.0, 1.0, 1.0, 1.0];
         // this.size = 5.0;
         // this.segments = 10;
-        this.matrix = new Matrix4(); // COMMENTED OUT as of 2.1
+        this.matrix = new Matrix4();
     }
 
     render() {
@@ -21,6 +21,13 @@ class Cube {
         // front of cube
         drawTriangle3D( [0.0,0.0,0.0,   1.0,1.0,0.0,   1.0,0.0,0.0] );
         drawTriangle3D( [0.0,0.0,0.0,   0.0,1.0,0.0,   1.0,1.0,0.0] );
+
+        // hard-coded shading - QUALITY OF LIFE (TEMPORARY)
+        gl.uniform4f(u_FragColor, rgba[0]*0.9, rgba[1]*0.9, rgba[2]*0.9, rgba[3]);
+
+        // top of cube
+        drawTriangle3D( [0,1,0,   0,1,1,   1,1,1] );
+        drawTriangle3D( [0,1,0,   1,1,1,   1,1,0] );
         // add other sides of cube here
     }
 }
