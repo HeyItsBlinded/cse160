@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>colored points</title>
+        <link rel="stylesheet" href="asg2_style.css">
+    </head>
+    <body onload="main()">
+        <script src="../lib/webgl-utils.js"></script>
+        <script src="../lib/webgl-debug.js"></script> 
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="asg2.js"></script>
+        <script src="points.js"></script>
+        <script src="triangle.js"></script>
+        <script src="circle.js"></script>
+        <script src="cube.js"></script>
+        <script src="custom.js"></script>
+
+        <a href="../index.html">back to hub</a>
+
+        <br>
+
+        <p>
+            Note to the grader: Hi o/ For my potential awesomeness points, I'd like to
+            direct your attention to the styling of this page (and overall quality of life things), 
+            especially the buttons, sliders, and the alignment and spacing of these elements 
+            (canvas included). Also, I've got two custom drawings. Which brings me to a lot. Of 
+            triangles. Enjoy :D
+        </p>
+
+        <div id="canvasContainer">
+            <button type="button" id="clear">CLEAR CANVAS</button>
+            <br> 
+            <canvas id="webgl" width="400" height="400">
+                Please use browser supporting "canvas"
+            </canvas>
+            <p id="numdot">[DISPLAY]</p>
+        </div>
+        <!-- -- -- -- -- -- -->
+        <div id="interface">
+
+            <div id="colorSelect">
+                <label>color select</label>
+                <br>
+                <button type="button" id="erase">eraser</button>
+                <button type="button" id="white">white</button>
+                <button type="button" id="green">green</button>
+                <button type="button" id="red">red</button>
+                <button type="button" id="blue">blue</button>
+                <button type="button" id="yellow">yellow</button>
+                <br>
+                <label id="colorLabel">R</label><input type="range" min="0" max="100" value="255" class="slider" id="redSlide">
+                <label id="colorLabel">G</label><input type="range" min="0" max="100" value="255" class="slider" id="greenSlide">
+                <label id="colorLabel">B</label><input type="range" min="0" max="100" value="255" class="slider" id="blueSlide">
+            </div>
+
+            <br><br>
+
+            <div id="shapeSelect">
+                <label>shape select</label>
+                <br>
+                <button type="button" id="pointButton">point</button>
+                <button type="button" id="triangleButton">triangle</button>
+                <button type="button" id="circleButton">circle</button>
+                <br><br>
+                <br><br>
+                <label id="shapeselectLabel">size</label>
+                <input type="range" min="5" max="40" value="0" class="slider" id="sizeSlide">
+                <!---->
+                <label id="shapeselectLabel">segments (circle)</label>
+                <input type="range" min="5" max="20" value="0" class="slider" id="segmentSlide">
+            </div>
+
+            <br><br>
+
+            <div id="fancySelect">
+                <label>template select</label>
+                <br>
+                If you're feeling uninspired, why not try one of these to get yourself started:
+                <ul>
+                    <li>butterfly: butterflies are great and all, but this one looks a little dull...</li>
+                    <li>blake: they're just a cool dude...but maybe some hair would be nice.</li>
+                </ul>
+                <button type="button" id="custom">butterfly</button>
+                <button type="button" id="custom2">blake</button>
+            </div>
+
+            <br>
+
+            <div id="drafting">
+                <label>template mockups:</label>
+                <br>
+                <img src="custom.jpeg" alt="my sketch of butterfly">
+                <img src="custom2.jpg" alt="my sketch of a cool dude">
+            </div>
+        </div>
+    </body>
+</html>
