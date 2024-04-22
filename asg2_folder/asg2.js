@@ -19,7 +19,7 @@ var FSHADER_SOURCE = `
 let canvas;
 let a_Position;
 let u_FragColor;
-let u_Size;
+// let u_Size;
 // let g_shapesList = [];
 let u_ModelMatrix;
 let u_GlobalRotateMatrix;
@@ -110,48 +110,7 @@ function addActionsUI() {
     document.getElementById('animationYellowOnButton').onclick = function() {g_yellowAnimation = true;};
     // TOGGLE MAGENTA ANIMATION BUTTON
     document.getElementById('animationMagentaOffButton').onclick = function() {g_magentaAnimation = false;};
-    document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};
-    
-
-    // buttons
-    document.getElementById('erase').onclick = function() { 
-        g_selectedColor = [0.0, 0.0, 0.0, 1.0]; 
-        g_selectedType = CIRCLE;
-        console.log('eraser clicked!');
-    };
-    document.getElementById('white').onclick = function() { g_selectedColor = [1.0, 1.0, 1.0, 1.0]; };
-    document.getElementById('green').onclick = function() { g_selectedColor = [0.0, 1.0, 0.0, 1.0]; };
-    document.getElementById('red').onclick   = function() { g_selectedColor = [1.0, 0.0, 0.0, 1.0]; };
-    document.getElementById('blue').onclick   = function() { g_selectedColor = [0.0, 0.0, 1.0, 1.0]; };
-    document.getElementById('yellow').onclick   = function() { g_selectedColor = [1.00, 0.852, 0.0100, 1.0]; };
-    document.getElementById('clear').onclick   = function() { g_shapesList = []; renderAllShapes(); };
-
-    document.getElementById('pointButton').onclick   = function() { g_selectedType = POINT };
-    document.getElementById('triangleButton').onclick   = function() { g_selectedType = TRIANGLE };
-    document.getElementById('circleButton').onclick = function() { g_selectedType = CIRCLE };
-
-    // sliders
-    document.getElementById('redSlide').addEventListener('mouseup',   function() { g_selectedColor[0] = this.value / 100; });
-    document.getElementById('greenSlide').addEventListener('mouseup', function() { g_selectedColor[1] = this.value / 100; });
-    document.getElementById('blueSlide').addEventListener('mouseup',  function() { g_selectedColor[2] = this.value / 100; });
-    document.getElementById('sizeSlide').addEventListener('mouseup',  function() { g_selectedSize = this.value; });
-    document.getElementById('segmentSlide').addEventListener('mouseup',  function() { g_selectedSegment = this.value; });
-
-    // document.getElementById('custom').onclick = function() { g_selectedType = CUSTOM };
-    document.getElementById('custom').onclick = function() { // NEW!
-        console.log('custom clicked!');
-        var custom = new Custom();
-        custom.render();
-        renderAllShapes();
-    };
-
-    // CUSTOM 2
-    document.getElementById('custom2').onclick = function() { // NEW!
-        console.log('custom clicked2!');
-        var custom2 = new Custom2();
-        custom2.render();
-        renderAllShapes();
-    };
+    document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};    
 }
 
 function click(ev) {
@@ -182,6 +141,15 @@ function convertCoordinatesEventToGL(ev) {
     x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
     y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
     return ([x, y]);
+}
+
+function sendTextToHTML(text, htmlID) {
+    var element = document.getElementById(htmlID);
+    if (!element) {
+        console.log('failed to get ' + htmlID + " from HTML");
+        return;
+    }
+    element.innerHTML = text;
 }
 
 function main() {
@@ -252,15 +220,7 @@ function renderAllShapes() {
     yellow.color = [1, 1, 0, 1];
     yellow.matrix.setTranslate(0.0, -0.5, 0.0);
     yellow.matrix.rotate(-5, 1, 0, 0);
-
     yellow.matrix.rotate(-g_yellowAngle, 0, 0, 1);
-    // yellow.matrix.rotate(45 * Math.sin(g_seconds), 0, 0, 1);
-
-    // if (g_yellowAnimation) {
-    //     yellow.matrix.rotate(45 * Math.sin(g_seconds), 0, 0, 1);
-    // } else {
-    //     yellow.matrix.rotate(-g_yellowAngle, 0, 0, 1);
-    // }
 
     var yellowCoordsMat = new Matrix4(yellow.matrix);
     yellow.matrix.scale(0.25, 0.7, 0.5);
@@ -280,13 +240,4 @@ function renderAllShapes() {
     // check time at end of function. show on page - COMMENTED OUT as of 2.1
     // var dur = performance.now() - startTime;
     // sendTextToHTML("numdot: " + len + " ms: " + Math.floor(dur) + " fps: " + Math.floor(10000 / dur) / 10, "numdot");
-}
-
-function sendTextToHTML(text, htmlID) {
-    var element = document.getElementById(htmlID);
-    if (!element) {
-        console.log('failed to get ' + htmlID + " from HTML");
-        return;
-    }
-    element.innerHTML = text;
 }
