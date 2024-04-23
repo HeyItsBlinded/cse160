@@ -35,9 +35,9 @@ let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegment = 5;
 let g_globalAngle = 0;
-let g_yellowAngle = 0;  // ADDED IN 2.6
+let g_headAngle = 0;  // ADDED IN 2.6
 let g_magentaAngle = 0; // ADDED IN 2.7
-let g_yellowAnimation = false;
+let g_headAnimation = false;
 let g_magentaAnimation = false;
 
 
@@ -101,16 +101,16 @@ function addActionsUI() {
 
     // CAMERA ANGLE SLIDER
     document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
-    // YELLOW JOINT SLIDER
-    document.getElementById('yellowSlide').addEventListener('mousemove', function() { g_yellowAngle = this.value; renderAllShapes(); });
-    // MAGENTA JOINT SLIDER
-    document.getElementById('magentaSlide').addEventListener('mousemove', function() { g_magentaAngle = this.value; renderAllShapes(); });
-    // TOGGLE YELLOW ANIMATION BUTTON
-    document.getElementById('animationYellowOffButton').onclick = function() {g_yellowAnimation = false;};
-    document.getElementById('animationYellowOnButton').onclick = function() {g_yellowAnimation = true;};
-    // TOGGLE MAGENTA ANIMATION BUTTON
-    document.getElementById('animationMagentaOffButton').onclick = function() {g_magentaAnimation = false;};
-    document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};    
+    // // HEAD JOINT SLIDER
+    // document.getElementById('headSlide').addEventListener('mousemove', function() { g_headAngle = this.value; renderAllShapes(); });
+    // // MAGENTA JOINT SLIDER
+    // document.getElementById('magentaSlide').addEventListener('mousemove', function() { g_magentaAngle = this.value; renderAllShapes(); });
+    // // TOGGLE HEAD ANIMATION BUTTON
+    // document.getElementById('animationHeadOffButton').onclick = function() {g_headAnimation = false;};
+    // document.getElementById('animationHeadOnButton').onclick = function() {g_headAnimation = true;};
+    // // TOGGLE MAGENTA ANIMATION BUTTON
+    // document.getElementById('animationMagentaOffButton').onclick = function() {g_magentaAnimation = false;};
+    // document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};    
 }
 
 function click(ev) {
@@ -185,8 +185,8 @@ function tick() {
 
 // updates angles of everything if currently animated
 function updateAnimationAngles() {
-    if (g_yellowAnimation) {
-        g_yellowAngle = (45 * Math.sin(g_seconds));
+    if (g_headAnimation) {
+        g_headAngle = (45 * Math.sin(g_seconds));
     }
     if (g_magentaAnimation) {
         g_magentaAngle = (45 * Math.sin(3 * g_seconds));
@@ -207,35 +207,104 @@ function renderAllShapes() {
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    // draw body cube
+    // BODY
     var body = new Cube();
-    body.color = [1.0, 0.0, 0.0, 1.0];
-    body.matrix.translate(-0.25, -0.75, 0.0);
-    body.matrix.rotate(-5,1,0,0);
-    body.matrix.scale(0.5, 0.3, 0.5);
+    body.color = [0.620, 0.345, 0.0310, 1.0];
+    body.matrix.translate(-0.50, -0.50, 0.0);
+    // body.matrix.rotate(-5,1,0,0);
+    body.matrix.scale(1.0, 0.5, 0.5);
     body.render();
 
-    // draw left arm
-    var yellow = new Cube();
-    yellow.color = [1, 1, 0, 1];
-    yellow.matrix.setTranslate(0.0, -0.5, 0.0);
-    yellow.matrix.rotate(-5, 1, 0, 0);
-    yellow.matrix.rotate(-g_yellowAngle, 0, 0, 1);
+    // HEAD
+    var head = new Cube();
+    head.color = [0.620, 0.345, 0.0310, 1.0];
+    head.matrix.setTranslate(-0.8, -0.1, 0.05);
+    head.matrix.scale(0.6, 0.35, 0.4);
+    // head.matrix.rotate(-5, 1, 0, 0);
+    // head.matrix.rotate(-g_headAngle, 0, 0, 1);
+    // var headCoordsMat = new Matrix4(head.matrix);
+    // head.matrix.translate(0.0,0,0);
+    head.render();
 
-    var yellowCoordsMat = new Matrix4(yellow.matrix);
-    yellow.matrix.scale(0.25, 0.7, 0.5);
-    yellow.matrix.translate(-0.5,0,0);
-    yellow.render();
+    // EAR 1
+    var ear1 = new Cube()
+    ear1.color = [0.360, 0.199, 0.0144, 1.0];
+    ear1.matrix.scale(0.1, 0.2, 0.1);
+    ear1.matrix.translate(-3.0, 1.0, 0.4);
+    ear1.render();
+
+    // EAR 2
+    var ear2 = new Cube();
+    ear2.color = [0.360, 0.199, 0.0144, 1.0];
+    ear2.matrix.scale(0.1, 0.2, 0.1);
+    ear2.matrix.translate(-3.0, 1.0, 3.6);
+    ear2.render();
+
+    // BACKQUAD 1
+    var backquad1 = new Cube();
+    backquad1.color = [0.660, 0.367, 0.0330, 1.0];
+    backquad1.matrix.scale(0.4, 0.3, 0.15);
+    backquad1.matrix.translate(0.35, -2, -0.5);
+    backquad1.render();
+    
+    // BACKQUAD 2
+    var backquad2 = new Cube();
+    backquad2.color = [0.660, 0.367, 0.0330, 1.0];
+    backquad2.matrix.scale(0.4, 0.3, 0.15);
+    backquad2.matrix.translate(0.35, -2, 2.7);
+    backquad2.render();
+
+    // BACKFOOT 1
+    var backfoot1 = new Cube();
+    backfoot1.color = [0.550, 0.301, 0.0165, 1];
+    backfoot1.matrix.scale(0.4, 0.12, 0.2);
+    backfoot1.matrix.translate(0.2, -5.5, -0.5);
+    backfoot1.render();
+
+    // BACKFOOT 2
+    var backfoot2 = new Cube();
+    backfoot2.color = [0.550, 0.301, 0.0165, 1];
+    backfoot2.matrix.scale(0.4, 0.12, 0.2);
+    backfoot2.matrix.translate(0.2, -5.5, 1.9);
+    backfoot2.render();
+
+    // FRONTQUAD 1
+    var frontquad1 = new Cube();
+    frontquad1.color = [0.660, 0.367, 0.0330, 1];
+    frontquad1.matrix.scale(0.15, 0.2, 0.15);
+    frontquad1.matrix.translate(-3., -2.9, -0.2);
+    frontquad1.render();
+
+    // FRONTQUAD 2
+    var frontquad2 = new Cube();
+    frontquad2.color = [0.660, 0.367, 0.0330, 1];
+    frontquad2.matrix.scale(0.15, 0.2, 0.15);
+    frontquad2.matrix.translate(-3., -2.9, 2.5);
+    frontquad2.render();
+
+    // FRONTFOOT 1
+    var frontfoot1 = new Cube();
+    frontfoot1.color = [0.550, 0.301, 0.0165, 1];
+    frontfoot1.matrix.scale(0.2, 0.1, 0.2);
+    frontfoot1.matrix.translate(-2.4, -6.5, -0.2);
+    frontfoot1.render();
+
+    // FRONTFOOT 2
+    var frontfoot2 = new Cube();
+    frontfoot2.color = [0.550, 0.301, 0.0165, 1];
+    frontfoot2.matrix.scale(0.2, 0.1, 0.2);
+    frontfoot2.matrix.translate(-2.4, -6.5, 1.7);
+    frontfoot2.render();    
 
     // test box
-    var magenta = new Cube();
-    magenta.color = [1, 0, 1, 1];
-    magenta.matrix = yellowCoordsMat;
-    magenta.matrix.translate(0, 0.7, 0);
-    magenta.matrix.rotate(-g_magentaAngle,0,0,1);
-    magenta.matrix.scale(0.3,0.3,0.3);
-    magenta.matrix.translate(-0.5,0,-0.001);
-    magenta.render();
+    // var magenta = new Cube();
+    // magenta.color = [1, 0, 1, 1];
+    // magenta.matrix = headCoordsMat;
+    // magenta.matrix.translate(0, 0.7, 0);
+    // magenta.matrix.rotate(-g_magentaAngle,0,0,1);
+    // magenta.matrix.scale(0.3,0.3,0.3);
+    // magenta.matrix.translate(-0.5,0,-0.001);
+    // magenta.render(); // COMMENT OUT TO TEST
 
     // check time at end of function. show on page - COMMENTED OUT as of 2.1
     // var dur = performance.now() - startTime;
