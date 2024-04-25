@@ -299,8 +299,10 @@ function renderAllShapes() {
     // ------------------------------ 
 
     // CUSTOM TEST ------------------
-    var testObj = new CustomObj();
+    var testObj = new slicePyramid();
     testObj.color = [1, 0, 1, 1];
+    // testObj.matrix.rotate = (-5, 1, 0, 0);
+    // testObj.matrix.translate(0, 0.7, 0);
     testObj.render();
     // ------------------------------
     // test box
