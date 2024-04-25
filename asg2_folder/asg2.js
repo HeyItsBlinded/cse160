@@ -101,8 +101,8 @@ function addActionsUI() {
 
     // CAMERA ANGLE SLIDER
     document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
-    // // HEAD JOINT SLIDER
-    // document.getElementById('headSlide').addEventListener('mousemove', function() { g_headAngle = this.value; renderAllShapes(); });
+    // HEAD JOINT SLIDER
+    document.getElementById('headSlide').addEventListener('mousemove', function() { g_headAngle = this.value; renderAllShapes(); });
     // // MAGENTA JOINT SLIDER
     // document.getElementById('magentaSlide').addEventListener('mousemove', function() { g_magentaAngle = this.value; renderAllShapes(); });
     // // TOGGLE HEAD ANIMATION BUTTON
@@ -219,14 +219,26 @@ function renderAllShapes() {
     // HEAD
     var head = new Cube();
     head.color = [0.620, 0.345, 0.0310, 1.0];
-    head.matrix.setTranslate(-0.8, -0.1, 0.05);
+    head.matrix.setTranslate(-0.2, -0.1, 0.45);
     head.matrix.scale(0.6, 0.35, 0.4);
-    // head.matrix.rotate(-5, 1, 0, 0);
-    // head.matrix.rotate(-g_headAngle, 0, 0, 1);
-    // var headCoordsMat = new Matrix4(head.matrix);
+    head.matrix.rotate(-180, 0, 1, 0);
+    head.matrix.rotate(-g_headAngle, 0, 0, 1);
+    var headCoordsMat = new Matrix4(head.matrix);
     // head.matrix.translate(0.0,0,0);
     head.render();
 
+    // NOSE
+    var nose = new slicePyramid();
+    nose.color = [0.550, 0.301, 0.0165, 1];
+    nose.matrix = headCoordsMat;
+    // nose.matrix.scale(0.5, 0.5, 0.5); // ORIGINAL
+    // nose.matrix.scale(1, 1, 1);
+    nose.matrix.translate(0.99, 0.98, 0.5);
+    nose.matrix.rotate(180, 0, 0, 1);
+    nose.matrix.rotate(90, 0, 1, 0);
+    // nose.matrix.rotate(-90, 0, 1, 0);
+    nose.render();
+    
     // EAR 1
     var ear1 = new Cube()
     ear1.color = [0.360, 0.199, 0.0144, 1.0];
@@ -296,15 +308,6 @@ function renderAllShapes() {
     frontfoot2.matrix.scale(0.2, 0.1, 0.2);
     frontfoot2.matrix.translate(-2.4, -6.5, 1.7);
     frontfoot2.render();   
-
-    // NOSE
-    var nose = new slicePyramid();
-    nose.color = [0.550, 0.301, 0.0165, 1];
-    nose.matrix.scale(0.5, 0.5, 0.5);
-    nose.matrix.translate(-1.55, 0.45, 0.5);
-    nose.matrix.rotate(180, 0, 0, 1);
-    nose.matrix.rotate(-90, 0, 1, 0);
-    nose.render();
     // ------------------------------ 
 
     // CUSTOM TEST ------------------
