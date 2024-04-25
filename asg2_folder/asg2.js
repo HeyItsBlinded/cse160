@@ -247,8 +247,10 @@ function renderAllShapes() {
     // EAR 2
     var ear2 = new Cube();
     ear2.color = [0.360, 0.199, 0.0144, 1.0];
-    ear2.matrix.scale(0.1, 0.2, 0.1);
-    ear2.matrix.translate(-2.99, 1, 3.6);
+    var ear2CoordsMat = new Matrix4(headCoordsMat);
+    ear2.matrix = ear2CoordsMat;
+    ear2.matrix.scale(0.3, 0.7, 0.15); // SCALED IN RELATION TO HEAD SIZE DUE TO REFERENCE?
+    ear2.matrix.translate(0.75, -0.65, 5.4);  // LOCK 0.75, -0.65, 5.4
     ear2.render();
 
     // BACKQUAD 1
