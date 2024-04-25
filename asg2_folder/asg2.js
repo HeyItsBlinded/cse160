@@ -212,7 +212,6 @@ function renderAllShapes() {
     var body = new Cube();
     body.color = [0.620, 0.345, 0.0310, 1.0];
     body.matrix.translate(-0.50, -0.50, 0.0);
-    // body.matrix.rotate(-5,1,0,0);
     body.matrix.scale(1.0, 0.5, 0.5);
     body.render();
 
@@ -231,26 +230,25 @@ function renderAllShapes() {
     var nose = new slicePyramid();
     nose.color = [0.550, 0.301, 0.0165, 1];
     nose.matrix = headCoordsMat;
-    // nose.matrix.scale(0.5, 0.5, 0.5); // ORIGINAL
-    // nose.matrix.scale(1, 1, 1);
-    nose.matrix.translate(0.99, 0.98, 0.5);
+    nose.matrix.translate(0.95, 0.98, 0.5); // INVERTED DUE TO REFERENCE?
     nose.matrix.rotate(180, 0, 0, 1);
     nose.matrix.rotate(90, 0, 1, 0);
-    // nose.matrix.rotate(-90, 0, 1, 0);
     nose.render();
     
     // EAR 1
     var ear1 = new Cube()
     ear1.color = [0.360, 0.199, 0.0144, 1.0];
-    ear1.matrix.scale(0.1, 0.2, 0.1);
-    ear1.matrix.translate(-2.99, 1.0, 0.4);
+    var ear1CoordsMat = new Matrix4(headCoordsMat);
+    ear1.matrix = ear1CoordsMat;
+    ear1.matrix.scale(0.3, 0.7, 0.15); // SCALED IN RELATION TO HEAD SIZE DUE TO REFERENCE?
+    ear1.matrix.translate(-1.7, -0.65, 5.4);  // LOCK 1.7, -0.65, 5.4
     ear1.render();
 
     // EAR 2
     var ear2 = new Cube();
     ear2.color = [0.360, 0.199, 0.0144, 1.0];
     ear2.matrix.scale(0.1, 0.2, 0.1);
-    ear2.matrix.translate(-2.99, 1.0, 3.6);
+    ear2.matrix.translate(-2.99, 1, 3.6);
     ear2.render();
 
     // BACKQUAD 1
