@@ -36,6 +36,8 @@ let g_selectedSize = 5;
 let g_selectedSegment = 5;
 let g_globalAngle = 0;
 let g_headAngle = 0;  // ADDED IN 2.6
+let g_ear1Angle = 0;
+let g_ear2Angle = 0;
 let g_magentaAngle = 0; // ADDED IN 2.7
 let g_headAnimation = false;
 let g_magentaAnimation = false;
@@ -101,10 +103,12 @@ function addActionsUI() {
 
     // CAMERA ANGLE SLIDER
     document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
-    // HEAD JOINT SLIDER
+    // HEAD SLIDER
     document.getElementById('headSlide').addEventListener('mousemove', function() { g_headAngle = this.value; renderAllShapes(); });
-    // // MAGENTA JOINT SLIDER
-    // document.getElementById('magentaSlide').addEventListener('mousemove', function() { g_magentaAngle = this.value; renderAllShapes(); });
+    // EAR 1 SLIDER
+    document.getElementById('ear1Slide').addEventListener('mousemove', function() { g_ear1Angle = this.value; renderAllShapes(); } )
+    // EAR 2 SLIDER
+    document.getElementById('ear2Slide').addEventListener('mousemove', function() { g_ear2Angle = this.value; renderAllShapes(); } )
     // // TOGGLE HEAD ANIMATION BUTTON
     // document.getElementById('animationHeadOffButton').onclick = function() {g_headAnimation = false;};
     // document.getElementById('animationHeadOnButton').onclick = function() {g_headAnimation = true;};
@@ -242,6 +246,7 @@ function renderAllShapes() {
     ear1.matrix = ear1CoordsMat;
     ear1.matrix.scale(0.3, 0.7, 0.15); // SCALED IN RELATION TO HEAD SIZE DUE TO REFERENCE?
     ear1.matrix.translate(-1.7, -0.65, 5.4);  // LOCK 1.7, -0.65, 5.4
+    ear1.matrix.rotate(g_ear1Angle, 0, 1, 0);
     ear1.render();
 
     // EAR 2
