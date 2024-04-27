@@ -40,7 +40,8 @@ let g_ear1Angle = 0;
 let g_ear2Angle = 0;
 let g_magentaAngle = 0; // ADDED IN 2.7
 let g_headAnimation = false;
-let g_magentaAnimation = false;
+let g_ear1Animation = false;
+let g_ear2Animation = false;
 
 
 function setupWebGL() {
@@ -114,38 +115,58 @@ function addActionsUI() {
     document.getElementById('animationHeadOnButton').onclick = function() {g_headAnimation = true;};
     // // TOGGLE MAGENTA ANIMATION BUTTON
     // document.getElementById('animationMagentaOffButton').onclick = function() {g_magentaAnimation = false;};
-    // document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};    
+    // document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};  
+    // // TOGGLE EAR1 ANIMATION BUTTON
+    document.getElementById('ear1OffButton').onclick = function() {g_ear1Animation = false;};
+    document.getElementById('ear1OnButton').onclick = function() {g_ear1Animation = true;};
+    // // TOGGLE EAR2 ANIMATION BUTTON
+    document.getElementById('ear2OffButton').onclick = function() {g_ear2Animation = false;};
+    document.getElementById('ear2OnButton').onclick = function() {g_ear2Animation = true;};
+  
+    
+    // SHIFT CLICK IMPLEMENTATION
+    document.getElementById('canvasContainer').onclick = function(e) {
+        console.log('onclick registered');
+        if (e.shiftKey) {
+            console.log('shift click registered');
+            g_ear1Animation = true;
+            g_ear2Animation = true;
+        }
+    };
+    // if (event.shiftKey) {
+    //     console.log("shift click registered!");
+    // }
 }
 
-function click(ev) {
-    // extract event click, return it in webGL coords
-    let [x, y] = convertCoordinatesEventToGL(ev);
-    // create and store new point
-    let point;
-    if (g_selectedType == POINT) {
-        point = new Point();
-    } else if (g_selectedType == TRIANGLE) {
-        point = new Triangle();
-    } else  if (g_selectedType == CIRCLE) {
-        point = new Circle();
-        point.segments = g_selectedSegment;
-    }
-    point.position = [x,y];
-    point.color = g_selectedColor.slice();
-    point.size = g_selectedSize;
-    g_shapesList.push(point);
-    // draw all shapes in/on the canvas
-    renderAllShapes();
-}
+// function click(ev) {
+//     // extract event click, return it in webGL coords
+//     // let [x, y] = convertCoordinatesEventToGL(ev);
+//     // create and store new point
+//     // let point;
+//     // if (g_selectedType == POINT) {
+//     //     point = new Point();
+//     // } else if (g_selectedType == TRIANGLE) {
+//     //     point = new Triangle();
+//     // } else  if (g_selectedType == CIRCLE) {
+//     //     point = new Circle();
+//     //     point.segments = g_selectedSegment;
+//     // }
+//     // point.position = [x,y];
+//     // point.color = g_selectedColor.slice();
+//     // point.size = g_selectedSize;
+//     // g_shapesList.push(point);
+//     // draw all shapes in/on the canvas
+//     renderAllShapes();
+// }
 
-function convertCoordinatesEventToGL(ev) {
-    var x = ev.clientX; // x coordinate of a mouse pointer
-    var y = ev.clientY; // y coordinate of a mouse pointer
-    var rect = ev.target.getBoundingClientRect();
-    x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
-    y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
-    return ([x, y]);
-}
+// function convertCoordinatesEventToGL(ev) {
+//     var x = ev.clientX; // x coordinate of a mouse pointer
+//     var y = ev.clientY; // y coordinate of a mouse pointer
+//     var rect = ev.target.getBoundingClientRect();
+//     x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
+//     y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
+//     return ([x, y]);
+// }
 
 function sendTextToHTML(text, htmlID) {
     var element = document.getElementById(htmlID);
@@ -162,8 +183,8 @@ function main() {
     // set up actions for html ui elements
     addActionsUI();
     // Register function (event handler) to be called on a mouse press
-    canvas.onmousedown = click;
-    canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev) } };
+    // canvas.onmousedown = click;
+    // canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev) } };
 
     // Specify the color for clearing <canvas>
     gl.clearColor(0.542, 0.563, 0.570, 1.0);
@@ -171,6 +192,9 @@ function main() {
     // gl.clear(gl.COLOR_BUFFER_BIT);
     renderAllShapes();
     requestAnimationFrame(tick);
+
+    // STATS HERE
+    // var stats = new Stats();
 }
 
 var g_startTime = performance.now() / 1000.0;
@@ -192,9 +216,12 @@ function updateAnimationAngles() {
     if (g_headAnimation) {
         g_headAngle = (45 * Math.sin(g_seconds));
     }
-    // if (g_magentaAnimation) {
-    //     g_magentaAngle = (45 * Math.sin(3 * g_seconds));
-    // }
+    if (g_ear1Animation) {
+        g_ear1Angle = (45 * Math.sin(3 * g_seconds));
+    }
+    if (g_ear2Animation) {
+        g_ear2Angle = (45 * Math.sin(3 * g_seconds));
+    }
 }
 
 function renderAllShapes() {

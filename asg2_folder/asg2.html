@@ -13,6 +13,23 @@
         <script src="asg2.js"></script>
         <script src="triangle.js"></script>
         <script src="cube.js"></script>
+        <!-- <script src="stats.js/src/Stats.js" type="module"></script> -->
+        <script>
+            // Add the Stats.js code here
+            (function(){
+                var script = document.createElement('script');
+                script.onload = function(){
+                    var stats = new Stats();
+                    document.body.appendChild(stats.dom);
+                    requestAnimationFrame(function loop(){
+                        stats.update();
+                        requestAnimationFrame(loop);
+                    });
+                };
+                script.src = 'https://mrdoob.github.io/stats.js/build/stats.min.js';
+                document.head.appendChild(script);
+            })();
+        </script>
 
         <a href="../index.html">back to hub</a>
 
@@ -47,6 +64,15 @@
             <!-- <label>toggle magenta animation</label>
             <button type="button" id="animationMagentaOnButton">ON</button>
             <button type="button" id="animationMagentaOffButton">OFF</button> -->
+            <!-- EAR1 ANIMATION ON/OFF -->
+            <label>toggle ear1 animation</label>
+            <button type="button" id="ear1OnButton">ON</button>
+            <button type="button" id="ear1OffButton">OFF</button>
+            <!-- EAR2 ANIMATION ON/OFF -->
+            <label>toggle ear2 animation</label>
+            <button type="button" id="ear2OnButton">ON</button>
+            <button type="button" id="ear2OffButton">OFF</button>
+
             
         </div>
     </body>
