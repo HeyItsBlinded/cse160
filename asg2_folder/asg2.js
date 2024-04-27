@@ -110,8 +110,8 @@ function addActionsUI() {
     // EAR 2 SLIDER
     document.getElementById('ear2Slide').addEventListener('mousemove', function() { g_ear2Angle = this.value; renderAllShapes(); } )
     // // TOGGLE HEAD ANIMATION BUTTON
-    // document.getElementById('animationHeadOffButton').onclick = function() {g_headAnimation = false;};
-    // document.getElementById('animationHeadOnButton').onclick = function() {g_headAnimation = true;};
+    document.getElementById('animationHeadOffButton').onclick = function() {g_headAnimation = false;};
+    document.getElementById('animationHeadOnButton').onclick = function() {g_headAnimation = true;};
     // // TOGGLE MAGENTA ANIMATION BUTTON
     // document.getElementById('animationMagentaOffButton').onclick = function() {g_magentaAnimation = false;};
     // document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};    
@@ -169,7 +169,7 @@ function main() {
     gl.clearColor(0.542, 0.563, 0.570, 1.0);
     // Clear <canvas>
     // gl.clear(gl.COLOR_BUFFER_BIT);
-    // renderAllShapes();
+    renderAllShapes();
     requestAnimationFrame(tick);
 }
 
@@ -178,7 +178,7 @@ var g_seconds = performance.now() / 1000.0 - g_startTime;
 
 function tick() {
     g_seconds = performance.now() / 1000.0 - g_startTime;
-    // console.log(g_seconds); // FOR DEBUG
+    // console.log(performance.now()); // FOR DEBUG
     // update animation angles
     updateAnimationAngles();
     // draw everything
@@ -192,9 +192,9 @@ function updateAnimationAngles() {
     if (g_headAnimation) {
         g_headAngle = (45 * Math.sin(g_seconds));
     }
-    if (g_magentaAnimation) {
-        g_magentaAngle = (45 * Math.sin(3 * g_seconds));
-    }
+    // if (g_magentaAnimation) {
+    //     g_magentaAngle = (45 * Math.sin(3 * g_seconds));
+    // }
 }
 
 function renderAllShapes() {
@@ -256,6 +256,7 @@ function renderAllShapes() {
     ear2.matrix = ear2CoordsMat;
     ear2.matrix.scale(0.3, 0.7, 0.15); // SCALED IN RELATION TO HEAD SIZE DUE TO REFERENCE?
     ear2.matrix.translate(0.75, -0.65, 5.4);  // LOCK 0.75, -0.65, 5.4
+    ear2.matrix.rotate(g_ear2Angle, 0, 1, 0);
     ear2.render();
 
     // BACKQUAD 1
