@@ -107,6 +107,7 @@ function addActionsUI() {
 
     // LEG1 SLIDE
     document.getElementById('leg1slide').addEventListener('mousemove', function() { g_leg1Angle = this.value; renderAllShapes(); });
+
     // LEG1 TOGGLE
     // document.getElementById('animationleg1offButton').onclick = function() {
     //     g_leg1Animation = false;
@@ -237,6 +238,7 @@ function renderAllShapes() {
     leg1.matrix = leg1CoordsMat;
     leg1.matrix.translate(-0.08, -0.05, 0.05);
     leg1.matrix.rotate(g_leg1Angle, 1, 0, 0);
-    leg1.matrix.scale(0.05, 0.25, 0.05);
+    leg1.matrix.scale(0.05, 0.5, 0.05);
     leg1.render();
+
 }
