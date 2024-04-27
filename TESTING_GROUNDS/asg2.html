@@ -16,13 +16,30 @@
 
         <a href="../index.html">back to hub</a>
 
+        <!-- FPS TRACKER HERE -->
+        <!-- <script> 
+            // Add the Stats.js code here
+            (function(){
+                var script = document.createElement('script');
+                script.onload = function(){
+                    var stats = new Stats();
+                    document.body.appendChild(stats.dom);
+                    requestAnimationFrame(function loop(){
+                        stats.update();
+                        requestAnimationFrame(loop);
+                    });
+                };
+                script.src = 'https://mrdoob.github.io/stats.js/build/stats.min.js';
+                document.head.appendChild(script);
+            })();
+        </script> -->
+
         <br>
 
         <div id="canvasContainer">
-            <canvas id="webgl" width="400" height="400">
+            <canvas id="webgl" width="700" height="700">
                 Please use browser supporting "canvas"
             </canvas>
-            <p id="numdot">[DISPLAY]</p>
         </div>
         <!-- -- -- -- -- -- -->
         <div id="interface">
@@ -30,20 +47,25 @@
             <label>camera angle</label>
             <input type="range" min="0" max="360" value="5" class="slider" id="angleSlide">
 
+            <!-- TESTOBJ TOGGLE --> <br>
+            <label>TESTOBJ TOGGLE</label>
+            <button type="button" id="animationTESTOBJonButton">ON</button>
+            <button type="button" id="animationTESTOBJoffButton">OFF</button>
+
             <!-- YELLOW BOX SLIDER -->
-            <label>yellow</label>
-            <input type="range" min="-45" max="45" value="0" class="slider" id="yellowSlide">
+            <!-- <label>yellow</label>
+            <input type="range" min="-45" max="45" value="0" class="slider" id="yellowSlide"> -->
             <!-- MAGENTA BOX SLIDER -->
-            <label>magenta</label>
-            <input type="range" min="-45" max="45" value="0" class="slider" id="magentaSlide">
+            <!-- <label>magenta</label>
+            <input type="range" min="-45" max="45" value="0" class="slider" id="magentaSlide"> -->
             <!-- YELLOW ANIMATION ON/OFF -->
-            <label>toggle yellow animation</label>
+            <!-- <label>toggle yellow animation</label>
             <button type="button" id="animationYellowOnButton">ON</button>
-            <button type="button" id="animationYellowOffButton">OFF</button>
+            <button type="button" id="animationYellowOffButton">OFF</button> -->
             <!-- MAGENTA ANIMATION ON/OFF -->
-            <label>toggle magenta animation</label>
+            <!-- <label>toggle magenta animation</label>
             <button type="button" id="animationMagentaOnButton">ON</button>
-            <button type="button" id="animationMagentaOffButton">OFF</button>
+            <button type="button" id="animationMagentaOffButton">OFF</button> -->
             
         </div>
     </body>
