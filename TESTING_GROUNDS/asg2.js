@@ -27,13 +27,17 @@ let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
 let g_selectedSegment = 5;
 let g_globalAngle = 0;
-let g_yellowAngle = 0;  // ADDED IN 2.6
-let g_magentaAngle = 0; // ADDED IN 2.7
-let g_yellowAnimation = false;
-let g_magentaAnimation = false;
+// let g_yellowAngle = 0;  // ADDED IN 2.6
+// let g_magentaAngle = 0; // ADDED IN 2.7
+// let g_yellowAnimation = false;
+// let g_magentaAnimation = false;
 
 let g_testObjHeight = 0;
 let g_testOBJanimation = false;
+let g_headLRangle = 0;
+let g_leg1Angle = 0;
+let g_leg1Animation = false;
+
 
 
 function setupWebGL() {
@@ -89,19 +93,27 @@ function addActionsUI() {
     document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
 
     // TESTOBJ TOGGLE
-    document.getElementById('animationTESTOBJoffButton').onclick = function() {g_testOBJanimation = false;};
-    document.getElementById('animationTESTOBJonButton').onclick = function() {g_testOBJanimation = true;};
+    document.getElementById('animationTESTOBJoffButton').onclick = function() {
+        g_testOBJanimation = false;
+        g_leg1Animation = false;
+    };
+    document.getElementById('animationTESTOBJonButton').onclick = function() {
+        g_testOBJanimation = true;
+        g_leg1Animation = true;
+    };
 
-    // // YELLOW JOINT SLIDER
-    // document.getElementById('yellowSlide').addEventListener('mousemove', function() { g_yellowAngle = this.value; renderAllShapes(); });
-    // // MAGENTA JOINT SLIDER
-    // document.getElementById('magentaSlide').addEventListener('mousemove', function() { g_magentaAngle = this.value; renderAllShapes(); });
-    // // TOGGLE YELLOW ANIMATION BUTTON
-    // document.getElementById('animationYellowOffButton').onclick = function() {g_yellowAnimation = false;};
-    // document.getElementById('animationYellowOnButton').onclick = function() {g_yellowAnimation = true;};
-    // // TOGGLE MAGENTA ANIMATION BUTTON
-    // document.getElementById('animationMagentaOffButton').onclick = function() {g_magentaAnimation = false;};
-    // document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};    
+    // HEAD LR SLIDE
+    document.getElementById('headLRslide').addEventListener('mousemove', function() { g_headLRangle = this.value; renderAllShapes(); });
+
+    // LEG1 SLIDE
+    document.getElementById('leg1slide').addEventListener('mousemove', function() { g_leg1Angle = this.value; renderAllShapes(); });
+    // LEG1 TOGGLE
+    // document.getElementById('animationleg1offButton').onclick = function() {
+    //     g_leg1Animation = false;
+    // };
+    // document.getElementById('animationleg1onButton').onclick = function() {
+    //     g_leg1Animation = true;
+    // };
 }
 
 // function click(ev) {
@@ -166,14 +178,14 @@ function tick() {
 // updates angles of everything if currently animated
 function updateAnimationAngles() {
     if (g_testOBJanimation) {
-        g_testObjHeight = (0.1 * Math.sin(4 * g_seconds));
+        g_testObjHeight = (0.05 * Math.sin(4 * g_seconds));
+        g_leg1Angle += (0.5 * Math.sin(4 * g_seconds));
     }
-    // if (g_yellowAnimation) {
-    //     g_yellowAngle = (45 * Math.sin(g_seconds));
+    // if (g_leg1Animation) {
+    //     g_leg1Angle += (0.5 * Math.sin(4 * g_seconds));
+    // //     g_leg1Angle = (10 * Math.PI) * Math.sin(4 * g_seconds);
     // }
-    // if (g_magentaAnimation) {
-    //     g_magentaAngle = (45 * Math.sin(3 * g_seconds));
-    // }
+    // MORE ANIMS HERE
 }
 
 function renderAllShapes() {
@@ -183,21 +195,48 @@ function renderAllShapes() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    // FIGURE -------------------------
+    // TOP BODY -------------------------
     var testObj = new Trapezoid();
     testObj.color = [0.863, 0.611, 0.940, 1];
     testObj.matrix.rotate(180, 1, 0, 0);
-    testObj.matrix.scale(1, 1.2, 1);
+    testObj.matrix.scale(1, 1, 1);
     testObj.matrix.translate(0, 0.3, 0);
     testObj.matrix.translate(0, g_testObjHeight, 0);
     var testObjCoordsMat = new Matrix4(testObj.matrix);
+    var neckCoordsMat = new Matrix4(testObj.matrix);
+    var leg1CoordsMat = new Matrix4(testObj.matrix);
     // testObj.matrix.rotate(0, 1, 0, 0);  // FOR TROUBLESHOOTING
     testObj.render();
 
+    var neck = new Cube();
+    neck.color = [0.386, 0.840, 0.787, 1];
+    neck.matrix = neckCoordsMat;
+    neck.matrix.scale(0.1, 0.2, 0.1);
+    neck.matrix.translate(-0.5, -4, 0);
+    neck.render()
+
+    // HEAD -----------------------
     var head = new Cube();
     head.color = [0, 0, 1, 1];
     head.matrix = testObjCoordsMat;
+    
+    // Issue: not swiveling on desired axis
+    // Resolved: chatGPT
+    // Translate the cube so that the line y = 0.1 becomes the y-axis
+    head.matrix.translate(0, -0.1, 0);
+
+    head.matrix.rotate(g_headLRangle, 0, 1, 0);
+    head.matrix.translate(0, 0.1, 0);
     head.matrix.scale(0.3, 0.3, 0.3);
     head.matrix.translate(-0.5, -3.2, -0.2);
     head.render();
+    
+    // LEG 1 -------------------
+    var leg1 = new Cube();
+    leg1.color = [0.386, 0.840, 0.787, 1];
+    leg1.matrix = leg1CoordsMat;
+    leg1.matrix.translate(-0.08, -0.05, 0.05);
+    leg1.matrix.rotate(g_leg1Angle, 1, 0, 0);
+    leg1.matrix.scale(0.05, 0.25, 0.05);
+    leg1.render();
 }
