@@ -32,6 +32,12 @@ let g_bodyHeight = 0;
 let g_bodyAnimation = false;
 // let g_headAngle = 0;
 let g_topBeakAngle = 0;
+let g_bottomBeakAngle = 0;
+
+let g_topBeakAnimation = false;
+let g_bottomBeakAnimation = false;
+// let g_topBeakAnimationCompleted = false;
+// let g_bottomBeakAnimationCompleted = false;
 
 function setupWebGL() {
     canvas = document.getElementById('webgl');
@@ -85,6 +91,16 @@ function addActionsUI() {
     // CAMERA ANGLE SLIDER
     document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
 
+    // UNDER CONSTRUCTION! - SHIFT CLICK IMPLEMENTATION
+    document.getElementById('canvasContainer').onclick = function(e) {
+        console.log('onclick registered');
+        if (e.shiftKey) {
+            console.log('shift click registered');
+            g_topBeakAnimation = true;
+            g_bottomBeakAnimation = true;
+        }
+    };
+
     // ANIMATION TOGGLE
     document.getElementById('ANIMoffButton').onclick = function() {
         g_bodyAnimation = false;
@@ -93,11 +109,21 @@ function addActionsUI() {
         g_bodyAnimation = true;
     };
 
+    // BEAK OFF BUTTON
+    document.getElementById('BEAKoffButton').onclick = function() {
+        g_topBeakAnimation = false;
+        g_bottomBeakAnimation = false;
+    };
+
     // HEAD LR SLIDER
     // document.getElementById('headSlide').addEventListener('mousemove', function() { g_headAngle = this.value; renderAllShapes(); });
 
     // TOP BEAK SLIDER
     document.getElementById('topBeakSlide').addEventListener('mousemove', function() { g_topBeakAngle = this.value; renderAllShapes(); });
+
+    // BOTTOM BEAK SLIDER
+    document.getElementById('bottomBeakSlide').addEventListener('mousemove', function() { g_bottomBeakAngle = this.value; renderAllShapes(); });
+
 }
 
 // function click(ev) {
@@ -164,6 +190,35 @@ function updateAnimationAngles() {
     if (g_bodyAnimation) {
         g_bodyHeight = (0.05 * Math.sin(4 * g_seconds));
     }
+
+    if (g_topBeakAnimation) {
+        g_topBeakAngle = (4 * Math.sin(4 * g_seconds));
+    }
+    if (g_bottomBeakAnimation) {
+        g_bottomBeakAngle = (-4 * Math.sin(4 * g_seconds));
+    }
+
+    // if (g_topBeakAnimation) {
+    //     if (!g_topBeakAnimationCompleted) {
+    //         g_topBeakAngle = (4 * Math.sin(4 * g_seconds));
+    //         if (g_topBeakAngle >= 360 || g_topBeakAngle <= -360) {
+    //             g_topBeakAnimationCompleted = true;
+    //             g_topBeakAnimation = false; // Disable animation
+    //         }
+    //     }
+    // }
+    
+    // if (g_bottomBeakAnimation) {
+    //     if (!g_bottomBeakAnimationCompleted) {
+    //         g_bottomBeakAngle = (-4 * Math.sin(4 * g_seconds));
+    //         if (g_bottomBeakAngle >= 360 || g_bottomBeakAngle <= -360) {
+    //             g_bottomBeakAnimationCompleted = true;
+    //             g_bottomBeakAnimation = false; // Disable animation
+    //         }
+    //     }
+    // }
+    
+
     // MORE ANIMS HERE
 }
 
@@ -176,7 +231,7 @@ function renderAllShapes() {
 
     // DUCK? -------------------------
     var body = new Cube();
-    body.color = [0.910, 0.892, 0.907, 1];
+    body.color = [0.780, 0.778, 0.772, 1];
     body.matrix.scale(0.6, 0.45, 0.5);
     body.matrix.translate(-0.4, -0.8, 0);
     body.matrix.translate(0, g_bodyHeight, 0);
@@ -204,14 +259,14 @@ function renderAllShapes() {
     head.render()
 
     var frontEye = new Cube();
-    frontEye.color = [1, 0, 1, 1];
+    frontEye.color = [0.350, 0.346, 0.336, 1];
     frontEye.matrix = frontEyeCoordsMat;
     frontEye.matrix.scale(0.1, 0.1, 0.2);
     frontEye.matrix.translate(-2.75, 12.5, 0.6);
     frontEye.render();
 
     var backEye = new Cube();
-    backEye.color = [1, 0, 1, 1];
+    backEye.color = [0.350, 0.346, 0.336, 1];
     backEye.matrix = backEyeCoordsMat;
     backEye.matrix.translate(-0.275, 1.25, 0.665);
     backEye.matrix.scale(0.1, 0.1, 0.2);
@@ -226,10 +281,12 @@ function renderAllShapes() {
     topBeak.matrix.rotate(g_topBeakAngle, 0, 0, 1);
     topBeak.render();
 
-    // var bottomBeak = new Cube();
-    // bottomBeak.color = [0.950, 0.785, 0.0475, 1];
-    // bottomBeak.matrix = bottomBeakCoordsMat;
-    // bottomBeak.matrix.scale(0.3, 0.15, 0.4);
-    // bottomBeak.matrix.translate(-1.7, 6.0, 0.7);
-    // bottomBeak.render();
+    var bottomBeak = new Cube();
+    bottomBeak.color = [0.950, 0.785, 0.0475, 1];
+    bottomBeak.matrix = bottomBeakCoordsMat;
+    bottomBeak.matrix.scale(0.3, 0.1, 0.4);
+    bottomBeak.matrix.translate(-0.6, 8.75, 1.7);
+    bottomBeak.matrix.rotate(180, 0, 1, 0);
+    bottomBeak.matrix.rotate(g_bottomBeakAngle, 0, 0, 1);   
+    bottomBeak.render();
 }
