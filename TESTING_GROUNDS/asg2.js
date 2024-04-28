@@ -289,19 +289,14 @@ function renderAllShapes() {
     frontLeg.matrix.scale(0.1, 0.7, .1);
     var frontFootCoordsMat = new Matrix4(frontLeg.matrix);
     frontLeg.render();
-// --------
+
     var frontFoot = new Trapezoid();
     frontFoot.color = [0, 0, 1, 1];
-    frontFoot.matrix.translate(0.5,0.5,0.5);
-    // frontFoot.matrix = frontFootCoordsMat;
-
-    // frontFoot.matrix.translate(-0.001, 1, 0.5);
-    // frontFoot.matrix.scale(8, 0.6, 4);
-    // frontFoot.matrix.rotate(90, 1, 0, 0);
-    // // frontFoot.matrix.rotate(-90, 0, 0, 1);
-
+    frontFoot.matrix = frontFootCoordsMat;
+    frontFoot.matrix.translate(-3, 0.86, -1.5);
+    frontFoot.matrix.scale(12, 0.7, 10);
     frontFoot.render();
-// -------
+
     var backLeg = new Cube();
     backLeg.color = [1, 0, 1, 1];
     backLeg.matrix = backLegCoordsMat;
