@@ -30,6 +30,7 @@ let g_globalAngle = 0;
 
 let g_bodyHeight = 0;
 let g_bodyAnimation = false;
+// let g_headAngle = 0;
 
 function setupWebGL() {
     canvas = document.getElementById('webgl');
@@ -90,6 +91,9 @@ function addActionsUI() {
     document.getElementById('ANIMonButton').onclick = function() {
         g_bodyAnimation = true;
     };
+
+    // HEAD LR SLIDER
+    // document.getElementById('headSlide').addEventListener('mousemove', function() { g_headAngle = this.value; renderAllShapes(); });
 
 }
 
@@ -174,6 +178,8 @@ function renderAllShapes() {
     body.matrix.translate(-0.4, -0.8, 0);
     body.matrix.translate(0, g_bodyHeight, 0);
     var headCoordsMat = new Matrix4(body.matrix);
+    var frontEyeCoordsMat = new Matrix4(body.matrix);
+    var backEyeCoordsMat = new Matrix4(body.matrix);
     body.render();
 
     var head = new Cube();
@@ -181,5 +187,21 @@ function renderAllShapes() {
     head.matrix = headCoordsMat;
     head.matrix.scale(0.4, 1, 0.7);
     head.matrix.translate(-0.8, 0.6, 0.2);
-    head.render();
+    // head.matrix.rotate(g_headAngle, 0, 1, 0);
+    head.render()
+
+    var frontEye = new Cube();
+    frontEye.color = [1, 0, 1, 1];
+    frontEye.matrix = frontEyeCoordsMat;
+    frontEye.matrix.scale(0.1, 0.1, 0.2);
+    frontEye.matrix.translate(-2.75, 12.5, 0.6);
+    frontEye.render();
+
+    var backEye = new Cube();
+    backEye.color = [1, 0, 1, 1];
+    backEye.matrix = backEyeCoordsMat;
+    backEye.matrix.translate(-0.275, 1.25, 0.665);
+    backEye.matrix.scale(0.1, 0.1, 0.2);
+    backEye.render();
+
 }
