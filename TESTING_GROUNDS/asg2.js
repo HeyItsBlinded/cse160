@@ -249,14 +249,14 @@ function renderAllShapes() {
     head.render()
 
     var frontEye = new Cube();
-    frontEye.color = [0.350, 0.346, 0.336, 1];
+    frontEye.color = [0, 0, 0, 1];
     frontEye.matrix = frontEyeCoordsMat;
     frontEye.matrix.scale(0.1, 0.1, 0.2);
     frontEye.matrix.translate(-2.75, 12.5, 0.6);
     frontEye.render();
 
     var backEye = new Cube();
-    backEye.color = [0.350, 0.346, 0.336, 1];
+    backEye.color = [0, 0, 0, 1];
     backEye.matrix = backEyeCoordsMat;
     backEye.matrix.translate(-0.275, 1.25, 0.665);
     backEye.matrix.scale(0.1, 0.1, 0.2);
@@ -291,18 +291,26 @@ function renderAllShapes() {
     frontLeg.render();
 
     var frontFoot = new Trapezoid();
-    frontFoot.color = [0, 0, 1, 1];
+    frontFoot.color = [0.870, 0.638, 0.00, 1];
     frontFoot.matrix = frontFootCoordsMat;
     frontFoot.matrix.translate(-3, 0.86, -1.5);
     frontFoot.matrix.scale(12, 0.7, 10);
     frontFoot.render();
 
     var backLeg = new Cube();
-    backLeg.color = [1, 0, 1, 1];
+    backLeg.color = [0.950, 0.785, 0.0475, 1];
     backLeg.matrix = backLegCoordsMat;
     backLeg.matrix.translate(0.4, 0.2, 0.7);
     backLeg.matrix.rotate(180, 1, 0, 0);  
     backLeg.matrix.rotate(g_backLegAngle, 0, 0, 1);
     backLeg.matrix.scale(0.1, 0.7, .1);
+    var backFootCoordsMat = new Matrix4(backLeg.matrix);
     backLeg.render();
+
+    var backFoot = new Trapezoid();
+    backFoot.color = [0.870, 0.638, 0.00, 1];
+    backFoot.matrix = backFootCoordsMat;
+    backFoot.matrix.translate(-2.999, 0.86, -1.5);
+    backFoot.matrix.scale(12, 0.7, 10);
+    backFoot.render();
 }
