@@ -180,7 +180,7 @@ function tick() {
 function updateAnimationAngles() {
     if (g_testOBJanimation) {
         g_testObjHeight = (0.05 * Math.sin(4 * g_seconds));
-        g_leg1Angle += (0.5 * Math.sin(4 * g_seconds));
+        g_leg1Angle = (10 * Math.PI) * Math.sin(4 * g_seconds);// += (0.5 * Math.sin(4 * g_seconds));
     }
     // if (g_leg1Animation) {
     //     g_leg1Angle += (0.5 * Math.sin(4 * g_seconds));
@@ -206,6 +206,7 @@ function renderAllShapes() {
     var testObjCoordsMat = new Matrix4(testObj.matrix);
     var neckCoordsMat = new Matrix4(testObj.matrix);
     var leg1CoordsMat = new Matrix4(testObj.matrix);
+    // var leg12CoordsMat = new Matrix4(testObj.matrix);
     // testObj.matrix.rotate(0, 1, 0, 0);  // FOR TROUBLESHOOTING
     testObj.render();
 
@@ -238,7 +239,15 @@ function renderAllShapes() {
     leg1.matrix = leg1CoordsMat;
     leg1.matrix.translate(-0.08, -0.05, 0.05);
     leg1.matrix.rotate(g_leg1Angle, 1, 0, 0);
-    leg1.matrix.scale(0.05, 0.5, 0.05);
+    leg1.matrix.scale(0.05, 0.25, 0.05);
+    var leg12CoordsMat = new Matrix4(leg1.matrix);
     leg1.render();
 
+    // LEG 12 -------------------
+    var leg12 = new Cube();
+    leg12.color = [0, 0, 1, 1];
+    leg12.matrix = leg12CoordsMat;
+    leg12.matrix.scale(0.05, 0.25, 0.05);
+    leg12.matrix.translate(0, 0, 0);
+    leg12.render();
 }
