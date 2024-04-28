@@ -30,14 +30,16 @@ let g_globalAngle = 0;
 
 let g_bodyHeight = 0;
 let g_bodyAnimation = false;
-// let g_headAngle = 0;
+
 let g_topBeakAngle = 0;
 let g_bottomBeakAngle = 0;
-
 let g_topBeakAnimation = false;
 let g_bottomBeakAnimation = false;
-// let g_topBeakAnimationCompleted = false;
-// let g_bottomBeakAnimationCompleted = false;
+
+let g_frontLegAngle = 0;
+let g_frontLegAnimation = false;
+let g_backLegAngle = 0;
+let g_backLegAnimation = false;
 
 function setupWebGL() {
     canvas = document.getElementById('webgl');
@@ -124,6 +126,12 @@ function addActionsUI() {
     // BOTTOM BEAK SLIDER
     document.getElementById('bottomBeakSlide').addEventListener('mousemove', function() { g_bottomBeakAngle = this.value; renderAllShapes(); });
 
+    // FRONT LEG SLIDER
+    document.getElementById('frontLegSlide').addEventListener('mousemove', function() { g_frontLegAngle = this.value; renderAllShapes(); });
+
+    // BACK LEG SLIDER
+    document.getElementById('backLegSlide').addEventListener('mousemove', function() { g_backLegAngle = this.value; renderAllShapes(); });
+
 }
 
 // function click(ev) {
@@ -189,6 +197,8 @@ function tick() {
 function updateAnimationAngles() {
     if (g_bodyAnimation) {
         g_bodyHeight = (0.05 * Math.sin(4 * g_seconds));
+        g_frontLegAngle = (20 * Math.sin(4 * g_seconds));
+        g_backLegAngle = (-20 * Math.sin(4 * g_seconds));
     }
 
     if (g_topBeakAnimation) {
@@ -197,28 +207,6 @@ function updateAnimationAngles() {
     if (g_bottomBeakAnimation) {
         g_bottomBeakAngle = (-4 * Math.sin(4 * g_seconds));
     }
-
-    // if (g_topBeakAnimation) {
-    //     if (!g_topBeakAnimationCompleted) {
-    //         g_topBeakAngle = (4 * Math.sin(4 * g_seconds));
-    //         if (g_topBeakAngle >= 360 || g_topBeakAngle <= -360) {
-    //             g_topBeakAnimationCompleted = true;
-    //             g_topBeakAnimation = false; // Disable animation
-    //         }
-    //     }
-    // }
-    
-    // if (g_bottomBeakAnimation) {
-    //     if (!g_bottomBeakAnimationCompleted) {
-    //         g_bottomBeakAngle = (-4 * Math.sin(4 * g_seconds));
-    //         if (g_bottomBeakAngle >= 360 || g_bottomBeakAngle <= -360) {
-    //             g_bottomBeakAnimationCompleted = true;
-    //             g_bottomBeakAnimation = false; // Disable animation
-    //         }
-    //     }
-    // }
-    
-
     // MORE ANIMS HERE
 }
 
@@ -241,6 +229,8 @@ function renderAllShapes() {
     var backEyeCoordsMat = new Matrix4(body.matrix);
     var topBeakCoordsMat = new Matrix4(body.matrix);
     var bottomBeakCoordsMat = new Matrix4(body.matrix);
+    var frontLegCoordsMat = new Matrix4(body.matrix);
+    var backLegCoordsMat = new Matrix4(body.matrix);
     body.render();
 
     // var body2 = new Cube();
@@ -289,4 +279,34 @@ function renderAllShapes() {
     bottomBeak.matrix.rotate(180, 0, 1, 0);
     bottomBeak.matrix.rotate(g_bottomBeakAngle, 0, 0, 1);   
     bottomBeak.render();
+
+    var frontLeg = new Cube();
+    frontLeg.color = [0.950, 0.785, 0.0475, 1];
+    frontLeg.matrix = frontLegCoordsMat;
+    frontLeg.matrix.translate(0.4, 0.2, 0.35);
+    frontLeg.matrix.rotate(180, 1, 0, 0);  
+    frontLeg.matrix.rotate(g_frontLegAngle, 0, 0, 1);
+    frontLeg.matrix.scale(0.1, 0.7, .1);
+    var frontFootCoordsMat = new Matrix4(frontLeg.matrix);
+    frontLeg.render();
+// --------
+    // var frontFoot = new Trapezoid();
+    // frontFoot.color = [0, 0, 1, 1];
+    // frontFoot.matrix = frontFootCoordsMat;
+
+    // frontFoot.matrix.translate(-0.001, 1, 0.5);
+    // frontFoot.matrix.scale(8, 0.6, 4);
+    // frontFoot.matrix.rotate(90, 1, 0, 0);
+    // // frontFoot.matrix.rotate(-90, 0, 0, 1);
+
+    // frontFoot.render();
+// -------
+    var backLeg = new Cube();
+    backLeg.color = [1, 0, 1, 1];
+    backLeg.matrix = backLegCoordsMat;
+    backLeg.matrix.translate(0.4, 0.2, 0.7);
+    backLeg.matrix.rotate(180, 1, 0, 0);  
+    backLeg.matrix.rotate(g_backLegAngle, 0, 0, 1);
+    backLeg.matrix.scale(0.1, 0.7, .1);
+    backLeg.render();
 }
