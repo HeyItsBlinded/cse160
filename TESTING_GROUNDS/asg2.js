@@ -31,6 +31,7 @@ let g_globalAngle = 0;
 let g_bodyHeight = 0;
 let g_bodyAnimation = false;
 // let g_headAngle = 0;
+let g_topBeakAngle = 0;
 
 function setupWebGL() {
     canvas = document.getElementById('webgl');
@@ -95,6 +96,8 @@ function addActionsUI() {
     // HEAD LR SLIDER
     // document.getElementById('headSlide').addEventListener('mousemove', function() { g_headAngle = this.value; renderAllShapes(); });
 
+    // TOP BEAK SLIDER
+    document.getElementById('topBeakSlide').addEventListener('mousemove', function() { g_topBeakAngle = this.value; renderAllShapes(); });
 }
 
 // function click(ev) {
@@ -177,10 +180,20 @@ function renderAllShapes() {
     body.matrix.scale(0.6, 0.45, 0.5);
     body.matrix.translate(-0.4, -0.8, 0);
     body.matrix.translate(0, g_bodyHeight, 0);
+    var body2CoordsMat = new Matrix4(body.matrix);
     var headCoordsMat = new Matrix4(body.matrix);
     var frontEyeCoordsMat = new Matrix4(body.matrix);
     var backEyeCoordsMat = new Matrix4(body.matrix);
+    var topBeakCoordsMat = new Matrix4(body.matrix);
+    var bottomBeakCoordsMat = new Matrix4(body.matrix);
     body.render();
+
+    // var body2 = new Cube();
+    // body2.color = [0, 1, 1, 1];
+    // body2.matrix = body2CoordsMat;
+    // body2.matrix.scale(0.5, 0.7, 1.1);
+    // body2.matrix.translate(-0.05, 0.5, -0.05);
+    // body2.render();
 
     var head = new Cube();
     head.color = [0.0188, 0.470, 0.0414, 1];
@@ -204,4 +217,19 @@ function renderAllShapes() {
     backEye.matrix.scale(0.1, 0.1, 0.2);
     backEye.render();
 
+    var topBeak = new Cube();
+    topBeak.color = [0.950, 0.785, 0.0475, 1];
+    topBeak.matrix = topBeakCoordsMat;
+    topBeak.matrix.scale(0.4, 0.15, 0.4);
+    topBeak.matrix.translate(-0.45, 6.5, 1.7);
+    topBeak.matrix.rotate(180, 0, 1, 0);
+    topBeak.matrix.rotate(g_topBeakAngle, 0, 0, 1);
+    topBeak.render();
+
+    // var bottomBeak = new Cube();
+    // bottomBeak.color = [0.950, 0.785, 0.0475, 1];
+    // bottomBeak.matrix = bottomBeakCoordsMat;
+    // bottomBeak.matrix.scale(0.3, 0.15, 0.4);
+    // bottomBeak.matrix.translate(-1.7, 6.0, 0.7);
+    // bottomBeak.render();
 }
