@@ -6,6 +6,8 @@ br {
 
 #back2Hub {
     text-align: center;
+    margin-left: 15%;
+    margin-right: 15%;
 }   
 
 #colorLabel {
@@ -27,10 +29,9 @@ br {
     text-align: center;
 }
 
-#colorSelect {
-    margin-left: 25%;
-    text-align: left;
-    padding-bottom: 5%;
+#beakControls {
+    text-align: center;
+    padding-bottom: 5px;
 }
 
 #shapeSelect {

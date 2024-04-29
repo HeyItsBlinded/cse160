@@ -16,11 +16,19 @@
 
         <div id="back2Hub">
             <a href="../index.html">back to hub</a>
+            <p>
+                Note to the grader: Hi again. Just so there's no confusion, this duck has 10
+                elements (note the PAIRS of eyes and legs). The top and bottom beak are both 
+                2nd-level joints, and are activated with shift-click. (The beak animation can 
+                be stopped with the 'BEAK STOP' button.) Both feet are non-cube primitives and 
+                third-level joints. To get a better look at them, max out the front leg and 
+                back leg sliders.
+            </p>
         </div>
 
         <!-- FPS TRACKER HERE -->
         <script>
-            // Add the Stats.js code here
+            // FPS TRACKER CODE - https://github.com/mrdoob/stats.js/
             (function(){
                 var script = document.createElement('script');
                 script.onload = function(){
@@ -59,17 +67,19 @@
             <!-- HEAD LR SLIDER --> <br>
             <!-- <label>HEAD LEFT/RIGHT</label>
             <input type="range" min="-30" max="30" value="0" class="slider" id="headSlide"> -->
+            
+            <div id="beakControls">
+                <label>BEAK STOP</label>
+                <button type="button" id="BEAKoffButton">OFF</button> 
 
-            <label>BEAK STOP</label>
-            <button type="button" id="BEAKoffButton">OFF</button> 
+                <!-- TOP BEAK SLIDER -->
+                <label>TOP BEAK</label>
+                <input type="range" min="0" max="15" value="0" class="slider" id="topBeakSlide">
 
-            <!-- TOP BEAK SLIDER -->
-            <label>TOP BEAK</label>
-            <input type="range" min="0" max="15" value="0" class="slider" id="topBeakSlide">
-
-            <!-- BOTTOM BEAK SLIDER -->
-            <label>BOTTOM BEAK</label>
-            <input type="range" min="-10" max="0" value="0" class="slider" id="bottomBeakSlide">
+                <!-- BOTTOM BEAK SLIDER -->
+                <label>BOTTOM BEAK</label>
+                <input type="range" min="-10" max="0" value="0" class="slider" id="bottomBeakSlide">
+            </div>
 
             <!-- FRONT LEG SLIDER --> <br>
             <label>FRONT LEG</label>
