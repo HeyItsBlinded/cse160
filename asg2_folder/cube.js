@@ -51,40 +51,68 @@ class Cube {
     }
 }
 
-class slicePyramid {
+class Trapezoid {
     constructor() {
-        this.type = 'slicePyramid';
-        // this.position = [0.0, 0.0, 0.0];
+        this.type = 'trapezoid';
         this.color = [1.0, 1.0, 1.0, 1.0];
-        // this.size = 5.0;
-        // this.segments = 10;
         this.matrix = new Matrix4();
     }
 
     render() {
-        // var xy = this.position;
         var rgba = this.color;
-        // var size = this.size;
-
         gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
-
-        // pass the matrix to u_ModelMatrix attribute
         gl.uniformMatrix4fv(u_ModelMatrix, false, this.matrix.elements);
 
-        // PYRAMID - DEBUG THIS
-        drawTriangle3D( [0.3,0.0,0.0,   -.3,0.0,0.0,   0.0,0.5,0.0] );  // FRONT
-        // hard-coded shading - QUALITY OF LIFE (TEMPORARY)
-        gl.uniform4f(u_FragColor, rgba[0]*0.7, rgba[1]*0.7, rgba[2]*0.7, rgba[3]);
+        // // FRONT TRAP
+        // drawTriangle3D( [-0.1,0,0,   0.1,0,0,   -0.2,-0.6,0] );
+        // drawTriangle3D( [0.1,0,0,   -0.2,-0.6,0,   0.2,-0.6,0] );
 
-        drawTriangle3D( [0.3,0.0,0.0,   -.3,0.0,0.0,   0.0,0.0,-.3] );  // BOTTOM
-        // hard-coded shading - QUALITY OF LIFE (TEMPORARY)
-        gl.uniform4f(u_FragColor, rgba[0]*0.8, rgba[1]*0.8, rgba[2]*0.8, rgba[3]);
+        // // BACK TRAP
+        // drawTriangle3D( [-0.1,0,0.2,   0.1,0,0.2,   -0.2,-0.6,0.2] );
+        // drawTriangle3D( [0.1,0,0.2,   -0.2,-0.6,0.2,   0.2,-0.6,0.2] );
 
-        drawTriangle3D( [0.3,0.0,0.0,   0.0,0.5,0.0,   0.0,0.0,-.3] );   // RIGHT
-        // hard-coded shading - QUALITY OF LIFE (TEMPORARY)
-        gl.uniform4f(u_FragColor, rgba[0]*0.9, rgba[1]*0.9, rgba[2]*0.9, rgba[3]);
+        // // LEFT SIDE
+        // gl.uniform4f(u_FragColor, rgba[0]*0.85, rgba[1]*0.85, rgba[2]*0.85, rgba[3]);
+        // drawTriangle3D( [0.1,0,0,   0.2,-0.6,0,   0.1,0,0.2] );
+        // drawTriangle3D( [0.2,-0.6,0,   0.1,0,0.2,   0.2,-0.6,0.2] );
 
-        drawTriangle3D( [-.3,0.0,0.0,   0.0,0.5,0.0,   0.0,0.0,-.3] );   // LEFT
-        // console.log('all sides printed');
+        // // RIGHT SIDE
+        // drawTriangle3D( [-0.1,0,0,   -0.2,-0.6,0.0,   -0.2,-0.6,0.2] );
+        // drawTriangle3D( [-0.1,0,0,   -0.1,0,0.2,   -0.2,-0.6,0.2] );
+
+        // // TOP TRAP
+        // gl.uniform4f(u_FragColor, rgba[0]*0.65, rgba[1]*0.65, rgba[2]*0.65, rgba[3]);
+        // drawTriangle3D( [-0.1,0.0,0.0,   -0.1,0.0,0.2,   0.1,0.0,0.0] );
+        // drawTriangle3D( [-0.1,0.0,0.2,   0.1,0.0,0.0,   0.1,0.0,0.2] );
+
+        // // BOTTOM TRAP
+        // drawTriangle3D( [-0.2,-0.6,0.0,   -0.2,-0.6,0.2,   0.2,-0.6,0.2] );
+        // drawTriangle3D( [-0.2,-0.6,0.0,   0.2,-0.6,0.0,   0.2,-0.6,0.2] );
+// -----------------------
+        // FRONT TRAP
+        drawTriangle3D( [0.1,0.0,0.0,   0.3,0.0,0.15,   0.3,0.0,0.25] );    // ABC
+        drawTriangle3D( [0.1,0.0,0.0,   0.3,0.0,0.25,   0.1,0.0,0.40] );    // ACD
+
+        //BACK TRAP
+        drawTriangle3D( [0.1,0.2,0.0,   0.3,0.2,0.15,   0.3,0.2,0.25] );    // EFG
+        drawTriangle3D( [0.1,0.2,0.0,   0.3,0.2,0.25,   0.1,0.2,0.40] );    // EGH
+
+        // TOP TRAP
+        gl.uniform4f(u_FragColor, rgba[0]*0.65, rgba[1]*0.65, rgba[2]*0.65, rgba[3]);
+        drawTriangle3D([0.3,0.0,0.15,   0.3,0.2,0.15,   0.3,0.2,0.25] );    // BFG
+        drawTriangle3D([0.3,0.0,0.15,   0.3,0.2,0.25,   0.3,0.0,0.25] );    // BGC
+
+        // BOTTOM TRAP
+        drawTriangle3D( [0.1,0.0,0.0,   0.1,0.2,0.0,   0.1,0.2,0.4] );    // AEH
+        drawTriangle3D( [0.1,0.0,0.0,   0.1,0.2,0.4,   0.1,0.0,0.4] );    // AHD
+
+        // SIDE 1 TRAP
+        gl.uniform4f(u_FragColor, rgba[0]*0.85, rgba[1]*0.85, rgba[2]*0.85, rgba[3]);
+        drawTriangle3D( [0.1,0.0,0.0,   0.1,0.2,0.00,   0.3,0.2,0.15] );   // AEF
+        drawTriangle3D( [0.1,0.0,0.0,   0.3,0.2,0.15,   0.3,0.0,0.15] );   // AFB
+
+        // SIDE 2 TRAP
+        drawTriangle3D( [0.3,0.0,0.25,   0.3,0.2,0.25,   0.1,0.2,0.4] );   // CGH
+        drawTriangle3D( [0.3,0.0,0.25,   0.1,0.2,0.40,   0.1,0.0,0.4] );   // CHD
     }
 }

@@ -100,6 +100,14 @@ function addActionsUI() {
             console.log('shift click registered');
             g_topBeakAnimation = true;
             g_bottomBeakAnimation = true;
+
+            var quackAudio = document.getElementById('quackEffect');
+            quackAudio.currentTime = 2;
+            quackAudio.play();
+            // if (quackAudio.currentTime = 8) {
+            //     g_topBeakAnimation = false;
+            //     g_bottomBeakAnimation = false;
+            // }
         }
     };
 
@@ -223,7 +231,7 @@ function renderAllShapes() {
     body.matrix.scale(0.6, 0.45, 0.5);
     body.matrix.translate(-0.4, -0.8, 0);
     body.matrix.translate(0, g_bodyHeight, 0);
-    var body2CoordsMat = new Matrix4(body.matrix);
+    // var tailCoordsMat = new Matrix4(body.matrix);
     var headCoordsMat = new Matrix4(body.matrix);
     var frontEyeCoordsMat = new Matrix4(body.matrix);
     var backEyeCoordsMat = new Matrix4(body.matrix);
@@ -233,12 +241,13 @@ function renderAllShapes() {
     var backLegCoordsMat = new Matrix4(body.matrix);
     body.render();
 
-    // var body2 = new Cube();
-    // body2.color = [0, 1, 1, 1];
-    // body2.matrix = body2CoordsMat;
-    // body2.matrix.scale(0.5, 0.7, 1.1);
-    // body2.matrix.translate(-0.05, 0.5, -0.05);
-    // body2.render();
+    // var tail = new Trapezoid();
+    // tail.color = [0.630, 0.465, 0.0126, 1];
+    // tail.matrix = tailCoordsMat;
+    // tail.matrix.scale(1, 0.5, 1);
+    // tail.matrix.translate(-0.4, -0.8, 0);
+    // tail.matrix.rotate(180, 0, 1, 0);
+    // tail.render();
 
     var head = new Cube();
     head.color = [0.0188, 0.470, 0.0414, 1];

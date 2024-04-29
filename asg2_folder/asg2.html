@@ -13,7 +13,12 @@
         <script src="asg2.js"></script>
         <script src="triangle.js"></script>
         <script src="cube.js"></script>
-        <!-- <script src="stats.js/src/Stats.js" type="module"></script> -->
+
+        <div id="back2Hub">
+            <a href="../index.html">back to hub</a>
+        </div>
+
+        <!-- FPS TRACKER HERE -->
         <script>
             // Add the Stats.js code here
             (function(){
@@ -31,49 +36,49 @@
             })();
         </script>
 
-        <a href="../index.html">back to hub</a>
-
         <br>
 
         <div id="canvasContainer">
-            <canvas id="webgl" width="400" height="400">
+            <canvas id="webgl" width="700" height="700">
                 Please use browser supporting "canvas"
             </canvas>
-            <p id="numdot">[DISPLAY]</p>
         </div>
         <!-- -- -- -- -- -- -->
+        <audio id="quackEffect" src = "quack.mp3"></audio>
+
         <div id="interface">
             <!-- CAMERA ANGLE SLIDER -->
             <label>camera angle</label>
-            <input type="range" min="0" max="360" value="5" class="slider" id="angleSlide">
+            <input type="range" min="0" max="360" value="0" class="slider" id="angleSlide">
 
-            <!-- HEAD BOX SLIDER -->
-            <label>head</label>
-            <input type="range" min="-30" max="45" value="0" class="slider" id="headSlide">
-            <!-- EAR 1 SLIDER -->
-            <label>ear 1</label>
-            <input type="range" min="-15" max="15" value="0" class="slider" id="ear1Slide">
-            <!-- EAR 2 SLIDE -->
-            <label>ear 2</label>
-            <input type="range" min="-15" max="15" value="0" class="slider" id="ear2Slide">
-            <!-- HEAD ANIMATION ON/OFF -->
-            <label>toggle head animation</label>
-            <button type="button" id="animationHeadOnButton">ON</button>
-            <button type="button" id="animationHeadOffButton">OFF</button>
-            <!-- MAGENTA ANIMATION ON/OFF -->
-            <!-- <label>toggle magenta animation</label>
-            <button type="button" id="animationMagentaOnButton">ON</button>
-            <button type="button" id="animationMagentaOffButton">OFF</button> -->
-            <!-- EAR1 ANIMATION ON/OFF -->
-            <label>toggle ear1 animation</label>
-            <button type="button" id="ear1OnButton">ON</button>
-            <button type="button" id="ear1OffButton">OFF</button>
-            <!-- EAR2 ANIMATION ON/OFF -->
-            <label>toggle ear2 animation</label>
-            <button type="button" id="ear2OnButton">ON</button>
-            <button type="button" id="ear2OffButton">OFF</button>
-
+            <!-- ANIMATION TOGGLE --> <br>
+            <label>ANIMATION TOGGLE</label>
+            <button type="button" id="ANIMonButton">ON</button>
+            <button type="button" id="ANIMoffButton">OFF</button> 
             
+            <!-- HEAD LR SLIDER --> <br>
+            <!-- <label>HEAD LEFT/RIGHT</label>
+            <input type="range" min="-30" max="30" value="0" class="slider" id="headSlide"> -->
+
+            <label>BEAK STOP</label>
+            <button type="button" id="BEAKoffButton">OFF</button> 
+
+            <!-- TOP BEAK SLIDER -->
+            <label>TOP BEAK</label>
+            <input type="range" min="0" max="15" value="0" class="slider" id="topBeakSlide">
+
+            <!-- BOTTOM BEAK SLIDER -->
+            <label>BOTTOM BEAK</label>
+            <input type="range" min="-10" max="0" value="0" class="slider" id="bottomBeakSlide">
+
+            <!-- FRONT LEG SLIDER --> <br>
+            <label>FRONT LEG</label>
+            <input type="range" min="-15" max="15" value="0" class="slider" id="frontLegSlide">
+
+            <!-- BACK LEG SLIDER -->
+            <label>BACK LEG</label>
+            <input type="range" min="-15" max="15" value="0" class="slider" id="backLegSlide">
+
         </div>
     </body>
 </html>
