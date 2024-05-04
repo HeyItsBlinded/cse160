@@ -99,6 +99,12 @@ function connectVariablesToGLSL() {
     return;
     }
 
+    u_whichTexture = gl.getUniformLocation(gl.program, 'u_whichTexture');
+    if (!u_whichTexture) {
+        console.log('failed to get storage location of u_whichTexture');
+        return false;
+    }
+
     u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
     if (!u_ModelMatrix) {
         console.log('failed to get the storage location of u_ModelMatrix');
@@ -111,21 +117,21 @@ function connectVariablesToGLSL() {
         return;
     }
 
-    // u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
-    // if (!u_ViewMatrix) {
-    //     console.log('failed to get storage location of u_ViewMatrix');
-    //     return;
-    // }
+    u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
+    if (!u_ViewMatrix) {
+        console.log('failed to get storage location of u_ViewMatrix');
+        return;
+    }
+
+    u_ProjectionMatrix = gl.getUniformLocation(gl.program, 'u_ProjectionMatrix');
+    if (!u_ProjectionMatrix) {
+        console.log('failed to get storage location of u_ProjectionMatrix');
+        return;
+    }
 
     var u_Sampler0 = gl.getUniformLocation(gl.program, 'u_Sampler0');
     if (!u_Sampler0) {
         console.log('failed to get storage location of u_Sampler0');
-        return false;
-    }
-
-    u_whichTexture = gl.getUniformLocation(gl.program, 'u_whichTexture');
-    if (!u_whichTexture) {
-        console.log('failed to get storage location of u_whichTexture');
         return false;
     }
 
