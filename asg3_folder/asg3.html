@@ -1,8 +1,63 @@
 <!DOCTYPE html>
 <html>
-    <head>asg3 | virtual world</head>
-    <body>
+    <head>
+        <meta charset="utf-8" />
+        <title>asg3 - virtual world</title>
+        <!-- <link rel="stylesheet" href="asg2_style.css"> -->
+    </head>
+    <body onload="main()">
+        <script src="../lib/webgl-utils.js"></script>
+        <script src="../lib/webgl-debug.js"></script> 
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="../lib/cuon-matrix-cse160.js"></script>
         <script src="asg3.js"></script>
-        <h1>header</h1>
+        <script src="triangle.js"></script>
+        <script src="cube.js"></script>
+
+        <div id="back2Hub">
+            <a href="../index.html">back to hub</a>
+            <!-- <p>
+                Note to the grader: Hi again. Just so there's no confusion, this duck has 10
+                elements (note the PAIRS of eyes and legs). The top and bottom beak are both 
+                2nd-level joints, and are activated with shift-click. (The beak animation can 
+                be stopped with the 'BEAK STOP' button.) Both feet are non-cube primitives and 
+                third-level joints. To get a better look at them, max out the front leg and 
+                back leg sliders.
+            </p> -->
+        </div>
+
+        <!-- FPS TRACKER HERE -->
+        <!-- <script>
+            // FPS TRACKER CODE - https://github.com/mrdoob/stats.js/
+            (function(){
+                var script = document.createElement('script');
+                script.onload = function(){
+                    var stats = new Stats();
+                    document.body.appendChild(stats.dom);
+                    requestAnimationFrame(function loop(){
+                        stats.update();
+                        requestAnimationFrame(loop);
+                    });
+                };
+                script.src = 'https://mrdoob.github.io/stats.js/build/stats.min.js';
+                document.head.appendChild(script);
+            })();
+        </script> -->
+
+        <br>
+
+        <div id="canvasContainer">
+            <canvas id="webgl" width="700" height="700">
+                Please use browser supporting "canvas"
+            </canvas>
+        </div>
+        <!-- -- -- -- -- -- -->
+
+        <div id="interface">
+            <!-- CAMERA ANGLE SLIDER -->
+            <label>CAMERA VIEW</label>
+            <input type="range" min="0" max="360" value="0" class="slider" id="angleSlide">
+        </div>
+
     </body>
 </html>
