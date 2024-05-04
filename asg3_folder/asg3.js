@@ -20,10 +20,17 @@ var FSHADER_SOURCE = `
     varying vec2 v_UV;
     uniform vec4 u_FragColor;
     uniform sampler2D u_Sampler0;
+    uniform int u_whichTexture;
     void main() {
-        gl_FragColor = u_FragColor;
-        gl_FragColor = vec4(v_UV, 1.0, 1.0);
-        gl_FragColor = texture2D(u_Sampler0, v_UV);
+        if (u_whichTexture == -2) {
+            gl_FragColor = u_FragColor;
+        } else if (u_whichTexture == -1) {
+            gl_FragColor = vec4(v_UV, 1.0, 1.0);
+        } else if (u_whichTexture == 0) {
+            gl_FragColor = texture2D(u_Sampler0, v_UV);
+        } else {
+            gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
+        }
     }`
 
 // global variables
@@ -39,6 +46,7 @@ let u_ProjectionMatrix;
 let u_ViewMatrix;
 let u_GlobalRotateMatrix;
 let u_Sampler0;
+let u_whichTexture;
 
 // constants
 const POINT = 0;
@@ -112,6 +120,12 @@ function connectVariablesToGLSL() {
     var u_Sampler0 = gl.getUniformLocation(gl.program, 'u_Sampler0');
     if (!u_Sampler0) {
         console.log('failed to get storage location of u_Sampler0');
+        return false;
+    }
+
+    u_whichTexture = gl.getUniformLocation(gl.program, 'u_whichTexture');
+    if (!u_whichTexture) {
+        console.log('failed to get storage location of u_whichTexture');
         return false;
     }
 
@@ -256,7 +270,15 @@ function updateAnimationAngles() {
 
 function renderAllShapes() {
     // check time at start of function - COMMENTED OUT as of 2.3
-    // var startTime = performance.now();
+    var startTime = performance.now();
+
+    // pass the proj matrix
+    var projMat = new Matrix4();
+    gl.uniformMatrix4fv(u_ProjectionMatrix, false, projMat.elements);
+
+    // pass the view matrix
+    var viewMat = new Matrix4();
+    gl.uniformMatrix4fv(u_ViewMatrix, false, viewMat.elements);
 
     // pass matrix to u_ModelMatrix attribute
     var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
@@ -264,13 +286,14 @@ function renderAllShapes() {
 
     // prevents flicker and disappearing shapes with DEPTH_TEST - solved with chatGPT
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-    // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
+
+// ----- CUBES ---------------
 
     // draw body cube
     var body = new Cube();
     body.color = [1.0, 0.0, 0.0, 1.0];
+    body.textureNum = 0;
     body.matrix.translate(-0.25, -0.75, 0.0);
     // body.matrix.rotate(-5,1,0,0);
     body.matrix.scale(0.5, 0.3, 0.5);
@@ -291,6 +314,7 @@ function renderAllShapes() {
     // test box
     var magenta = new Cube();
     magenta.color = [1, 0, 1, 1];
+    magenta.textureNum = 0;
     magenta.matrix = yellowCoordsMat;
     magenta.matrix.translate(0, 0.7, 0);
     magenta.matrix.rotate(-g_magentaAngle,0,0,1);
