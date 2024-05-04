@@ -100,11 +100,11 @@ function connectVariablesToGLSL() {
         return;
     }
 
-    u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
-    if (!u_ViewMatrix) {
-        console.log('failed to get storage location of u_ViewMatrix');
-        return;
-    }
+    // u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
+    // if (!u_ViewMatrix) {
+    //     console.log('failed to get storage location of u_ViewMatrix');
+    //     return;
+    // }
 
     // set initial value for this matrix to identity
     var identityM = new Matrix4();
@@ -220,7 +220,7 @@ function renderAllShapes() {
     // var startTime = performance.now();
 
     // pass matrix to u_ModelMatrix attribute
-    var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
+    var globalRotMat = new Matrix4().rotate(g_globalAngle, 1, 0, 0);
     gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 
     // prevents flicker and disappearing shapes with DEPTH_TEST - solved with chatGPT
@@ -233,7 +233,7 @@ function renderAllShapes() {
     var body = new Cube();
     body.color = [1.0, 0.0, 0.0, 1.0];
     body.matrix.translate(-0.25, -0.75, 0.0);
-    body.matrix.rotate(-5,1,0,0);
+    // body.matrix.rotate(-5,1,0,0);
     body.matrix.scale(0.5, 0.3, 0.5);
     body.render();
 
@@ -241,7 +241,7 @@ function renderAllShapes() {
     var yellow = new Cube();
     yellow.color = [1, 1, 0, 1];
     yellow.matrix.setTranslate(0.0, -0.5, 0.0);
-    yellow.matrix.rotate(-5, 1, 0, 0);
+    // yellow.matrix.rotate(-5, 1, 0, 0);
     yellow.matrix.rotate(-g_yellowAngle, 0, 0, 1);
 
     var yellowCoordsMat = new Matrix4(yellow.matrix);
