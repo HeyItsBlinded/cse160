@@ -9,8 +9,7 @@ var VSHADER_SOURCE = `
     uniform mat4 u_ViewMatrix;
     uniform mat4 u_ProjectionMatrix;
     void main() {
-        // gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
-        gl_Position = u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
+        gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
         v_UV = a_UV;
     }`
 
@@ -274,16 +273,26 @@ function updateAnimationAngles() {
     }
 }
 
+var g_eye = [0, 0, 3];
+var g_at = [0, 0, -100];
+var g_up = [0, 1, 0];
+
 function renderAllShapes() {
     // check time at start of function - COMMENTED OUT as of 2.3
     var startTime = performance.now();
 
     // pass the proj matrix
     var projMat = new Matrix4();
+    projMat.setPerspective(50, 1 * canvas.width/canvas.height, 0.1, 100);
     gl.uniformMatrix4fv(u_ProjectionMatrix, false, projMat.elements);
 
     // pass the view matrix
-    var viewMat = new Matrix4();
+    var viewMat = new Matrix4();    // GUIDE: (g_eye, g_up, g_at)
+    viewMat.setLookAt(
+        g_eye[0],g_eye[1],g_eye[2],   
+        g_up[0], g_up[1], g_up[2],
+        g_at[0], g_at[2], g_at[2] 
+    );
     gl.uniformMatrix4fv(u_ViewMatrix, false, viewMat.elements);
 
     // pass matrix to u_ModelMatrix attribute
