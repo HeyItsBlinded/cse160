@@ -19,9 +19,11 @@ var FSHADER_SOURCE = `
     precision mediump float;
     varying vec2 v_UV;
     uniform vec4 u_FragColor;
+    uniform sampler2D u_Sampler0;
     void main() {
         gl_FragColor = u_FragColor;
         gl_FragColor = vec4(v_UV, 1.0, 1.0);
+        gl_FragColor = texture2D(u_Sampler0, v_UV);
     }`
 
 // global variables
@@ -36,6 +38,7 @@ let u_ModelMatrix;
 let u_ProjectionMatrix;
 let u_ViewMatrix;
 let u_GlobalRotateMatrix;
+let u_Sampler0;
 
 // constants
 const POINT = 0;
@@ -106,6 +109,12 @@ function connectVariablesToGLSL() {
     //     return;
     // }
 
+    var u_Sampler0 = gl.getUniformLocation(gl.program, 'u_Sampler0');
+    if (!u_Sampler0) {
+        console.log('failed to get storage location of u_Sampler0');
+        return false;
+    }
+
     // set initial value for this matrix to identity
     var identityM = new Matrix4();
     gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
@@ -165,6 +174,35 @@ function convertCoordinatesEventToGL(ev) {
     return ([x, y]);
 }
 
+function initTextures() {
+    var image = new Image();
+    if (!image) {
+        console.log('failed to create image object');
+        return false;
+    }
+    image.onload = function() { sendImageToTEXTURE0(image); };
+    image.src = 'sky.jpg';
+
+    // MORE TEXTURE LOADING HERE
+    return true;
+}
+
+function sendImageToTEXTURE0(image) {
+    var texture = gl.createTexture();
+    if (!texture) {
+        console.log('failed to create the texture object');
+        return false;
+    }
+
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+    gl.uniform1i(u_Sampler0, 0);
+    console.log('finished loadTexture');
+}
+
 function sendTextToHTML(text, htmlID) {
     var element = document.getElementById(htmlID);
     if (!element) {
@@ -180,8 +218,9 @@ function main() {
     // set up actions for html ui elements
     addActionsUI();
     // Register function (event handler) to be called on a mouse press
-    canvas.onmousedown = click;
-    canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev) } };
+    // canvas.onmousedown = click;
+    // canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev) } };
+    initTextures();
 
     // Specify the color for clearing <canvas>
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -220,7 +259,7 @@ function renderAllShapes() {
     // var startTime = performance.now();
 
     // pass matrix to u_ModelMatrix attribute
-    var globalRotMat = new Matrix4().rotate(g_globalAngle, 1, 0, 0);
+    var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
     gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 
     // prevents flicker and disappearing shapes with DEPTH_TEST - solved with chatGPT
