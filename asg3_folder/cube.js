@@ -19,9 +19,11 @@ class Cube {
         gl.uniformMatrix4fv(u_ModelMatrix, false, this.matrix.elements);
 
         // front cube
-        drawTriangle3DUV( [0,0,0,   1,1,0,   1,0,0], [1,0,  0,1,  1,1] );
+        drawTriangle3DUV( [0,0,0,   1,1,0,   1,0,0], [0,0,  1,1,  1,0] );
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0,0,  0,1,  1,1] );
+
         // drawTriangle3D( [0.0,0.0,0.0,   1.0,1.0,0.0,   1.0,0.0,0.0] );
-        drawTriangle3D( [0.0,0.0,0.0,   0.0,1.0,0.0,   1.0,1.0,0.0] );
+        // drawTriangle3D( [0.0,0.0,0.0,   0.0,1.0,0.0,   1.0,1.0,0.0] );
         // back cube
         drawTriangle3D([0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0]);
         drawTriangle3D([0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0]);

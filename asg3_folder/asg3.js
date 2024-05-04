@@ -9,7 +9,8 @@ var VSHADER_SOURCE = `
     uniform mat4 u_ViewMatrix;
     uniform mat4 u_ProjectionMatrix;
     void main() {
-        gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
+        // gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
+        gl_Position = u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
         v_UV = a_UV;
     }`
 
@@ -20,7 +21,7 @@ var FSHADER_SOURCE = `
     uniform vec4 u_FragColor;
     void main() {
         gl_FragColor = u_FragColor;
-        // gl_FragColor = vec4(v_UV, 1.0, 1.0);
+        gl_FragColor = vec4(v_UV, 1.0, 1.0);
     }`
 
 // global variables
@@ -54,53 +55,51 @@ let g_magentaAnimation = false;
 
 
 function setupWebGL() {
-    // Retrieve <canvas> element
     canvas = document.getElementById('webgl');
-    // Get the rendering context for WebGL
     gl = canvas.getContext("webgl", { preserveDrawingBuffer: true});
     if (!gl) {
         console.log('Failed to get the rendering context for WebGL');
-    return;
+        return;
     }
     gl.enable(gl.DEPTH_TEST);
 }
 
 function connectVariablesToGLSL() {
-    // Initialize shaders
     if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
-        console.log('Failed to intialize shaders.');
+        console.log('Failed to intialize shaders');
         return;
     }
-    // Get the storage location of a_Position
+
     a_Position = gl.getAttribLocation(gl.program, 'a_Position');
     if (a_Position < 0) {
         console.log('Failed to get the storage location of a_Position');
-    return;
-    }
-    // get the storage location of a_UV
-    a_UV = gl.getAttribLocation(gl.program, 'a_UV');
-    if (a_UV < 0) {
-        console.log('failed to get the storage location of a_UV');
         return;
     }
-    // Get the storage location of u_FragColor
+
+    a_UV = gl.getAttribLocation(gl.program, 'a_UV');
+    if (!a_UV < 0) {
+        console.log('failed to get storage location of a_UV');
+        return;
+    }
+
     u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
     if (!u_FragColor) {
         console.log('Failed to get the storage location of u_FragColor');
     return;
     }
-    // get storage location of u_ModelMatrix
+
     u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
     if (!u_ModelMatrix) {
         console.log('failed to get the storage location of u_ModelMatrix');
         return;
     }
-    // get storage location of u_GlobalRotateMatrix
+
     u_GlobalRotateMatrix = gl.getUniformLocation(gl.program, 'u_GlobalRotateMatrix');
     if (!u_GlobalRotateMatrix) {
         console.log('failed to get storage location of u_GlobalRotateMatrix');
         return;
     }
+
     u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
     if (!u_ViewMatrix) {
         console.log('failed to get storage location of u_ViewMatrix');
@@ -188,7 +187,7 @@ function main() {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     // Clear <canvas>
     // gl.clear(gl.COLOR_BUFFER_BIT);
-    renderAllShapes();
+    // renderAllShapes();
     requestAnimationFrame(tick);
 }
 
@@ -196,7 +195,7 @@ var g_startTime = performance.now() / 1000.0;
 var g_seconds = performance.now() / 1000.0 - g_startTime;
 
 function tick() {
-    // g_seconds = performance.now() / 1000.0 - g_startTime;
+    g_seconds = performance.now() / 1000.0 - g_startTime;
     // console.log(g_seconds); // FOR DEBUG
     // update animation angles
     updateAnimationAngles();
