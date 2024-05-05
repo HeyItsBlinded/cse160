@@ -239,6 +239,7 @@ function main() {
     // Register function (event handler) to be called on a mouse press
     // canvas.onmousedown = click;
     // canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev) } };
+    document.onkeydown = keydown;
     initTextures();
 
     // Specify the color for clearing <canvas>
@@ -273,9 +274,20 @@ function updateAnimationAngles() {
     }
 }
 
-var g_eye = [0, 0, 3];
-var g_at = [0, 0, -100];
-var g_up = [0, 1, 0];
+function keydown(ev) {
+    if (ev.keyCode == 39) {    // right arrow ->
+        g_eye[0] += 0.2;
+    } else if (ev.keyCode == 37) {  // left arrow <-
+        g_eye[0] -= 0.2;
+    }
+    renderAllShapes();
+    console.log(ev.keyCode);
+}
+
+// FOR - view
+var g_eye = [0, 0, 4];
+var g_at =  [0, 0, 100];
+var g_up =  [0, 1, 0];
 
 function renderAllShapes() {
     // check time at start of function - COMMENTED OUT as of 2.3
