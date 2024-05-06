@@ -15,27 +15,7 @@ var VSHADER_SOURCE = `
     }`
 
 // Fragment shader program
-// var FSHADER_SOURCE = `
-//     precision mediump float;
-//     varying vec2 v_UV;
-//     uniform vec4 u_FragColor;
-//     uniform sampler2D u_Sampler0;
-//     uniform sampler2D u_Sampler1;
-//     uniform int u_whichTexture;
-//     void main() {
-//         if (u_whichTexture == -2) {
-//             gl_FragColor = u_FragColor;
-//         } else if (u_whichTexture == -1) {
-//             gl_FragColor = vec4(v_UV, 1.0, 1.0);
-//         } else if (u_whichTexture == 0) {
-//             gl_FragColor = texture2D(u_Sampler0, v_UV);
-//         } if  (u_whichTexture == 1) {
-//             gl_FragColor = texture2D(u_Sampler1, v_UV);
-//         } else {
-//             gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
-//         }
-//     }`
-    var FSHADER_SOURCE = `
+var FSHADER_SOURCE = `
     precision mediump float;
     varying vec2 v_UV;
     uniform vec4 u_FragColor;
@@ -43,22 +23,17 @@ var VSHADER_SOURCE = `
     uniform sampler2D u_Sampler1;
     uniform int u_whichTexture;
     void main() {
-  
-      if (u_whichTexture == -2) {
-        gl_FragColor = u_FragColor;            // Use color
-      }
-      else if (u_whichTexture == -1) {
-        gl_FragColor = vec4(v_UV, 1.0, 1.0);  // Use UV debug color
-      }
-      else if (u_whichTexture == 0) {
-        gl_FragColor = texture2D(u_Sampler0, v_UV);  // Use texture0
-      }
-      else if (u_whichTexture == 1) {
-        gl_FragColor = texture2D(u_Sampler1, v_UV); // Use texture1
-      }
-      else {
-        gl_FragColor = vec4(1, .2, .2, 1);      // Error, put red
-      }
+        if (u_whichTexture == -2) {
+            gl_FragColor = u_FragColor;
+        } else if (u_whichTexture == -1) {
+            gl_FragColor = vec4(v_UV, 1.0, 1.0);
+        } else if (u_whichTexture == 0) {
+            gl_FragColor = texture2D(u_Sampler0, v_UV);
+        } else if (u_whichTexture == 1) {
+            gl_FragColor = texture2D(u_Sampler1, v_UV);
+        } else {
+            gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
+        }
     }`
 
 // global variables
@@ -264,119 +239,54 @@ function updateAnimationAngles() {
 }
 
 // TEXTURE EDITING HERE
-// function initTextures() {
-//     // ----------
-//     var skyTEXTURE = new Image();
-//     if (!skyTEXTURE) {
-//         console.log('failed to create skyTEXTURE object');
-//         return false;
-//     }
-//     skyTEXTURE.onload = function() { sendImageToTEXTURE(skyTEXTURE, 0); };
-//     skyTEXTURE.src = 'sky.png';
-//     // ----------
-//     var groundTEXTURE = new Image();
-//     if (!groundTEXTURE) {
-//         console.log('failed to create groundTEXTURE object');
-//         return false;
-//     }
-//     groundTEXTURE.onload = function() { sendImageToTEXTURE(groundTEXTURE, 1); };
-//     groundTEXTURE.src = 'ground.png';
-//     // ----------
-
-//     // MORE TEXTURE LOADING HERE
-//     return true;
-// }
 function initTextures() {
+    // ----------
+    var skyTEXTURE = new Image();
+    if (!skyTEXTURE) {
+        console.log('failed to create skyTEXTURE object');
+        return false;
+    }
+    skyTEXTURE.onload = function() { sendImageToTEXTURE(skyTEXTURE, 0); };
+    skyTEXTURE.src = 'sky.png';
+    // ----------
+    var groundTEXTURE = new Image();
+    if (!groundTEXTURE) {
+        console.log('failed to create groundTEXTURE object');
+        return false;
+    }
+    groundTEXTURE.onload = function() { sendImageToTEXTURE(groundTEXTURE, 1); };
+    groundTEXTURE.src = 'ground.png';
+    // ----------
 
-    // Create image object
-    // Dirt
-    var imageDirt = new Image();
-    if (!imageDirt) {
-      console.log('Failed to create the image object');
-      return false;
-    }
-    // Register the event handler to be called on loading an image
-    imageDirt.onload = function() { sendImageToTEXTURE(imageDirt, 0);}
-    imageDirt.src = 'ground.png';
-  
-    // Sky
-    var imageSky = new Image();
-    if (!imageSky) {
-      console.log('Failed to create the image object');
-      return false;
-    }
-  
-    imageSky.onload = function() { sendImageToTEXTURE(imageSky, 1);}
-    imageSky.src = 'sky.png';
+    // MORE TEXTURE LOADING HERE
     return true;
-  
-  
-  }
+}
 
-// function sendImageToTEXTURE(image, num) {
-//     var texture = gl.createTexture();
-//     if (!texture) {
-//         console.log('failed to create the texture object');
-//         return false;
-//     }
-
-//     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-
-//     // gl.activeTexture(gl.TEXTURE0);
-//     if (num == 0) {
-//         gl.activeTexture(gl.TEXTURE0);
-//     } else if (num == 1) {
-//         gl.activeTexture(gl.TEXTURE1);
-//     }
-
-//     gl.bindTexture(gl.TEXTURE_2D, texture);
-//     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-//     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
-
-//     gl.uniform1i(u_Sampler0, 0);
-//     gl.uniform1i(u_Sampler1, 1);
-//     console.log('finished loadTexture');
-// }
-
-// NEW!
 function sendImageToTEXTURE(image, num) {
-
-    // Create texture object
-    var texture = gl.createTexture(); 
+    var texture = gl.createTexture();
     if (!texture) {
-      console.log('Failed to create the texture object');
-      return false;
+        console.log('failed to create the texture object');
+        return false;
     }
-  
-    // flip image's y axis
+
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-  
-    // enable texture unit0
-    //gl.activeTexture(gl.TEXTURE0);
-  
+
+    // gl.activeTexture(gl.TEXTURE0);
     if (num == 0) {
-      gl.activeTexture(gl.TEXTURE0);
+        gl.activeTexture(gl.TEXTURE0);
+    } else if (num == 1) {
+        gl.activeTexture(gl.TEXTURE1);
     }
-    else if (num == 1) {
-      gl.activeTexture(gl.TEXTURE1);
-    }
-    
-    // bind texture object to target
+
     gl.bindTexture(gl.TEXTURE_2D, texture);
-  
-    // set texture parameters
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  
-    // set texture image
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
-  
-    // set texture unit 0 to sampler
+
     gl.uniform1i(u_Sampler0, 0);
     gl.uniform1i(u_Sampler1, 1);
-  
     console.log('finished loadTexture');
-  
-  }
+}
+
 
 function renderAllShapes() {
 
