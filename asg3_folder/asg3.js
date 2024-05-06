@@ -58,7 +58,7 @@ let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegment = 5;
-let g_globalAngle = -90;
+let g_globalAngle = 90;
 let g_yellowAngle = 0;  // ADDED IN 2.6
 let g_magentaAngle = 0; // ADDED IN 2.7
 let g_yellowAnimation = false;
@@ -152,16 +152,17 @@ function addActionsUI() {
 
     // CAMERA ANGLE SLIDER
     document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
-    // YELLOW JOINT SLIDER
-    document.getElementById('yellowSlide').addEventListener('mousemove', function() { g_yellowAngle = this.value; renderAllShapes(); });
-    // MAGENTA JOINT SLIDER
-    document.getElementById('magentaSlide').addEventListener('mousemove', function() { g_magentaAngle = this.value; renderAllShapes(); });
-    // TOGGLE YELLOW ANIMATION BUTTON
-    document.getElementById('animationYellowOffButton').onclick = function() {g_yellowAnimation = false;};
-    document.getElementById('animationYellowOnButton').onclick = function() {g_yellowAnimation = true;};
-    // TOGGLE MAGENTA ANIMATION BUTTON
-    document.getElementById('animationMagentaOffButton').onclick = function() {g_magentaAnimation = false;};
-    document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};    
+
+    // // YELLOW JOINT SLIDER
+    // document.getElementById('yellowSlide').addEventListener('mousemove', function() { g_yellowAngle = this.value; renderAllShapes(); });
+    // // MAGENTA JOINT SLIDER
+    // document.getElementById('magentaSlide').addEventListener('mousemove', function() { g_magentaAngle = this.value; renderAllShapes(); });
+    // // TOGGLE YELLOW ANIMATION BUTTON
+    // document.getElementById('animationYellowOffButton').onclick = function() {g_yellowAnimation = false;};
+    // document.getElementById('animationYellowOnButton').onclick = function() {g_yellowAnimation = true;};
+    // // TOGGLE MAGENTA ANIMATION BUTTON
+    // document.getElementById('animationMagentaOffButton').onclick = function() {g_magentaAnimation = false;};
+    // document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};    
 }
 
 function click(ev) {
@@ -201,7 +202,7 @@ function initTextures() {
         return false;
     }
     image.onload = function() { sendImageToTEXTURE0(image); };
-    image.src = 'sky.jpg';
+    image.src = 'result.jpeg';
 
     // MORE TEXTURE LOADING HERE
     return true;
@@ -298,37 +299,43 @@ function renderAllShapes() {
 
 // ----- CUBES ---------------
 
-    // draw body cube
-    var body = new Cube();
-    body.color = [1.0, 0.0, 0.0, 1.0];
-    body.textureNum = 0;
-    body.matrix.translate(-0.25, -0.75, 0.0);
-    // body.matrix.rotate(-5,1,0,0);
-    body.matrix.scale(0.5, 0.3, 0.5);
-    body.render();
+    // SKY
+    var sky = new Cube();
+    sky.color = [1.0, 0.0, 0.0, 1.0];
+    sky.textureNum = 0;
+    sky.render();
 
-    // draw left arm
-    var yellow = new Cube();
-    yellow.color = [1, 1, 0, 1];
-    yellow.matrix.setTranslate(0.0, -0.5, 0.0);
-    // yellow.matrix.rotate(-5, 1, 0, 0);
-    yellow.matrix.rotate(-g_yellowAngle, 0, 0, 1);
+    // // draw body cube
+    // var body = new Cube();
+    // body.color = [1.0, 0.0, 0.0, 1.0];
+    // body.textureNum = 0;
+    // body.matrix.translate(-0.25, -0.75, 0.0);
+    // // body.matrix.rotate(-5,1,0,0);
+    // body.matrix.scale(0.5, 0.3, 0.5);
+    // body.render();
 
-    var yellowCoordsMat = new Matrix4(yellow.matrix);
-    yellow.matrix.scale(0.25, 0.7, 0.5);
-    yellow.matrix.translate(-0.5,0,0);
-    yellow.render();
+    // // draw left arm
+    // var yellow = new Cube();
+    // yellow.color = [1, 1, 0, 1];
+    // yellow.matrix.setTranslate(0.0, -0.5, 0.0);
+    // // yellow.matrix.rotate(-5, 1, 0, 0);
+    // yellow.matrix.rotate(-g_yellowAngle, 0, 0, 1);
 
-    // test box
-    var magenta = new Cube();
-    magenta.color = [1, 0, 1, 1];
-    magenta.textureNum = 0;
-    magenta.matrix = yellowCoordsMat;
-    magenta.matrix.translate(0, 0.7, 0);
-    magenta.matrix.rotate(-g_magentaAngle,0,0,1);
-    magenta.matrix.scale(0.3,0.3,0.3);
-    magenta.matrix.translate(-0.5,0,-0.001);
-    magenta.render();
+    // var yellowCoordsMat = new Matrix4(yellow.matrix);
+    // yellow.matrix.scale(0.25, 0.7, 0.5);
+    // yellow.matrix.translate(-0.5,0,0);
+    // yellow.render();
+
+    // // test box
+    // var magenta = new Cube();
+    // magenta.color = [1, 0, 1, 1];
+    // magenta.textureNum = 0;
+    // magenta.matrix = yellowCoordsMat;
+    // magenta.matrix.translate(0, 0.7, 0);
+    // magenta.matrix.rotate(-g_magentaAngle,0,0,1);
+    // magenta.matrix.scale(0.3,0.3,0.3);
+    // magenta.matrix.translate(-0.5,0,-0.001);
+    // magenta.render();
 
     // check time at end of function. show on page - COMMENTED OUT as of 2.1
     // var dur = performance.now() - startTime;

@@ -21,41 +21,28 @@ class Cube {
         // pass the matrix to u_ModelMatrix attribute
         gl.uniformMatrix4fv(u_ModelMatrix, false, this.matrix.elements);
 
-        // front cube
+        // front cube - LGTM
         drawTriangle3DUV( [0,0,0,   1,1,0,   1,0,0], [0,0,  1,1,  1,0] );
         drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0,0,  0,1,  1,1] );
-        // drawTriangle3D( [0.0,0.0,0.0,   1.0,1.0,0.0,   1.0,0.0,0.0] );
-        // drawTriangle3D( [0.0,0.0,0.0,   0.0,1.0,0.0,   1.0,1.0,0.0] );
 
-        // back cube
+        // back cube - LGTM
         drawTriangle3DUV( [0,0,1,  1,1,1,  1,0,1], [0,0,  1,1,  1,0] );
         drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0,0,  0,1,  1,1] );
-        // drawTriangle3D([0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0]);
-        // drawTriangle3D([0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0]);
 
         // bottom cube
         drawTriangle3DUV( [0,0,0,   1,0,0,   1,0,1], [0,0,  1,1,  1,0] );
         drawTriangle3DUV( [0,0,0,   1,0,1,   0,0,1], [0,0,  1,0,  0,1] );
-        // drawTriangle3D([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0]);
-        // drawTriangle3D([0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0]);
 
-        // right cube
-        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0,1,  1,1,  1,0] );
-        drawTriangle3DUV( [1,0,0,   1,1,1,   1,0,1], [0,1,  1,0,  0,0] );
-        // drawTriangle3D([1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0]);
-        // drawTriangle3D([1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0]);
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0,0,  0,1,  1,1] );
+        drawTriangle3DUV( [1,0,0,   1,1,1,   1,0,1], [0,0,  1,1,  1,0] );
 
-        // left cube
-        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0,1,  1,1,  1,0] );
-        drawTriangle3DUV( [0,0,0,   0,1,1,   0,0,1], [0,1,  1,0,  0,0] );
-        // drawTriangle3D([0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0]);
-        // drawTriangle3D([0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0]);
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0,0,  0,1,  1,1] );
+        drawTriangle3DUV( [0,0,0,   0,1,1,   0,0,1], [0,0,  1,1,  1,0] );
 
         // top of cube
         drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0,1,  1,1,  1,0] );
         drawTriangle3DUV( [0,1,0,   1,1,1,   1,1,0], [0,1,  1,0,  0,0] );
-        // drawTriangle3D( [0,1,0,   0,1,1,   1,1,1] );
-        // drawTriangle3D( [0,1,0,   1,1,1,   1,1,0] );
-        // add other sides of cube here
     }
 }
