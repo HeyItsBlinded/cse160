@@ -58,7 +58,7 @@ let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegment = 5;
-let g_globalAngle = 90;
+let g_globalAngle = 0;
 let g_yellowAngle = 0;  // ADDED IN 2.6
 let g_magentaAngle = 0; // ADDED IN 2.7
 let g_yellowAnimation = false;
@@ -195,6 +195,7 @@ function convertCoordinatesEventToGL(ev) {
     return ([x, y]);
 }
 
+// TEXTURE LOADING
 function initTextures() {
     var image = new Image();
     if (!image) {
@@ -202,8 +203,13 @@ function initTextures() {
         return false;
     }
     image.onload = function() { sendImageToTEXTURE0(image); };
-    image.src = 'result.jpeg';
+    image.src = 'bullshit.png';
 
+    var groundTEXTURE = new Image();
+    if (!groundTEXTURE) {
+        console.log('failed to create groundTEXTURE object');
+        return false;
+    }
     // MORE TEXTURE LOADING HERE
     return true;
 }
@@ -290,7 +296,7 @@ function renderAllShapes() {
     gl.uniformMatrix4fv(u_ViewMatrix, false, viewMat.elements);
 
     // pass matrix to u_ModelMatrix attribute
-    var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
+    var globalRotMat = new Matrix4().rotate(g_globalAngle, 1, 0, 0);
     gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 
     // prevents flicker and disappearing shapes with DEPTH_TEST - solved with chatGPT
@@ -303,7 +309,17 @@ function renderAllShapes() {
     var sky = new Cube();
     sky.color = [1.0, 0.0, 0.0, 1.0];
     sky.textureNum = 0;
+    var groundCoordsMat = sky.matrix;
     sky.render();
+
+    // GROUND
+    var ground = new Cube();
+    ground.color = [1.0, 0.0, 0.0, 1.0];
+    ground.textureNum = -2;
+    ground.matrix = groundCoordsMat;
+    ground.matrix.translate(-1,-0.05,0);
+    ground.matrix.scale(1.5,0.1,1.5);
+    ground.render();
 
     // // draw body cube
     // var body = new Cube();
