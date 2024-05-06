@@ -312,15 +312,23 @@ function renderAllShapes() {
     // SKY
     var sky = new Cube();
     sky.color = [1.0, 0.0, 0.0, 1.0];
-    sky.textureNum = 1;
+    sky.textureNum = 0;
     sky.render();
 
     // GROUND
     var ground = new Cube();
     ground.color = [1.0, 0.0, 0.0, 1.0];
-    ground.textureNum = 0;
+    ground.textureNum = 1;
     ground.matrix.translate(-0.25,-0.05,-0.25);
     ground.matrix.scale(1.5,0.1,1.5);
     ground.render();
 
+    // DUMMY SHAPE
+    var temp = new Cube();
+    temp.color = [1, 0, 0, 1];
+    temp.textureNum = -2;
+    temp.matrix.translate(-0.3, -0.01, 0.2);
+    temp.matrix.scale(0.5, 0.5, 0.5);
+    temp.render();
+    // console.log('temp rendered');
 }
