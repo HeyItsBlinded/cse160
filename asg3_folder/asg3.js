@@ -293,7 +293,7 @@ function initTextures() {
         return false;
     }
     skyTEXTURE.onload = function() { sendImageToTEXTURE(skyTEXTURE, 0); };
-    skyTEXTURE.src = 'foundation.png';
+    skyTEXTURE.src = 'textures/foundation.png';
     // ----------
     var groundTEXTURE = new Image();
     if (!groundTEXTURE) {
@@ -301,15 +301,15 @@ function initTextures() {
         return false;
     }
     groundTEXTURE.onload = function() { sendImageToTEXTURE(groundTEXTURE, 1); };
-    groundTEXTURE.src = 'carpet.png';
+    groundTEXTURE.src = 'textures/carpet.png';
     // ----------
-    var brickTEXTURE = new Image();
-    if (!brickTEXTURE) {
-        console.log('failed to create groundTEXTURE object');
+    var woodTEXTURE = new Image();
+    if (!woodTEXTURE) {
+        console.log('failed to create woodTEXTURE object');
         return false;
     }
-    brickTEXTURE.onload = function() { sendImageToTEXTURE(brickTEXTURE, 2); };
-    brickTEXTURE.src = 'brick.png';
+    woodTEXTURE.onload = function() { sendImageToTEXTURE(woodTEXTURE, 2); };
+    woodTEXTURE.src = 'textures/wood.png';
     // ----------
 
     // MORE TEXTURE LOADING HERE
@@ -332,6 +332,8 @@ function sendImageToTEXTURE(image, num) {
         gl.activeTexture(gl.TEXTURE1);
     } else if (num == 2) {
         gl.activeTexture(gl.TEXTURE2);
+    } else if (num == 3) {
+        gl.activeTexture(gl.TEXTURE3);
     }
 
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -362,7 +364,7 @@ function renderAllShapes() {
     gl.uniformMatrix4fv(u_ViewMatrix, false, viewMat.elements);
 
     // pass matrix to u_ModelMatrix attribute
-    var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
+    var globalRotMat = new Matrix4().rotate(g_globalAngle, 1, 0, 0);
     gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 
     // prevents flicker and disappearing shapes with DEPTH_TEST - solved with chatGPT
@@ -373,7 +375,7 @@ function renderAllShapes() {
     // drawMap();
 
     // ----- CUBES ---------------
-    // SKY
+    // FOUNDATION - PREV: SKY
     var sky = new Cube();
     sky.color = [1.0, 0.0, 0.0, 1.0];
     sky.textureNum = 0;
@@ -381,7 +383,7 @@ function renderAllShapes() {
     sky.matrix.scale(50, 50, 50);
     sky.render();
 
-    // GROUND
+    // CARPET - PREV: GROUND
     var ground = new Cube();
     ground.color = [1.0, 0.0, 0.0, 1.0];
     ground.textureNum = 1;
@@ -389,5 +391,12 @@ function renderAllShapes() {
     ground.matrix.scale(60,0.01,60);
     ground.render();
 
+    // STAGE
+    var stage = new Cube();
+    stage.color[1, 0, 1, 1];
+    stage.textureNum = -1;
+    stage.matrix.scale(30, 3, 20);
+    stage.matrix.translate(0.3, -0.2, 0);
+    stage.render();
     // MORE SHAPES HERE
 }
