@@ -161,45 +161,39 @@ function connectVariablesToGLSL() {
     gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 }
 
-// html functionality implementation
 function addActionsUI() {
 
     // CAMERA ANGLE SLIDERS
     document.getElementById('angleSlide1').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
 
-
-    // // YELLOW JOINT SLIDER
-    // document.getElementById('yellowSlide').addEventListener('mousemove', function() { g_yellowAngle = this.value; renderAllShapes(); });
-    // // MAGENTA JOINT SLIDER
-    // document.getElementById('magentaSlide').addEventListener('mousemove', function() { g_magentaAngle = this.value; renderAllShapes(); });
-    // // TOGGLE YELLOW ANIMATION BUTTON
-    // document.getElementById('animationYellowOffButton').onclick = function() {g_yellowAnimation = false;};
-    // document.getElementById('animationYellowOnButton').onclick = function() {g_yellowAnimation = true;};
-    // // TOGGLE MAGENTA ANIMATION BUTTON
-    // document.getElementById('animationMagentaOffButton').onclick = function() {g_magentaAnimation = false;};
-    // document.getElementById('animationMagentaOnButton').onclick = function() {g_magentaAnimation = true;};    
+    document.getElementById('printLocToConsole').addEventListener('click', function() { 
+        console.log(
+            'eye: ', g_camera.eye.elements[0], g_camera.eye.elements[1], g_camera.eye.elements[2], "\n", 
+            'at: ', g_camera.at.elements[0],  g_camera.at.elements[1],  g_camera.at.elements[2], "\n",
+            'up: ', g_camera.up.elements[0],  g_camera.up.elements[1],  g_camera.up.elements[2]
+        );
+     });
 }
 
-function click(ev) {
-    // extract event click, return it in webGL coords
-    let [x, y] = convertCoordinatesEventToGL(ev);
+// function click(ev) {
+//     let [x, y] = convertCoordinatesEventToGL(ev);
     // create and store new point
-    let point;
-    if (g_selectedType == POINT) {
-        point = new Point();
-    } else if (g_selectedType == TRIANGLE) {
-        point = new Triangle();
-    } else  if (g_selectedType == CIRCLE) {
-        point = new Circle();
-        point.segments = g_selectedSegment;
-    }
-    point.position = [x,y];
-    point.color = g_selectedColor.slice();
-    point.size = g_selectedSize;
-    g_shapesList.push(point);
+    // let point;
+    // if (g_selectedType == POINT) {
+    //     point = new Point();
+    // } else if (g_selectedType == TRIANGLE) {
+    //     point = new Triangle();
+    // } else  if (g_selectedType == CIRCLE) {
+    //     point = new Circle();
+    //     point.segments = g_selectedSegment;
+    // }
+    // point.position = [x,y];
+    // point.color = g_selectedColor.slice();
+    // point.size = g_selectedSize;
+    // g_shapesList.push(point);
     // draw all shapes in/on the canvas
-    renderAllShapes();
-}
+//     renderAllShapes();
+// }
 
 function convertCoordinatesEventToGL(ev) {
     var x = ev.clientX; // x coordinate of a mouse pointer
@@ -224,9 +218,7 @@ function tick() {
     // console.log(g_seconds); // FOR DEBUG
     // update animation angles
     updateAnimationAngles();
-    // draw everything
     renderAllShapes();
-    // tell browser to update again when it has time
     requestAnimationFrame(tick);
 }
 
@@ -255,6 +247,29 @@ function keydown(ev) {
 }
 
 var g_camera = new Camera();
+var g_map = [
+    [1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,1,1,0,0,1],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,1,0,0,1],
+    [1,0,0,0,0,0,0,1],
+];
+
+function drawMap() {
+    for (x = 0; x < 8; x++) {
+        for (y = 0; y < 8; y++) {
+            if (g_map[x][y] == 1) {
+                var body = new Cube();
+                body.color = [1, 1, 1, 1];
+                body.matrix.translate(x - 4, -0.75, y - 4);
+                body.render();
+            }
+        }
+    }
+}
 
 // TEXTURE EDITING HERE
 function initTextures() {
@@ -305,11 +320,6 @@ function sendImageToTEXTURE(image, num) {
     console.log('finished loadTexture');
 }
 
-// COMMENTED AS OF 3.8
-// var g_eye = [0,0,4];
-// var g_at = [0,0,-100];
-// var g_up = [0,1,0];
-
 function renderAllShapes() {
 
     // pass the proj matrix
@@ -335,13 +345,15 @@ function renderAllShapes() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
+    drawMap();
+
     // ----- CUBES ---------------
     // SKY
     var sky = new Cube();
     sky.color = [1.0, 0.0, 0.0, 1.0];
     sky.textureNum = 0;
     sky.matrix.translate(-0.5,-0.5,0);
-    sky.matrix.scale(10, 10, 10);
+    sky.matrix.scale(30, 30, 30);
     sky.render();
 
     // GROUND
@@ -349,15 +361,8 @@ function renderAllShapes() {
     ground.color = [1.0, 0.0, 0.0, 1.0];
     ground.textureNum = 1;
     ground.matrix.translate(-0.7, -0.5, -0.2);
-    ground.matrix.scale(11,0.01,15);
+    ground.matrix.scale(44,0.01,60);
     ground.render();
 
-    // DUMMY SHAPE
-    // var temp = new Cube();
-    // temp.color = [1, 0, 0, 1];
-    // temp.textureNum = -2;
-    // temp.matrix.translate(-0.3, -0.01, 0.2);
-    // temp.matrix.scale(0.5, 0.5, 0.5);
-    // temp.render();
-    // console.log('temp rendered');
+    // MORE SHAPES HERE
 }
