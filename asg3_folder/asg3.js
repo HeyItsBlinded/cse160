@@ -21,6 +21,7 @@ var FSHADER_SOURCE = `
     uniform vec4 u_FragColor;
     uniform sampler2D u_Sampler0;
     uniform sampler2D u_Sampler1;
+    uniform sampler2D u_Sampler2;
     uniform int u_whichTexture;
     void main() {
         if (u_whichTexture == -2) {
@@ -31,6 +32,8 @@ var FSHADER_SOURCE = `
             gl_FragColor = texture2D(u_Sampler0, v_UV);
         } else if (u_whichTexture == 1) {
             gl_FragColor = texture2D(u_Sampler1, v_UV);
+        } else if (u_whichTexture == 2) {
+            gl_FragColor = texture2D(u_Sampler2, v_UV);
         } else {
             gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
         }
@@ -49,6 +52,7 @@ let u_ViewMatrix;
 let u_GlobalRotateMatrix;
 let u_Sampler0;
 let u_Sampler1;
+let u_Sampler2;
 let u_whichTexture;
 
 // constants
@@ -157,6 +161,12 @@ function connectVariablesToGLSL() {
         return false;
     }
 
+    u_Sampler2 = gl.getUniformLocation(gl.program, 'u_Sampler2');
+    if (!u_Sampler2) {
+        console.log('failed to get storage location of u_Sampler2');
+        return false;
+    }
+
     var identityM = new Matrix4();
     gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 }
@@ -248,14 +258,16 @@ function keydown(ev) {
 
 var g_camera = new Camera();
 var g_map = [
+        // LEFT
     [1,1,1,1,1,1,1,1],
     [1,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,1],
-    [1,0,0,1,1,0,0,1],
+    [1,0,0,1,1,0,0,1],  // BACK
     [1,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,1],
     [1,0,0,0,1,0,0,1],
-    [1,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1],
+        // RIGHT
 ];
 
 function drawMap() {
@@ -264,7 +276,8 @@ function drawMap() {
             if (g_map[x][y] == 1) {
                 var body = new Cube();
                 body.color = [1, 1, 1, 1];
-                body.matrix.translate(x - 4, -0.75, y - 4);
+                body.textureNum = 2;
+                body.matrix.translate(x, -0.55, y); // OG: x - 4, -0.75, y - 4
                 body.render();
             }
         }
@@ -290,6 +303,14 @@ function initTextures() {
     groundTEXTURE.onload = function() { sendImageToTEXTURE(groundTEXTURE, 1); };
     groundTEXTURE.src = 'ground.png';
     // ----------
+    var brickTEXTURE = new Image();
+    if (!brickTEXTURE) {
+        console.log('failed to create groundTEXTURE object');
+        return false;
+    }
+    brickTEXTURE.onload = function() { sendImageToTEXTURE(brickTEXTURE, 2); };
+    brickTEXTURE.src = 'brick.png';
+    // ----------
 
     // MORE TEXTURE LOADING HERE
     return true;
@@ -309,6 +330,8 @@ function sendImageToTEXTURE(image, num) {
         gl.activeTexture(gl.TEXTURE0);
     } else if (num == 1) {
         gl.activeTexture(gl.TEXTURE1);
+    } else if (num == 2) {
+        gl.activeTexture(gl.TEXTURE2);
     }
 
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -317,6 +340,7 @@ function sendImageToTEXTURE(image, num) {
 
     gl.uniform1i(u_Sampler0, 0);
     gl.uniform1i(u_Sampler1, 1);
+    gl.uniform1i(u_Sampler2, 2);
     console.log('finished loadTexture');
 }
 
@@ -345,7 +369,8 @@ function renderAllShapes() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    drawMap();
+    // ----- MAP ---------------
+    // drawMap();
 
     // ----- CUBES ---------------
     // SKY
