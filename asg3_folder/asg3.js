@@ -241,14 +241,20 @@ function updateAnimationAngles() {
 }
 
 function keydown(ev) {
-    if (ev.keyCode == 39) {
-        g_eye[0] += 0.2;
-    } else if (ev.keyCode == 37) {
-        g_eye[0] -= 0.2;
+    if (ev.keyCode == 68) { // D - RIGHT
+        g_camera.right();
+    } else if (ev.keyCode == 65) {  // A - LEFT
+        g_camera.left();
+    } else if (ev.keyCode == 87) {  // W - FORWARD
+        g_camera.forward();
+    } else if (ev.keyCode == 83) {  // S - BACKWARD
+        g_camera.back();
     }
     renderAllShapes();
     console.log(ev.keyCode);
 }
+
+var g_camera = new Camera();
 
 // TEXTURE EDITING HERE
 function initTextures() {
@@ -299,9 +305,10 @@ function sendImageToTEXTURE(image, num) {
     console.log('finished loadTexture');
 }
 
-var g_eye = [0,0,4];
-var g_at = [0,0,-100];
-var g_up = [0,1,0];
+// COMMENTED AS OF 3.8
+// var g_eye = [0,0,4];
+// var g_at = [0,0,-100];
+// var g_up = [0,1,0];
 
 function renderAllShapes() {
 
@@ -312,7 +319,12 @@ function renderAllShapes() {
 
     // pass the view matrix
     var viewMat = new Matrix4();
-    viewMat.setLookAt(g_eye[0],g_eye[1],g_eye[2],   g_at[0],g_at[1],g_at[2],   g_up[0],g_up[1],g_up[2]);    // GUIDE - (eye, at, up)
+    // viewMat.setLookAt(g_eye[0],g_eye[1],g_eye[2],   g_at[0],g_at[1],g_at[2],   g_up[0],g_up[1],g_up[2]);    // COMMENTED AS OF 3.8
+    viewMat.setLookAt(
+        g_camera.eye.elements[0], g_camera.eye.elements[1], g_camera.eye.elements[2],
+        g_camera.at.elements[0],  g_camera.at.elements[1],  g_camera.at.elements[2],
+        g_camera.up.elements[0],  g_camera.up.elements[1],  g_camera.up.elements[2]
+    );
     gl.uniformMatrix4fv(u_ViewMatrix, false, viewMat.elements);
 
     // pass matrix to u_ModelMatrix attribute
@@ -329,7 +341,7 @@ function renderAllShapes() {
     sky.color = [1.0, 0.0, 0.0, 1.0];
     sky.textureNum = 0;
     sky.matrix.translate(-0.5,-0.5,0);
-    sky.matrix.scale(1.5, 1.5, 1.5);
+    sky.matrix.scale(10, 10, 10);
     sky.render();
 
     // GROUND
@@ -337,7 +349,7 @@ function renderAllShapes() {
     ground.color = [1.0, 0.0, 0.0, 1.0];
     ground.textureNum = 1;
     ground.matrix.translate(-0.7, -0.5, -0.2);
-    ground.matrix.scale(2,0.01,2);
+    ground.matrix.scale(11,0.01,15);
     ground.render();
 
     // DUMMY SHAPE
