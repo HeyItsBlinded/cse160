@@ -73,6 +73,7 @@ function main() {
     setupWebGL();
     connectVariablesToGLSL();
     addActionsUI();
+    document.onkeydown = keydown;   // ADDED 3.7
     initTextures();
 
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -237,6 +238,16 @@ function updateAnimationAngles() {
     if (g_magentaAnimation) {
         g_magentaAngle = (45 * Math.sin(3 * g_seconds));
     }
+}
+
+function keydown(ev) {
+    if (ev.keyCode == 39) {
+        g_eye[0] += 0.2;
+    } else if (ev.keyCode == 37) {
+        g_eye[0] -= 0.2;
+    }
+    renderAllShapes();
+    console.log(ev.keyCode);
 }
 
 // TEXTURE EDITING HERE
