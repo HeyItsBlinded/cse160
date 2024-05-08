@@ -163,8 +163,9 @@ function connectVariablesToGLSL() {
 // html functionality implementation
 function addActionsUI() {
 
-    // CAMERA ANGLE SLIDER
-    document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
+    // CAMERA ANGLE SLIDERS
+    document.getElementById('angleSlide1').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
+
 
     // // YELLOW JOINT SLIDER
     // document.getElementById('yellowSlide').addEventListener('mousemove', function() { g_yellowAngle = this.value; renderAllShapes(); });
@@ -287,6 +288,9 @@ function sendImageToTEXTURE(image, num) {
     console.log('finished loadTexture');
 }
 
+var g_eye = [0,0,4];
+var g_at = [0,0,-100];
+var g_up = [0,1,0];
 
 function renderAllShapes() {
 
@@ -297,11 +301,11 @@ function renderAllShapes() {
 
     // pass the view matrix
     var viewMat = new Matrix4();
-    viewMat.setLookAt(0,0,3,   0,0,-100,   0,1,0);    // GUIDE - (eye, at, up)
+    viewMat.setLookAt(g_eye[0],g_eye[1],g_eye[2],   g_at[0],g_at[1],g_at[2],   g_up[0],g_up[1],g_up[2]);    // GUIDE - (eye, at, up)
     gl.uniformMatrix4fv(u_ViewMatrix, false, viewMat.elements);
 
     // pass matrix to u_ModelMatrix attribute
-    var globalRotMat = new Matrix4().rotate(g_globalAngle, 1, 0, 0);
+    var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
     gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 
     // prevents flicker and disappearing shapes with DEPTH_TEST - solved with chatGPT
@@ -313,22 +317,24 @@ function renderAllShapes() {
     var sky = new Cube();
     sky.color = [1.0, 0.0, 0.0, 1.0];
     sky.textureNum = 0;
+    sky.matrix.translate(-0.5,-0.5,0);
+    sky.matrix.scale(1.5, 1.5, 1.5);
     sky.render();
 
     // GROUND
     var ground = new Cube();
     ground.color = [1.0, 0.0, 0.0, 1.0];
     ground.textureNum = 1;
-    ground.matrix.translate(-0.25,-0.05,-0.25);
-    ground.matrix.scale(1.5,0.1,1.5);
+    ground.matrix.translate(-0.7, -0.5, -0.2);
+    ground.matrix.scale(2,0.01,2);
     ground.render();
 
     // DUMMY SHAPE
-    var temp = new Cube();
-    temp.color = [1, 0, 0, 1];
-    temp.textureNum = -2;
-    temp.matrix.translate(-0.3, -0.01, 0.2);
-    temp.matrix.scale(0.5, 0.5, 0.5);
-    temp.render();
+    // var temp = new Cube();
+    // temp.color = [1, 0, 0, 1];
+    // temp.textureNum = -2;
+    // temp.matrix.translate(-0.3, -0.01, 0.2);
+    // temp.matrix.scale(0.5, 0.5, 0.5);
+    // temp.render();
     // console.log('temp rendered');
 }
