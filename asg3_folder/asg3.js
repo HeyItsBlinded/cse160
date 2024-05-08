@@ -293,7 +293,7 @@ function initTextures() {
         return false;
     }
     skyTEXTURE.onload = function() { sendImageToTEXTURE(skyTEXTURE, 0); };
-    skyTEXTURE.src = 'sky.png';
+    skyTEXTURE.src = 'foundation.png';
     // ----------
     var groundTEXTURE = new Image();
     if (!groundTEXTURE) {
@@ -301,7 +301,7 @@ function initTextures() {
         return false;
     }
     groundTEXTURE.onload = function() { sendImageToTEXTURE(groundTEXTURE, 1); };
-    groundTEXTURE.src = 'ground.png';
+    groundTEXTURE.src = 'carpet.png';
     // ----------
     var brickTEXTURE = new Image();
     if (!brickTEXTURE) {
@@ -378,7 +378,7 @@ function renderAllShapes() {
     sky.color = [1.0, 0.0, 0.0, 1.0];
     sky.textureNum = 0;
     sky.matrix.translate(-0.5,-0.5,0);
-    sky.matrix.scale(30, 30, 30);
+    sky.matrix.scale(50, 50, 50);
     sky.render();
 
     // GROUND
@@ -386,7 +386,7 @@ function renderAllShapes() {
     ground.color = [1.0, 0.0, 0.0, 1.0];
     ground.textureNum = 1;
     ground.matrix.translate(-0.7, -0.5, -0.2);
-    ground.matrix.scale(44,0.01,60);
+    ground.matrix.scale(60,0.01,60);
     ground.render();
 
     // MORE SHAPES HERE
