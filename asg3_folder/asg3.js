@@ -364,12 +364,23 @@ function renderAllShapes() {
     gl.uniformMatrix4fv(u_ViewMatrix, false, viewMat.elements);
 
     // pass matrix to u_ModelMatrix attribute
-    var globalRotMat = new Matrix4().rotate(g_globalAngle, 1, 0, 0);
+    // var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
+    var globalRotMat = new Matrix4();
+    globalRotMat.translate(24.5, 24.5, 25);
+    globalRotMat.rotate(g_globalAngle, 0, 1, 0);
+    globalRotMat.translate(-24.5, -24.5, -25);   
+    // TODO:
+    // 
     gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 
     // prevents flicker and disappearing shapes with DEPTH_TEST - solved with chatGPT
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // - center - 24.5, 24.5, 25
+    // move the opposite of center
+    // apply rotate
+    // move back
 
     // ----- MAP ---------------
     // drawMap();
