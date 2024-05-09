@@ -242,6 +242,7 @@ function updateAnimationAngles() {
     }
 }
 
+// WASD CONTROL
 function keydown(ev) {
     if (ev.keyCode == 68) { // D - RIGHT
         g_camera.right();
@@ -251,7 +252,14 @@ function keydown(ev) {
         g_camera.forward();
     } else if (ev.keyCode == 83) {  // S - BACKWARD
         g_camera.back();
+    } else if (ev.keyCode == 81) {  // Q - ROTATE LEFT
+        g_globalAngle -= 0.5;
+        // console.log('q pressed');
+    } else if (ev.keyCode == 69) {  // E - ROTATE RIGHT
+        g_globalAngle += 0.5;
+        // console.log('e pressed');
     }
+
     renderAllShapes();
     console.log(ev.keyCode);
 }
@@ -366,21 +374,26 @@ function renderAllShapes() {
     // pass matrix to u_ModelMatrix attribute
     // var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
     var globalRotMat = new Matrix4();
-    globalRotMat.translate(24.5, 24.5, 25);
-    globalRotMat.rotate(g_globalAngle, 0, 1, 0);
-    globalRotMat.translate(-24.5, -24.5, -25);   
-    // TODO:
-    // 
-    gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
-
-    // prevents flicker and disappearing shapes with DEPTH_TEST - solved with chatGPT
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.clear(gl.COLOR_BUFFER_BIT);
 
     // - center - 24.5, 24.5, 25
     // move the opposite of center
     // apply rotate
     // move back
+    /* 
+    explanation: you cannot change the rotation origin, so the next
+    best thing is translating everything so that the middle of the 
+    cube lines up with the origin. then that way, it looks like
+    the center of your environment is the rotation axis.
+    */
+    globalRotMat.translate(24.5, 24.5, 25);
+    globalRotMat.rotate(g_globalAngle, 0, 1, 0);
+    globalRotMat.translate(-24.5, -24.5, -25);   
+
+    gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
+
+    // prevents flicker and disappearing shapes with DEPTH_TEST - solved with chatGPT
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
     // ----- MAP ---------------
     // drawMap();
@@ -409,5 +422,6 @@ function renderAllShapes() {
     stage.matrix.scale(30, 3, 20);
     stage.matrix.translate(0.3, -0.2, 0);
     stage.render();
+
     // MORE SHAPES HERE
 }
