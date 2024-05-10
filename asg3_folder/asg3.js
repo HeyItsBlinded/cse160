@@ -26,6 +26,9 @@ var FSHADER_SOURCE = `
     uniform sampler2D u_Sampler4;
     uniform sampler2D u_Sampler5;
     uniform sampler2D u_Sampler6;
+    uniform sampler2D u_Sampler7;
+
+    uniform sampler2D u_Sampler28;
     uniform int u_whichTexture;
     void main() {
         if (u_whichTexture == -2) {
@@ -46,6 +49,12 @@ var FSHADER_SOURCE = `
             gl_FragColor = texture2D(u_Sampler5, v_UV);
         } else if (u_whichTexture == 6) {
             gl_FragColor = texture2D(u_Sampler6, v_UV);
+        } else if (u_whichTexture == 7) {
+            gl_FragColor = texture2D(u_Sampler7, v_UV);
+        }
+
+        else if (u_whichTexture == 28) {
+            gl_FragColor = texture2D(u_Sampler28, v_UV);
         }
         else {
             gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
@@ -71,9 +80,12 @@ let u_Sampler3;
 let u_Sampler4;
 let u_Sampler5;
 let u_Sampler6;
+let u_Sampler7;
+let u_Sampler28;
 let u_whichTexture;
 
 let selectedLEN;
+let selectedLETTER1;
 
 // constants
 const POINT = 0;
@@ -211,6 +223,18 @@ function connectVariablesToGLSL() {
         return false;
     }
 
+    u_Sampler7 = gl.getUniformLocation(gl.program, 'u_Sampler7');
+    if (!u_Sampler7) {
+        console.log('failed to get storage location of u_Sampler7');
+        return false;
+    }
+
+    u_Sampler28 = gl.getUniformLocation(gl.program, 'u_Sampler28');
+    if (!u_Sampler28) {
+        console.log('failed to get storage location of u_Sampler28');
+        return false;
+    }
+
     var identityM = new Matrix4();
     gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 }
@@ -230,8 +254,13 @@ function addActionsUI() {
 
     document.getElementById('dropdown').addEventListener('change', function() {
         selectedLEN = this.value
-        console.log(selectedLEN, '-letter word selected');
+        // console.log(selectedLEN, '-letter word selected');   // DEBUG
     });
+
+    document.getElementById('spelling1').addEventListener('change', function() {
+        selectedLETTER1 = this.value;
+        console.log('letter selected: ', selectedLETTER1);
+    })
 
 }
 
@@ -403,13 +432,13 @@ function initTextures() {
     blockE.onload = function() { sendImageToTEXTURE(blockE, 6); };
     blockE.src = 'textures/blockE.png';
     // ----------
-    // var blockF = new Image();
-    // if (!blockF) {
-    //     console.log('failed to create blockF object');
-    //     return false;
-    // }
-    // blockF.onload = function() { sendImageToTEXTURE(blockF, 7); };
-    // blockF.src = 'textures/blockF.png';
+    var blockF = new Image();
+    if (!blockF) {
+        console.log('failed to create blockF object');
+        return false;
+    }
+    blockF.onload = function() { sendImageToTEXTURE(blockF, 7); };
+    blockF.src = 'textures/blockF.png';
     // ----------
     // var blockG = new Image();
     // if (!blockG) {
@@ -419,6 +448,16 @@ function initTextures() {
     // blockG.onload = function() { sendImageToTEXTURE(blockG, 8); };
     // blockG.src = 'textures/blockG.png';
     // ----------
+
+    // ----------
+    var blockSTAR = new Image();
+    if (!blockSTAR) {
+        console.log('failed to create blockSTAR object');
+        return false;
+    }
+    blockSTAR.onload = function() { sendImageToTEXTURE(blockSTAR, 28); };
+    blockSTAR.src = 'textures/blockSTAR.png';
+
 
     // MORE TEXTURE LOADING HERE
     return true;
@@ -448,6 +487,12 @@ function sendImageToTEXTURE(image, num) {
         gl.activeTexture(gl.TEXTURE5);
     } else if (num == 6) {
         gl.activeTexture(gl.TEXTURE6);
+    } else if (num == 7) {
+        gl.activeTexture(gl.TEXTURE7);
+    }
+
+    else if (num == 28) {
+        gl.activeTexture(gl.TEXTURE28);
     }
 
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -461,6 +506,9 @@ function sendImageToTEXTURE(image, num) {
     gl.uniform1i(u_Sampler4, 4);
     gl.uniform1i(u_Sampler5, 5);
     gl.uniform1i(u_Sampler6, 6);
+    gl.uniform1i(u_Sampler7, 7);
+
+    gl.uniform1i(u_Sampler28, 28);
     console.log('finished loadTexture');
 }
 
@@ -528,21 +576,43 @@ function renderAllShapes() {
     // LETTERS -------------
     /* TEXTURENUM LEGEND
     a 2     f 7      k 12     p 17     u 22     z 27
-    b 3     g 8      l 13     q 18     v 23
+    b 3     g 8      l 13     q 18     v 23     star/default 28
     c 4     h 9      m 14     r 19     w 24
     d 5     i 10     n 15     s 20     x 25
     e 6     j 11     o 16     t 21     y 26
     */
 
+    // TEMP - OUT OF COMMISSION
+    const letterTEXTURES = {
+        'A1': 2,
+        'B1': 3,
+        'C1': 4,
+        'D1': 5,
+        'E1': 6,
+        // 'defaultblock': 28
+    };
+
     var cube1 = new Cube();
-    cube1.color[1, 0, 1, 1];
-    cube1.textureNum = 2;
+    cube1.textureNum = 28;
+    if (selectedLETTER1 == 'A1') {
+        cube1.textureNum = 2;
+    } else if (selectedLETTER1 == 'B1') {
+        cube1.textureNum = 3;
+    } else if (selectedLETTER1 == 'C1') {
+        cube1.textureNum = 4;
+    } else if (selectedLETTER1 == 'D1') {
+        cube1.textureNum = 5;
+    } else if (selectedLETTER1 == 'E1') {
+        cube1.textureNum = 6;
+    } else if (selectedLETTER1 == 'F1') {
+        cube1.textureNum = 7;
+    }
+    // cube1.textureNum = letterTEXTURES[selectedLETTER1];
     cube1.matrix.scale(5, 5, 5);
     cube1.matrix.translate(1, -0.05, 1);
     cube1.render();
 
     var cube2 = new Cube();
-    cube2.color[1, 0, 1, 1];
     cube2.textureNum = 3;
     cube2.matrix.scale(5, 5, 5);
     cube2.matrix.translate(2.1, -0.05, 1);
@@ -575,13 +645,15 @@ function renderAllShapes() {
     }
 
     /*
-    if (selectedLEN == 4 || seelctedLEN == 5) {
-        cube4.render();
-    }
-
-    if (selectedLEN == 5) {
-        cube5.render();
-    }
+    if (selectedLETTER1 == 'A1') {
+        cube1.textureNum = 2;
+    } else if (selectedLETTER1 == 'B1') {
+        cube.textureNum = 3;
+    } else if (selectedLETTER1 == 'C1') {
+        cube.textureNum = 4;
+    } else if (selectedLETTER1 == 'D1') {
+        cube.textureNUM = 5;
+    } ... MORE LETTERS HERE ...
     */
 
     // MORE SHAPES HERE
