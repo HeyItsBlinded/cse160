@@ -273,10 +273,10 @@ function keydown(ev) {
     } else if (ev.keyCode == 83) {  // S - BACKWARD
         g_camera.back();
     } else if (ev.keyCode == 81) {  // Q - ROTATE LEFT
-        g_globalAngle -= 0.5;
+        g_globalAngle -= 1;
         // console.log('q pressed');
     } else if (ev.keyCode == 69) {  // E - ROTATE RIGHT
-        g_globalAngle += 0.5;
+        g_globalAngle += 1;
         // console.log('e pressed');
     }
 
@@ -452,32 +452,35 @@ function renderAllShapes() {
     var cube1 = new Cube();
     cube1.textureNum = 28;
     cube1.matrix.scale(5, 5, 5);
-    cube1.matrix.translate(1, -0.05, 1);
+    cube1.matrix.translate(1.5, -0.05, 1.5);
+    cube1.matrix.rotate(40, 0, 1, 0);
     cube1.render();
 
     var cube2 = new Cube();
     cube2.textureNum = 28;
     cube2.matrix.scale(5, 5, 5);
-    cube2.matrix.translate(2.1, -0.05, 1);
-        cube2.render();
+    cube2.matrix.translate(3.1, -0.05, 1);
+    cube2.matrix.rotate(-15, 0, 1, 0);
+    cube2.render();
 
     var cube3 = new Cube();
     cube3.textureNum = 28;
     cube3.matrix.scale(5, 5, 5);
-    cube3.matrix.translate(3.2, -0.05, 1);
-        cube3.render();
+    cube3.matrix.translate(2.5, 0.95, 1.25);
+    cube3.render();
 
-    var cube4 = new Cube();
-    cube4.textureNum = 28;
-    cube4.matrix.scale(5, 5, 5);
-    cube4.matrix.translate(4.3, -0.05, 1);
-        cube4.render();
+    var chest = new Cube();
+    chest.color = [0.0490, 0.490, 0.0710, 1];
+    chest.textureNum = -2;
+    chest.matrix.scale(5, 5, 5);
+    chest.matrix.translate(4.3, -0.05, 1);
+    chest.render();
 
-    var cube5 = new Cube();
-    cube5.textureNum = 28;
-    cube5.matrix.scale(5, 5, 5);
-    cube5.matrix.translate(5.4, -0.05, 1);
-        cube5.render();
+    // var cube5 = new Cube();
+    // cube5.textureNum = 28;
+    // cube5.matrix.scale(5, 5, 5);
+    // cube5.matrix.translate(5.4, -0.05, 1);
+    //     cube5.render();
 
     /*
     if (selectedLETTER1 == 'A1') {
