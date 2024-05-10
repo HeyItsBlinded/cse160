@@ -25,6 +25,7 @@ var FSHADER_SOURCE = `
     uniform sampler2D u_Sampler3;
     uniform sampler2D u_Sampler4;
     uniform sampler2D u_Sampler5;
+    uniform sampler2D u_Sampler6;
     uniform int u_whichTexture;
     void main() {
         if (u_whichTexture == -2) {
@@ -43,6 +44,8 @@ var FSHADER_SOURCE = `
             gl_FragColor = texture2D(u_Sampler4, v_UV);
         } else if (u_whichTexture == 5) {
             gl_FragColor = texture2D(u_Sampler5, v_UV);
+        } else if (u_whichTexture == 6) {
+            gl_FragColor = texture2D(u_Sampler6, v_UV);
         }
         else {
             gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
@@ -67,8 +70,10 @@ let u_Sampler2;
 let u_Sampler3;
 let u_Sampler4;
 let u_Sampler5;
-
+let u_Sampler6;
 let u_whichTexture;
+
+let selectedLEN;
 
 // constants
 const POINT = 0;
@@ -200,6 +205,12 @@ function connectVariablesToGLSL() {
         return false;
     }
 
+    u_Sampler6 = gl.getUniformLocation(gl.program, 'u_Sampler6');
+    if (!u_Sampler6) {
+        console.log('failed to get storage location of u_Sampler6');
+        return false;
+    }
+
     var identityM = new Matrix4();
     gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 }
@@ -216,6 +227,12 @@ function addActionsUI() {
             'up: ', g_camera.up.elements[0],  g_camera.up.elements[1],  g_camera.up.elements[2]
         );
      });
+
+    document.getElementById('dropdown').addEventListener('change', function() {
+        selectedLEN = this.value
+        console.log(selectedLEN, '-letter word selected');
+    });
+
 }
 
 // function click(ev) {
@@ -378,13 +395,13 @@ function initTextures() {
     blockD.onload = function() { sendImageToTEXTURE(blockD, 5); };
     blockD.src = 'textures/blockD.png';
     // ----------
-    // var blockE = new Image();
-    // if (!blockE) {
-    //     console.log('failed to create blockE object');
-    //     return false;
-    // }
-    // blockE.onload = function() { sendImageToTEXTURE(blockE, 6); };
-    // blockE.src = 'textures/blockE.png';
+    var blockE = new Image();
+    if (!blockE) {
+        console.log('failed to create blockE object');
+        return false;
+    }
+    blockE.onload = function() { sendImageToTEXTURE(blockE, 6); };
+    blockE.src = 'textures/blockE.png';
     // ----------
     // var blockF = new Image();
     // if (!blockF) {
@@ -429,6 +446,8 @@ function sendImageToTEXTURE(image, num) {
         gl.activeTexture(gl.TEXTURE4);
     } else if (num == 5) {
         gl.activeTexture(gl.TEXTURE5);
+    } else if (num == 6) {
+        gl.activeTexture(gl.TEXTURE6);
     }
 
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -441,6 +460,7 @@ function sendImageToTEXTURE(image, num) {
     gl.uniform1i(u_Sampler3, 3);
     gl.uniform1i(u_Sampler4, 4);
     gl.uniform1i(u_Sampler5, 5);
+    gl.uniform1i(u_Sampler6, 6);
     console.log('finished loadTexture');
 }
 
@@ -513,6 +533,7 @@ function renderAllShapes() {
     d 5     i 10     n 15     s 20     x 25
     e 6     j 11     o 16     t 21     y 26
     */
+
     var cube1 = new Cube();
     cube1.color[1, 0, 1, 1];
     cube1.textureNum = 2;
@@ -525,19 +546,43 @@ function renderAllShapes() {
     cube2.textureNum = 3;
     cube2.matrix.scale(5, 5, 5);
     cube2.matrix.translate(2.1, -0.05, 1);
-    cube2.render();
+    if (selectedLEN == 'two' || selectedLEN == 'three' || selectedLEN == 'four' || selectedLEN == 'five') {
+        cube2.render();
+    }
 
     var cube3 = new Cube();
     cube3.textureNum = 4;
     cube3.matrix.scale(5, 5, 5);
     cube3.matrix.translate(3.2, -0.05, 1);
-    cube3.render();
+    if (selectedLEN == 'three' || selectedLEN == 'four' || selectedLEN == 'five') {
+        cube3.render();
+    }
 
     var cube4 = new Cube();
     cube4.textureNum = 5;
     cube4.matrix.scale(5, 5, 5);
     cube4.matrix.translate(4.3, -0.05, 1);
-    cube4.render();
+    if (selectedLEN == 'four' || selectedLEN == 'five') {
+        cube4.render();
+    }
+
+    var cube5 = new Cube();
+    cube5.textureNum = 6;
+    cube5.matrix.scale(5, 5, 5);
+    cube5.matrix.translate(5.4, -0.05, 1);
+    if (selectedLEN == 'five') {
+        cube5.render();
+    }
+
+    /*
+    if (selectedLEN == 4 || seelctedLEN == 5) {
+        cube4.render();
+    }
+
+    if (selectedLEN == 5) {
+        cube5.render();
+    }
+    */
 
     // MORE SHAPES HERE
 }
