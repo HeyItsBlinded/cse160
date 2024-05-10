@@ -22,6 +22,9 @@ var FSHADER_SOURCE = `
     uniform sampler2D u_Sampler0;
     uniform sampler2D u_Sampler1;
     uniform sampler2D u_Sampler2;
+    uniform sampler2D u_Sampler3;
+    uniform sampler2D u_Sampler4;
+    uniform sampler2D u_Sampler5;
     uniform int u_whichTexture;
     void main() {
         if (u_whichTexture == -2) {
@@ -34,7 +37,14 @@ var FSHADER_SOURCE = `
             gl_FragColor = texture2D(u_Sampler1, v_UV);
         } else if (u_whichTexture == 2) {
             gl_FragColor = texture2D(u_Sampler2, v_UV);
-        } else {
+        } else if (u_whichTexture == 3) {
+            gl_FragColor = texture2D(u_Sampler3, v_UV);
+        } else if (u_whichTexture == 4) {
+            gl_FragColor = texture2D(u_Sampler4, v_UV);
+        } else if (u_whichTexture == 5) {
+            gl_FragColor = texture2D(u_Sampler5, v_UV);
+        }
+        else {
             gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
         }
     }`
@@ -50,9 +60,14 @@ let u_ModelMatrix;
 let u_ProjectionMatrix;
 let u_ViewMatrix;
 let u_GlobalRotateMatrix;
+
 let u_Sampler0;
 let u_Sampler1;
 let u_Sampler2;
+let u_Sampler3;
+let u_Sampler4;
+let u_Sampler5;
+
 let u_whichTexture;
 
 // constants
@@ -164,6 +179,24 @@ function connectVariablesToGLSL() {
     u_Sampler2 = gl.getUniformLocation(gl.program, 'u_Sampler2');
     if (!u_Sampler2) {
         console.log('failed to get storage location of u_Sampler2');
+        return false;
+    }
+
+    u_Sampler3 = gl.getUniformLocation(gl.program, 'u_Sampler3');
+    if (!u_Sampler3) {
+        console.log('failed to get storage location of u_Sampler3');
+        return false;
+    }
+
+    u_Sampler4 = gl.getUniformLocation(gl.program, 'u_Sampler4');
+    if (!u_Sampler4) {
+        console.log('failed to get storage location of u_Sampler4');
+        return false;
+    }
+
+    u_Sampler5 = gl.getUniformLocation(gl.program, 'u_Sampler5');
+    if (!u_Sampler5) {
+        console.log('failed to get storage location of u_Sampler5');
         return false;
     }
 
@@ -303,7 +336,7 @@ function initTextures() {
         return false;
     }
     skyTEXTURE.onload = function() { sendImageToTEXTURE(skyTEXTURE, 0); };
-    skyTEXTURE.src = 'textures/foundation.png';
+    skyTEXTURE.src = 'textures/wall.png';
     // ----------
     var groundTEXTURE = new Image();
     if (!groundTEXTURE) {
@@ -313,13 +346,61 @@ function initTextures() {
     groundTEXTURE.onload = function() { sendImageToTEXTURE(groundTEXTURE, 1); };
     groundTEXTURE.src = 'textures/carpet.png';
     // ----------
-    var woodTEXTURE = new Image();
-    if (!woodTEXTURE) {
-        console.log('failed to create woodTEXTURE object');
+    var blockA = new Image();
+    if (!blockA) {
+        console.log('failed to create blockA object');
         return false;
     }
-    woodTEXTURE.onload = function() { sendImageToTEXTURE(woodTEXTURE, 2); };
-    woodTEXTURE.src = 'textures/blockA.png';
+    blockA.onload = function() { sendImageToTEXTURE(blockA, 2); };
+    blockA.src = 'textures/blockA.png';
+    // ----------
+    var blockB = new Image();
+    if (!blockB) {
+        console.log('failed to create blockB object');
+        return false;
+    }
+    blockB.onload = function() { sendImageToTEXTURE(blockB, 3); };
+    blockB.src = 'textures/blockB.png';
+    // ----------
+    var blockC = new Image();
+    if (!blockC) {
+        console.log('failed to create blockC object');
+        return false;
+    }
+    blockC.onload = function() { sendImageToTEXTURE(blockC, 4); };
+    blockC.src = 'textures/blockC.png';
+    // ----------
+    var blockD = new Image();
+    if (!blockD) {
+        console.log('failed to create blockD object');
+        return false;
+    }
+    blockD.onload = function() { sendImageToTEXTURE(blockD, 5); };
+    blockD.src = 'textures/blockD.png';
+    // ----------
+    // var blockE = new Image();
+    // if (!blockE) {
+    //     console.log('failed to create blockE object');
+    //     return false;
+    // }
+    // blockE.onload = function() { sendImageToTEXTURE(blockE, 6); };
+    // blockE.src = 'textures/blockE.png';
+    // ----------
+    // var blockF = new Image();
+    // if (!blockF) {
+    //     console.log('failed to create blockF object');
+    //     return false;
+    // }
+    // blockF.onload = function() { sendImageToTEXTURE(blockF, 7); };
+    // blockF.src = 'textures/blockF.png';
+    // ----------
+    // var blockG = new Image();
+    // if (!blockG) {
+    //     console.log('failed to create blockG object');
+    //     return false;
+    // }
+    // blockG.onload = function() { sendImageToTEXTURE(blockG, 8); };
+    // blockG.src = 'textures/blockG.png';
     // ----------
 
     // MORE TEXTURE LOADING HERE
@@ -344,6 +425,10 @@ function sendImageToTEXTURE(image, num) {
         gl.activeTexture(gl.TEXTURE2);
     } else if (num == 3) {
         gl.activeTexture(gl.TEXTURE3);
+    } else if (num == 4) {
+        gl.activeTexture(gl.TEXTURE4);
+    } else if (num == 5) {
+        gl.activeTexture(gl.TEXTURE5);
     }
 
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -353,6 +438,9 @@ function sendImageToTEXTURE(image, num) {
     gl.uniform1i(u_Sampler0, 0);
     gl.uniform1i(u_Sampler1, 1);
     gl.uniform1i(u_Sampler2, 2);
+    gl.uniform1i(u_Sampler3, 3);
+    gl.uniform1i(u_Sampler4, 4);
+    gl.uniform1i(u_Sampler5, 5);
     console.log('finished loadTexture');
 }
 
@@ -417,13 +505,39 @@ function renderAllShapes() {
     ground.matrix.scale(60,0.01,60);
     ground.render();
 
-    // TEST OBJ
-    var testObj = new Cube();
-    // testObj.color[1, 0, 1, 1];
-    testObj.textureNum = 2;
-    testObj.matrix.scale(5, 5, 5);
-    testObj.matrix.translate(0.3, -0.05, 0);
-    testObj.render();
+    // LETTERS -------------
+    /* TEXTURENUM LEGEND
+    a 2     f 7      k 12     p 17     u 22     z 27
+    b 3     g 8      l 13     q 18     v 23
+    c 4     h 9      m 14     r 19     w 24
+    d 5     i 10     n 15     s 20     x 25
+    e 6     j 11     o 16     t 21     y 26
+    */
+    var cube1 = new Cube();
+    cube1.color[1, 0, 1, 1];
+    cube1.textureNum = 2;
+    cube1.matrix.scale(5, 5, 5);
+    cube1.matrix.translate(1, -0.05, 1);
+    cube1.render();
+
+    var cube2 = new Cube();
+    cube2.color[1, 0, 1, 1];
+    cube2.textureNum = 3;
+    cube2.matrix.scale(5, 5, 5);
+    cube2.matrix.translate(2.1, -0.05, 1);
+    cube2.render();
+
+    var cube3 = new Cube();
+    cube3.textureNum = 4;
+    cube3.matrix.scale(5, 5, 5);
+    cube3.matrix.translate(3.2, -0.05, 1);
+    cube3.render();
+
+    var cube4 = new Cube();
+    cube4.textureNum = 5;
+    cube4.matrix.scale(5, 5, 5);
+    cube4.matrix.translate(4.3, -0.05, 1);
+    cube4.render();
 
     // MORE SHAPES HERE
 }
