@@ -73,9 +73,9 @@ var FSHADER_SOURCE = `
             gl_FragColor = texture2D(u_Sampler13, v_UV);
         } else if (u_whichTexture == 14) {
             gl_FragColor = texture2D(u_Sampler14, v_UV);
-        } // else if (u_whichTexture == 15) {
-        //    gl_FragColor = texture2D(u_Sampler15, v_UV);
-        // }
+        } //else if (u_whichTexture == 15) {
+            //gl_FragColor = texture2D(u_Sampler15, v_UV);
+        //}
 
         else if (u_whichTexture == 28) {
             gl_FragColor = texture2D(u_Sampler28, v_UV);
@@ -732,40 +732,40 @@ function renderAllShapes() {
 
     var cube1 = new Cube();
     cube1.textureNum = 28;
-    if (selectedLETTER1 == 'A1') {
-        cube1.textureNum = 2;
-    } else if (selectedLETTER1 == 'B1') {
-        cube1.textureNum = 3;
-    } else if (selectedLETTER1 == 'C1') {
-        cube1.textureNum = 4;
-    } else if (selectedLETTER1 == 'D1') {
-        cube1.textureNum = 5;
-    } else if (selectedLETTER1 == 'E1') {
-        cube1.textureNum = 6;
-    } else if (selectedLETTER1 == 'F1') {
-        cube1.textureNum = 7;
-    } else if (selectedLETTER1 == 'G1') {
-        cube1.textureNum = 8;
-    } else if (selectedLETTER1 == 'H1') {
-        cube1.textureNum = 9;
-    } else if (selectedLETTER1 == "I1") {
-        cube1.textureNum = 10;
-    } else if (selectedLETTER1 == "J1") {
-        cube1.textureNum = 11;
-    } else if (selectedLETTER1 == "K1") {
-        cube1.textureNum = 12;
-    } else if (selectedLETTER1 == "L1") {
-        cube1.textureNum = 13;
-    } else if (selectedLETTER1 == "M1") {
-        cube1.textureNum = 14;
-    }
+    // if (selectedLETTER1 == 'A1') {
+    //     cube1.textureNum = 2;
+    // } else if (selectedLETTER1 == 'B1') {
+    //     cube1.textureNum = 3;
+    // } else if (selectedLETTER1 == 'C1') {
+    //     cube1.textureNum = 4;
+    // } else if (selectedLETTER1 == 'D1') {
+    //     cube1.textureNum = 5;
+    // } else if (selectedLETTER1 == 'E1') {
+    //     cube1.textureNum = 6;
+    // } else if (selectedLETTER1 == 'F1') {
+    //     cube1.textureNum = 7;
+    // } else if (selectedLETTER1 == 'G1') {
+    //     cube1.textureNum = 8;
+    // } else if (selectedLETTER1 == 'H1') {
+    //     cube1.textureNum = 9;
+    // } else if (selectedLETTER1 == "I1") {
+    //     cube1.textureNum = 10;
+    // } else if (selectedLETTER1 == "J1") {
+    //     cube1.textureNum = 11;
+    // } else if (selectedLETTER1 == "K1") {
+    //     cube1.textureNum = 12;
+    // } else if (selectedLETTER1 == "L1") {
+    //     cube1.textureNum = 13;
+    // } else if (selectedLETTER1 == "M1") {
+    //     cube1.textureNum = 14;
+    // }
     // cube1.textureNum = letterTEXTURES[selectedLETTER1];
     cube1.matrix.scale(5, 5, 5);
     cube1.matrix.translate(1, -0.05, 1);
     cube1.render();
 
     var cube2 = new Cube();
-    cube2.textureNum = 3;
+    cube2.textureNum = 28;
     cube2.matrix.scale(5, 5, 5);
     cube2.matrix.translate(2.1, -0.05, 1);
     if (selectedLEN == 'two' || selectedLEN == 'three' || selectedLEN == 'four' || selectedLEN == 'five') {
@@ -773,7 +773,7 @@ function renderAllShapes() {
     }
 
     var cube3 = new Cube();
-    cube3.textureNum = 4;
+    cube3.textureNum = 28;
     cube3.matrix.scale(5, 5, 5);
     cube3.matrix.translate(3.2, -0.05, 1);
     if (selectedLEN == 'three' || selectedLEN == 'four' || selectedLEN == 'five') {
@@ -781,7 +781,7 @@ function renderAllShapes() {
     }
 
     var cube4 = new Cube();
-    cube4.textureNum = 5;
+    cube4.textureNum = 28;
     cube4.matrix.scale(5, 5, 5);
     cube4.matrix.translate(4.3, -0.05, 1);
     if (selectedLEN == 'four' || selectedLEN == 'five') {
@@ -789,7 +789,7 @@ function renderAllShapes() {
     }
 
     var cube5 = new Cube();
-    cube5.textureNum = 6;
+    cube5.textureNum = 28;
     cube5.matrix.scale(5, 5, 5);
     cube5.matrix.translate(5.4, -0.05, 1);
     if (selectedLEN == 'five') {
