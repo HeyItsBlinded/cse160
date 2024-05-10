@@ -22,7 +22,6 @@ var FSHADER_SOURCE = `
     uniform sampler2D u_Sampler0;
     uniform sampler2D u_Sampler1;
     uniform sampler2D u_Sampler2;
-    uniform sampler2D u_Sampler3;
     uniform int u_whichTexture;
     void main() {
         if (u_whichTexture == -2) {
@@ -35,8 +34,6 @@ var FSHADER_SOURCE = `
             gl_FragColor = texture2D(u_Sampler1, v_UV);
         } else if (u_whichTexture == 2) {
             gl_FragColor = texture2D(u_Sampler2, v_UV);
-        } else if (u_whichTexture == 3) {
-            gl_FragColor = texture2D(u_Sampler3, v_UV);
         } else {
             gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
         }
@@ -56,7 +53,6 @@ let u_GlobalRotateMatrix;
 let u_Sampler0;
 let u_Sampler1;
 let u_Sampler2;
-let u_Sampler3;
 let u_whichTexture;
 
 // constants
@@ -171,12 +167,6 @@ function connectVariablesToGLSL() {
         return false;
     }
 
-    u_Sampler3 = gl.getUniformLocation(gl.program, 'u_Sampler3');
-    if (!u_Sampler3) {
-        console.log('failed to get storage location of u_Sampler3');
-        return false;
-    }
-
     var identityM = new Matrix4();
     gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 }
@@ -275,67 +265,34 @@ function keydown(ev) {
 }
 
 var g_camera = new Camera();
-
 var g_map = [
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],
-    [1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1],
-    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],
-    [1,0,0,0,1,0,0,1,1,0,0,0,0,0,0,1,1,0,0,1,0,0,0,1,1,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    // RIGHT (mirrored from LEFT)
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],
-    [1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1],
-    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],
-    [1,0,0,0,1,0,0,1,1,0,0,0,0,0,0,1,1,0,0,1,0,0,0,1,1,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        // LEFT
+    [1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,1],  // BACK
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1],
+        // RIGHT
 ];
 
 function drawMap() {
-    var mapSize = g_map.length / 2; // Assuming the left and right sides are symmetrical
-    for (x = 0; x < mapSize; x++) {
-        for (y = 0; y < g_map[x].length; y++) {
+    // for (i = 0; i < 2; i++) {
+    for (x = 0; x < 8; x++) {
+        for (y = 0; y < 8; y++) {
             if (g_map[x][y] == 1) {
                 var body = new Cube();
                 body.color = [1, 1, 1, 1];
                 body.textureNum = -1;
-                body.matrix.translate(x - mapSize, -0.55, y - mapSize); // Offset by half the size
-                body.render();
-            }
-            if (g_map[g_map.length - 1 - x][y] == 1) { // Mirror for the right side
-                var body = new Cube();
-                body.color = [1, 1, 1, 1];
-                body.textureNum = -1;
-                body.matrix.translate(mapSize - x, -0.55, y - mapSize); // Offset by half the size
+                body.matrix.translate(x + 18, -0.55, y + 20); // OG: x - 4, -0.75, y - 4
                 body.render();
             }
         }
     }
+// }
 }
-
-
-/*
-function drawMap() {
-    for (x = 0; x < 32; x++) {
-        for (y = 0; y < 32; y++) {
-            if (g_map[x][y] == 1) {
-                var body = new Cube();
-                body.color = [1, 1, 1, 1];
-                body.textureNum = -1;
-                body.matrix.translate(x - 16, -0.55, y - 16); // OG: x - 4, -0.75, y - 4
-                body.render();
-            }
-        }
-    }
-}
-*/
 
 // TEXTURE EDITING HERE
 function initTextures() {
@@ -362,7 +319,7 @@ function initTextures() {
         return false;
     }
     woodTEXTURE.onload = function() { sendImageToTEXTURE(woodTEXTURE, 2); };
-    woodTEXTURE.src = 'textures/wood.png';
+    woodTEXTURE.src = 'textures/blockA.png';
     // ----------
 
     // MORE TEXTURE LOADING HERE
@@ -396,7 +353,6 @@ function sendImageToTEXTURE(image, num) {
     gl.uniform1i(u_Sampler0, 0);
     gl.uniform1i(u_Sampler1, 1);
     gl.uniform1i(u_Sampler2, 2);
-    gl.uniform1i(u_Sampler3, 3);
     console.log('finished loadTexture');
 }
 
@@ -442,7 +398,7 @@ function renderAllShapes() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     // ----- MAP ---------------
-    drawMap();
+    // drawMap();
 
     // ----- CUBES ---------------
     // FOUNDATION - PREV: SKY
@@ -461,21 +417,13 @@ function renderAllShapes() {
     ground.matrix.scale(60,0.01,60);
     ground.render();
 
-    // STAGE
-    // var stage = new Cube();
-    // stage.color = [1.0, 0.0, 0.0, 1.0];
-    // stage.textureNum = 2;
-    // stage.matrix.scale(30, 3, 20);
-    // stage.matrix.translate(0.3, -0.2, 0);
-    // stage.render();
+    // TEST OBJ
+    var testObj = new Cube();
+    // testObj.color[1, 0, 1, 1];
+    testObj.textureNum = 2;
+    testObj.matrix.scale(5, 5, 5);
+    testObj.matrix.translate(0.3, -0.05, 0);
+    testObj.render();
 
     // MORE SHAPES HERE
-
-    // CUSTOM TESTING
-    // var test = new Custom();
-    // test.color = [1.0, 0.0, 0.0, 1.0];
-    // test.textureNum = -1;
-    // test.matrix.scale(10, 10, 10);
-    // test.matrix.translate(2, 0.5, 0);
-    // test.render();
 }
