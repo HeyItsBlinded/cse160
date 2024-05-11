@@ -21,8 +21,10 @@ var FSHADER_SOURCE = `
     uniform vec4 u_FragColor;
     uniform sampler2D u_Sampler0;
     uniform sampler2D u_Sampler1;
+    uniform sampler2D u_Sampler2;
 
     uniform sampler2D u_Sampler28;
+
     uniform int u_whichTexture;
     void main() {
         if (u_whichTexture == -2) {
@@ -33,7 +35,9 @@ var FSHADER_SOURCE = `
             gl_FragColor = texture2D(u_Sampler0, v_UV);
         } else if (u_whichTexture == 1) {
             gl_FragColor = texture2D(u_Sampler1, v_UV);
-        } 
+        } else if (u_whichTexture == 2) {
+            gl_FragColor = texture2D(u_Sampler2, v_UV);
+        }
         
         else if (u_whichTexture == 28) {
             gl_FragColor = texture2D(u_Sampler28, v_UV);
@@ -57,6 +61,7 @@ let u_GlobalRotateMatrix;
 
 let u_Sampler0;
 let u_Sampler1;
+let u_Sampler2;
 
 let u_Sampler28;
 let u_whichTexture;
@@ -167,6 +172,12 @@ function connectVariablesToGLSL() {
     u_Sampler1 = gl.getUniformLocation(gl.program, 'u_Sampler1');
     if (!u_Sampler1) {
         console.log('failed to get storage location of u_Sampler1');
+        return false;
+    }
+
+    u_Sampler2 = gl.getUniformLocation(gl.program, 'u_Sampler2');
+    if (!u_Sampler2) {
+        console.log('failed to get storage location of u_Sampler2');
         return false;
     }
 
@@ -290,7 +301,33 @@ var g_map = [
     [1,1,1,1,1,1,1,1],
     [1,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,1],  // BACK
+    [1,0,0,0,0,0,0,0],  // FRONT
+    [1,0,0,0,0,0,0,0],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1],
+        // RIGHT
+];
+
+var g_map2 = [
+        // LEFT
+    [1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,0],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0],  // FRONT
+    [1,0,0,0,0,0,0,0],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0],
+    [1,1,0,1,0,0,1,1],
+        // RIGHT
+];
+
+var g_map3 = [
+        // LEFT
+    [1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,1],  // FRONT
     [1,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,1],
@@ -298,20 +335,112 @@ var g_map = [
         // RIGHT
 ];
 
+var g_map4 = [
+        // LEFT
+    [1,1,0,1,0,0,1,1],
+    [0,0,0,0,0,0,0,0],
+    [1,0,0,0,0,0,0,1],
+    [0,0,0,0,0,0,0,0],  // FRONT
+    [1,0,0,0,0,0,0,1],
+    [0,0,0,0,0,0,0,0],
+    [1,0,0,0,0,0,0,1],
+    [1,1,0,1,0,1,0,1],
+        // RIGHT
+];
+
+function randomColor() {
+    var r = Math.random();
+    var g = Math.random();
+    var b = Math.random();
+    return [r, g, b, 1];
+}
+
+var blockColorArray = [];
+var blockColorArray2 = [];
+var blockColorArray3 = [];
+var blockColorArray4 = [];
+
 function drawMap() {
-    // for (i = 0; i < 2; i++) {
-    for (x = 0; x < 8; x++) {
+
+    for (x = 0; x < 8; x++) {   // LAYER 1
         for (y = 0; y < 8; y++) {
+            if (!blockColorArray[x]) {
+                blockColorArray[x] = [];
+            }
+            if (g_map[x][y] == 1 && !blockColorArray[x][y]) {
+                blockColorArray[x][y] = randomColor();
+            }
             if (g_map[x][y] == 1) {
                 var body = new Cube();
-                body.color = [1, 1, 1, 1];
-                body.textureNum = -1;
-                body.matrix.translate(x + 18, -0.55, y + 20); // OG: x - 4, -0.75, y - 4
+                body.color = blockColorArray[x][y];
+                body.textureNum = -2;
+                body.matrix.scale(2, 2, 2);
+                body.matrix.rotate(15, 0, 1, 0);
+                body.matrix.translate(x + 1, -0.1, y + 3.5);
                 body.render();
             }
         }
     }
-// }
+
+    for (x = 0; x < 8; x++) {
+        for (y = 0; y < 8; y++) {
+            if (!blockColorArray2[x]) {
+                blockColorArray2[x] = [];
+            }
+            if (g_map2[x][y] == 1 && !blockColorArray2[x][y]) {
+                blockColorArray2[x][y] = randomColor();
+            }
+            if (g_map2[x][y] == 1) {
+                var body = new Cube();
+                body.color = blockColorArray2[x][y];
+                body.textureNum = -2;
+                body.matrix.scale(2, 2, 2);
+                body.matrix.rotate(15, 0, 1, 0);
+                body.matrix.translate(x + 1, 0.9, y + 3.5);
+                body.render();
+            }
+        }
+    }
+
+    for (x = 0; x < 8; x++) {   // LAYER 3
+        for (y = 0; y < 8; y++) {
+            if (!blockColorArray3[x]) {
+                blockColorArray3[x] = [];
+            }
+            if (g_map3[x][y] == 1 && !blockColorArray3[x][y]) {
+                blockColorArray3[x][y] = randomColor();
+            }
+            if (g_map3[x][y] == 1) {
+                var body = new Cube();
+                body.color = blockColorArray3[x][y];
+                body.textureNum = -2;
+                body.matrix.scale(2, 2, 2);
+                body.matrix.rotate(15, 0, 1, 0);
+                body.matrix.translate(x + 1, 1.9, y + 3.5);
+                body.render();
+            }
+        }
+    }
+
+    for (x = 0; x < 8; x++) {   // LAYER 4
+        for (y = 0; y < 8; y++) {
+            if (!blockColorArray4[x]) {
+                blockColorArray4[x] = [];
+            }
+            if (g_map4[x][y] == 1 && !blockColorArray4[x][y]) {
+                blockColorArray4[x][y] = randomColor();
+            }
+            if (g_map4[x][y] == 1) {
+                var body = new Cube();
+                body.color = blockColorArray4[x][y];
+                body.textureNum = -2;
+                body.matrix.scale(2, 2, 2);
+                body.matrix.rotate(15, 0, 1, 0);
+                body.matrix.translate(x + 1, 2.9, y + 3.5);
+                body.render();
+            }
+        }
+    }
 }
 
 // TEXTURE EDITING HERE
@@ -332,8 +461,14 @@ function initTextures() {
     }
     groundTEXTURE.onload = function() { sendImageToTEXTURE(groundTEXTURE, 1); };
     groundTEXTURE.src = 'textures/carpet.png';
-    // ----- RED BLOCKS -----
-    //
+    // ----------
+    var brickTEXTURE = new Image();
+    if (!brickTEXTURE) {
+        console.log('failed to create brickTEXTURE object');
+        return false;
+    }
+    brickTEXTURE.onload = function() { sendImageToTEXTURE(brickTEXTURE, 2); };
+    brickTEXTURE.src = 'textures/brick.png';
     // ----------
 
     // ----------
@@ -364,7 +499,9 @@ function sendImageToTEXTURE(image, num) {
         gl.activeTexture(gl.TEXTURE0);
     } else if (num == 1) {
         gl.activeTexture(gl.TEXTURE1);
-    } 
+    } else if (num == 2) {
+        gl.activeTexture(gl.TEXTURE2);
+    }
     
     else if (num == 28) {
         gl.activeTexture(gl.TEXTURE28);
@@ -376,6 +513,7 @@ function sendImageToTEXTURE(image, num) {
 
     gl.uniform1i(u_Sampler0, 0);
     gl.uniform1i(u_Sampler1, 1);
+    gl.uniform1i(u_Sampler2, 2);
 
     gl.uniform1i(u_Sampler28, 28);
     console.log('finished loadTexture');
@@ -423,7 +561,7 @@ function renderAllShapes() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     // ----- MAP ---------------
-    // drawMap();
+    drawMap();
 
     // ----- CUBES ---------------
     // FOUNDATION - PREV: SKY
@@ -449,25 +587,25 @@ function renderAllShapes() {
     e 6     j 11     o 16     t 21     y 26
     */
 
-    var cube1 = new Cube();
-    cube1.textureNum = 28;
-    cube1.matrix.scale(5, 5, 5);
-    cube1.matrix.translate(1.5, -0.05, 1.5);
-    cube1.matrix.rotate(40, 0, 1, 0);
-    cube1.render();
+    // var cube1 = new Cube();
+    // cube1.textureNum = 28;
+    // cube1.matrix.scale(5, 5, 5);
+    // cube1.matrix.translate(1.5, -0.05, 1.5);
+    // cube1.matrix.rotate(40, 0, 1, 0);
+    // cube1.render();
 
-    var cube2 = new Cube();
-    cube2.textureNum = 28;
-    cube2.matrix.scale(5, 5, 5);
-    cube2.matrix.translate(3.1, -0.05, 1);
-    cube2.matrix.rotate(-15, 0, 1, 0);
-    cube2.render();
+    // var cube2 = new Cube();
+    // cube2.textureNum = 28;
+    // cube2.matrix.scale(5, 5, 5);
+    // cube2.matrix.translate(3.1, -0.05, 1);
+    // cube2.matrix.rotate(-15, 0, 1, 0);
+    // cube2.render();
 
-    var cube3 = new Cube();
-    cube3.textureNum = 28;
-    cube3.matrix.scale(5, 5, 5);
-    cube3.matrix.translate(2.5, 0.95, 1.25);
-    cube3.render();
+    // var cube3 = new Cube();
+    // cube3.textureNum = 28;
+    // cube3.matrix.scale(5, 5, 5);
+    // cube3.matrix.translate(2.5, 0.95, 1.25);
+    // cube3.render();
 
     var chest = new Cube();
     chest.color = [0.0490, 0.490, 0.0710, 1];
