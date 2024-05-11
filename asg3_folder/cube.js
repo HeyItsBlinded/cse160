@@ -27,6 +27,9 @@ class Cube {
         drawTriangle3DUV( [0,0,1,  1,1,1,  1,0,1], [0,0,  1,1,  1,0] );
         drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0,0,  0,1,  1,1] );
 
+        // hard-coded shading - QUALITY OF LIFE (TEMPORARY)
+        gl.uniform4f(u_FragColor, rgba[0]*0.6, rgba[1]*0.6, rgba[2]*0.6, rgba[3]);
+
         // bottom cube
         drawTriangle3DUV( [0,0,0,   1,0,0,   1,0,1], [0,0,  1,1,  1,0] );
         drawTriangle3DUV( [0,0,0,   1,0,1,   0,0,1], [0,0,  1,0,  0,1] );

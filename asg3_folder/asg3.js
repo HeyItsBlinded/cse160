@@ -472,15 +472,16 @@ function renderAllShapes() {
     var chest = new Cube();
     chest.color = [0.0490, 0.490, 0.0710, 1];
     chest.textureNum = -2;
-    chest.matrix.scale(5, 5, 5);
-    chest.matrix.translate(4.3, -0.05, 1);
+    chest.matrix.scale(20, 12, 10);
+    chest.matrix.translate(1.4, -0.05, 0.45);
     chest.render();
 
-    // var cube5 = new Cube();
-    // cube5.textureNum = 28;
-    // cube5.matrix.scale(5, 5, 5);
-    // cube5.matrix.translate(5.4, -0.05, 1);
-    //     cube5.render();
+    var chestLid = new Cube();
+    chestLid.color = [0.570, 0.358, 0.0798, 1];
+    chestLid.textureNum = -2;
+    chestLid.matrix.scale(21, 2, 12);
+    chestLid.matrix.translate(1.3, 5.5, 0.3);
+    chestLid.render();
 
     /*
     if (selectedLETTER1 == 'A1') {
