@@ -81,6 +81,7 @@ let u_Sampler28;
 let u_whichTexture;
 
 let shape1;
+let shape2;
 
 // constants
 const POINT = 0;
@@ -273,6 +274,11 @@ function addActionsUI() {
     document.getElementById('shape1SELECT').addEventListener('change', function() {
         shape1 = this.value;
         console.log(shape1);
+    });
+
+    document.getElementById('shape2SELECT').addEventListener('change', function() {
+        shape2 = this.value;
+        console.log(shape2);
     });
 
     // document.getElementById('dropdown').addEventListener('change', function() {
@@ -718,6 +724,21 @@ function renderAllShapes() {
     block1.matrix.rotate(-15, 0, 1, 0);
     block1.render();
 
+    var block2 = new Cube();
+    block2.textureNum = 28;
+    if (shape2 == 's2TRIANGLE') {
+        block2.textureNum = 26;
+    }
+    if (shape2 == 's2CIRCLE') {
+        block2.textureNum = 27;
+    }
+    if (shape2 == 's2STAR') {
+        block2.textureNum = 28;
+    }
+    block2.matrix.scale(5, 5, 5);
+    block2.matrix.translate(6.5, -0.05, 8.25);
+    block2.matrix.rotate(10, 0, 1, 0);
+    block2.render();
 
     // LETTERS -------------
     /* DEFUNCT - TEXTURENUM LEGEND
