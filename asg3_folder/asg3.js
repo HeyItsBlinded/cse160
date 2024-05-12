@@ -22,6 +22,7 @@ var FSHADER_SOURCE = `
     uniform sampler2D u_Sampler0;
     uniform sampler2D u_Sampler1;
     uniform sampler2D u_Sampler2;
+    uniform sampler2D u_Sampler3;
 
     uniform sampler2D u_Sampler28;
 
@@ -37,6 +38,8 @@ var FSHADER_SOURCE = `
             gl_FragColor = texture2D(u_Sampler1, v_UV);
         } else if (u_whichTexture == 2) {
             gl_FragColor = texture2D(u_Sampler2, v_UV);
+        } else if (u_whichTexture == 3) {
+            gl_FragColor = texture2D(u_Sampler3, v_UV);
         }
         
         else if (u_whichTexture == 28) {
@@ -62,6 +65,7 @@ let u_GlobalRotateMatrix;
 let u_Sampler0;
 let u_Sampler1;
 let u_Sampler2;
+let u_Sampler3;
 
 let u_Sampler28;
 let u_whichTexture;
@@ -178,6 +182,12 @@ function connectVariablesToGLSL() {
     u_Sampler2 = gl.getUniformLocation(gl.program, 'u_Sampler2');
     if (!u_Sampler2) {
         console.log('failed to get storage location of u_Sampler2');
+        return false;
+    }
+
+    u_Sampler3 = gl.getUniformLocation(gl.program, 'u_Sampler3');
+    if (!u_Sampler3) {
+        console.log('failed to get storage location of u_Sampler3');
         return false;
     }
 
@@ -515,6 +525,14 @@ function initTextures() {
     brickTEXTURE.onload = function() { sendImageToTEXTURE(brickTEXTURE, 2); };
     brickTEXTURE.src = 'textures/brick.png';
     // ----------
+    var alphaTEXTURE = new Image();
+    if (!alphaTEXTURE) {
+        console.log('failed to create alphaTEXTURE object');
+        return false;
+    }
+    alphaTEXTURE.onload = function() { sendImageToTEXTURE(alphaTEXTURE, 3); };
+    alphaTEXTURE.src = 'textures/alphaGrid.png';
+    // ----------
 
     // ----------
     var blockSTAR = new Image();
@@ -546,6 +564,8 @@ function sendImageToTEXTURE(image, num) {
         gl.activeTexture(gl.TEXTURE1);
     } else if (num == 2) {
         gl.activeTexture(gl.TEXTURE2);
+    } else if (num == 3) {
+        gl.activeTexture(gl.TEXTURE3);
     }
     
     else if (num == 28) {
@@ -559,6 +579,7 @@ function sendImageToTEXTURE(image, num) {
     gl.uniform1i(u_Sampler0, 0);
     gl.uniform1i(u_Sampler1, 1);
     gl.uniform1i(u_Sampler2, 2);
+    gl.uniform1i(u_Sampler3, 3);
 
     gl.uniform1i(u_Sampler28, 28);
     console.log('finished loadTexture');
@@ -632,9 +653,16 @@ function renderAllShapes() {
     e 6     j 11     o 16     t 21     y 26
     */
 
+    var cubeTEST = new Cube2();
+    cubeTEST.textureNum = 3;
+    cubeTEST.matrix.scale(10, 10, 10); // OG: 5, 5, 5
+    cubeTEST.matrix.translate(1.5, -0.05, 1.5);
+    cubeTEST.matrix.rotate(0, 1, 0, 0);
+    cubeTEST.render();
+
     // var cube1 = new Cube();
     // cube1.textureNum = 28;
-    // cube1.matrix.scale(5, 5, 5);
+    // cube1.matrix.scale(10, 10, 10); // OG: 5, 5, 5
     // cube1.matrix.translate(1.5, -0.05, 1.5);
     // cube1.matrix.rotate(40, 0, 1, 0);
     // cube1.render();
@@ -652,6 +680,7 @@ function renderAllShapes() {
     // cube3.matrix.translate(2.5, 0.95, 1.25);
     // cube3.render();
 
+    // OBJECTS -------------
     var chest = new Cube();
     chest.color = [0.0490, 0.490, 0.0710, 1];
     chest.textureNum = -2;
@@ -679,18 +708,6 @@ function renderAllShapes() {
     doorHan.matrix.scale(2, 2, 2);
     doorHan.matrix.translate(10.5, 12, -0.3);
     doorHan.render();
-
-    /*
-    if (selectedLETTER1 == 'A1') {
-        cube1.textureNum = 2;
-    } else if (selectedLETTER1 == 'B1') {
-        cube.textureNum = 3;
-    } else if (selectedLETTER1 == 'C1') {
-        cube.textureNum = 4;
-    } else if (selectedLETTER1 == 'D1') {
-        cube.textureNUM = 5;
-    } ... MORE LETTERS HERE ...
-    */
 
     // MORE SHAPES HERE
 }
