@@ -666,6 +666,20 @@ function renderAllShapes() {
     chestLid.matrix.translate(1.3, 5.5, 0.3);
     chestLid.render();
 
+    var door = new Cube();
+    door.color = [0.580, 0.433, 0.313, 1];
+    door.textureNum = -2;
+    door.matrix.scale(22, 35, 2);
+    door.matrix.translate(0.1, -0.02, -0.5);
+    door.render();
+
+    var doorHan = new Cube()
+    doorHan.color = [0.380, 0.351, 0.327, 1];
+    doorHan.textureNum = -2;
+    doorHan.matrix.scale(2, 2, 2);
+    doorHan.matrix.translate(10.5, 12, -0.3);
+    doorHan.render();
+
     /*
     if (selectedLETTER1 == 'A1') {
         cube1.textureNum = 2;
