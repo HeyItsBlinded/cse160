@@ -205,10 +205,35 @@ function addActionsUI() {
      });
 
     document.getElementById('progressDROPDOWN').addEventListener('change', function() {
-        console.log('test');
+        console.log(this.value);
         if (this.value == 'stage1') {
             L1 = true;
         }
+        if (this.value == 'stage2') {
+            L1 = true;
+            L2 = true;
+        }
+        if (this.value == 'stage3') {
+            L1 = true;
+            L2 = true;
+            L3 = true;
+        }
+        if (this.value == 'stage4') {
+            L1 = true;
+            L2 = true;
+            L3 = true;
+            L4 = true;
+        }
+    });
+
+    document.getElementById('clearCastle').addEventListener('click', function() {
+        L1 = L2 = L3 = L4 = false;
+        console.log(
+            'L1: ', L1, '\n',
+            'L2: ', L2, '\n',
+            'L3: ', L3, '\n',
+            'L4: ', L4
+        );
     });
 
     // document.getElementById('dropdown').addEventListener('change', function() {
@@ -396,62 +421,68 @@ function drawMap() {
         }
     }
 
-    for (x = 0; x < 8; x++) {
-        for (y = 0; y < 8; y++) {
-            if (!blockColorArray2[x]) {
-                blockColorArray2[x] = [];
-            }
-            if (g_map2[x][y] == 1 && !blockColorArray2[x][y]) {
-                blockColorArray2[x][y] = randomColor();
-            }
-            if (g_map2[x][y] == 1) {
-                var body = new Cube();
-                body.color = blockColorArray2[x][y];
-                body.textureNum = -2;
-                body.matrix.scale(2, 2, 2);
-                body.matrix.rotate(15, 0, 1, 0);
-                body.matrix.translate(x + 1, 0.9, y + 3.5);
-                body.render();
-            }
-        }
-    }
-
-    for (x = 0; x < 8; x++) {   // LAYER 3
-        for (y = 0; y < 8; y++) {
-            if (!blockColorArray3[x]) {
-                blockColorArray3[x] = [];
-            }
-            if (g_map3[x][y] == 1 && !blockColorArray3[x][y]) {
-                blockColorArray3[x][y] = randomColor();
-            }
-            if (g_map3[x][y] == 1) {
-                var body = new Cube();
-                body.color = blockColorArray3[x][y];
-                body.textureNum = -2;
-                body.matrix.scale(2, 2, 2);
-                body.matrix.rotate(15, 0, 1, 0);
-                body.matrix.translate(x + 1, 1.9, y + 3.5);
-                body.render();
+    if (L2 == true) {
+        for (x = 0; x < 8; x++) {
+            for (y = 0; y < 8; y++) {
+                if (!blockColorArray2[x]) {
+                    blockColorArray2[x] = [];
+                }
+                if (g_map2[x][y] == 1 && !blockColorArray2[x][y]) {
+                    blockColorArray2[x][y] = randomColor();
+                }
+                if (g_map2[x][y] == 1) {
+                    var body = new Cube();
+                    body.color = blockColorArray2[x][y];
+                    body.textureNum = -2;
+                    body.matrix.scale(2, 2, 2);
+                    body.matrix.rotate(15, 0, 1, 0);
+                    body.matrix.translate(x + 1, 0.9, y + 3.5);
+                    body.render();
+                }
             }
         }
     }
 
-    for (x = 0; x < 8; x++) {   // LAYER 4
-        for (y = 0; y < 8; y++) {
-            if (!blockColorArray4[x]) {
-                blockColorArray4[x] = [];
+    if (L3 == true) {
+        for (x = 0; x < 8; x++) {   // LAYER 3
+            for (y = 0; y < 8; y++) {
+                if (!blockColorArray3[x]) {
+                    blockColorArray3[x] = [];
+                }
+                if (g_map3[x][y] == 1 && !blockColorArray3[x][y]) {
+                    blockColorArray3[x][y] = randomColor();
+                }
+                if (g_map3[x][y] == 1) {
+                    var body = new Cube();
+                    body.color = blockColorArray3[x][y];
+                    body.textureNum = -2;
+                    body.matrix.scale(2, 2, 2);
+                    body.matrix.rotate(15, 0, 1, 0);
+                    body.matrix.translate(x + 1, 1.9, y + 3.5);
+                    body.render();
+                }
             }
-            if (g_map4[x][y] == 1 && !blockColorArray4[x][y]) {
-                blockColorArray4[x][y] = randomColor();
-            }
-            if (g_map4[x][y] == 1) {
-                var body = new Cube();
-                body.color = blockColorArray4[x][y];
-                body.textureNum = -2;
-                body.matrix.scale(2, 2, 2);
-                body.matrix.rotate(15, 0, 1, 0);
-                body.matrix.translate(x + 1, 2.9, y + 3.5);
-                body.render();
+        }
+    }
+
+    if (L4 == true) {
+        for (x = 0; x < 8; x++) {   // LAYER 4
+            for (y = 0; y < 8; y++) {
+                if (!blockColorArray4[x]) {
+                    blockColorArray4[x] = [];
+                }
+                if (g_map4[x][y] == 1 && !blockColorArray4[x][y]) {
+                    blockColorArray4[x][y] = randomColor();
+                }
+                if (g_map4[x][y] == 1) {
+                    var body = new Cube();
+                    body.color = blockColorArray4[x][y];
+                    body.textureNum = -2;
+                    body.matrix.scale(2, 2, 2);
+                    body.matrix.rotate(15, 0, 1, 0);
+                    body.matrix.translate(x + 1, 2.9, y + 3.5);
+                    body.render();
+                }
             }
         }
     }
