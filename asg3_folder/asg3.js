@@ -24,6 +24,8 @@ var FSHADER_SOURCE = `
     uniform sampler2D u_Sampler2;
     uniform sampler2D u_Sampler3;
 
+    uniform sampler2D u_Sampler26;
+    uniform sampler2D u_Sampler27;
     uniform sampler2D u_Sampler28;
 
     uniform int u_whichTexture;
@@ -40,8 +42,14 @@ var FSHADER_SOURCE = `
             gl_FragColor = texture2D(u_Sampler2, v_UV);
         } else if (u_whichTexture == 3) {
             gl_FragColor = texture2D(u_Sampler3, v_UV);
-        }
+        } 
         
+        else if (u_whichTexture == 26) {
+            gl_FragColor = texture2D(u_Sampler26, v_UV);
+        }
+        else if (u_whichTexture == 27) {
+            gl_FragColor = texture2D(u_Sampler27, v_UV);
+        }
         else if (u_whichTexture == 28) {
             gl_FragColor = texture2D(u_Sampler28, v_UV);
         }
@@ -67,11 +75,12 @@ let u_Sampler1;
 let u_Sampler2;
 let u_Sampler3;
 
+let u_Sampler26;
+let u_Sampler27;
 let u_Sampler28;
 let u_whichTexture;
 
-let selectedLEN;
-let selectedLETTER1;
+let shape1;
 
 // constants
 const POINT = 0;
@@ -83,7 +92,10 @@ let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegment = 5;
-let g_globalAngle = 0;
+
+let g_globalAngle = 165;  
+// RESET TO 0 WHEN DONE
+
 let g_yellowAngle = 0;  // ADDED IN 2.6
 let g_magentaAngle = 0; // ADDED IN 2.7
 let g_yellowAnimation = false;
@@ -191,6 +203,18 @@ function connectVariablesToGLSL() {
         return false;
     }
 
+    u_Sampler26 = gl.getUniformLocation(gl.program, 'u_Sampler26');
+    if (!u_Sampler26) {
+        console.log('failed to get storage location of u_Sampler26');
+        return false;
+    }
+
+    u_Sampler27 = gl.getUniformLocation(gl.program, 'u_Sampler27');
+    if (!u_Sampler27) {
+        console.log('failed to get storage location of u_Sampler27');
+        return false;
+    }
+
     u_Sampler28 = gl.getUniformLocation(gl.program, 'u_Sampler28');
     if (!u_Sampler28) {
         console.log('failed to get storage location of u_Sampler28');
@@ -244,6 +268,11 @@ function addActionsUI() {
             'L3: ', L3, '\n',
             'L4: ', L4
         );
+    });
+
+    document.getElementById('shape1SELECT').addEventListener('change', function() {
+        shape1 = this.value;
+        console.log(shape1);
     });
 
     // document.getElementById('dropdown').addEventListener('change', function() {
@@ -534,6 +563,21 @@ function initTextures() {
     alphaTEXTURE.src = 'textures/alphaGrid.png';
     // ----------
 
+    var blockTRI = new Image();
+    if (!blockTRI) {
+        console.log('failed to create blockTRI object');
+        return false;
+    }
+    blockTRI.onload = function() { sendImageToTEXTURE(blockTRI, 26); };
+    blockTRI.src = 'textures/blockTRIANGLE.png';
+    // ----------
+    var blockCIRCLE = new Image();
+    if (!blockCIRCLE) {
+        console.log('failed to create blockCIRCLE object');
+        return false;
+    }
+    blockCIRCLE.onload = function() { sendImageToTEXTURE(blockCIRCLE, 27); };
+    blockCIRCLE.src = 'textures/blockCIRCLE.png';
     // ----------
     var blockSTAR = new Image();
     if (!blockSTAR) {
@@ -568,6 +612,12 @@ function sendImageToTEXTURE(image, num) {
         gl.activeTexture(gl.TEXTURE3);
     }
     
+    else if (num == 26) {
+        gl.activeTexture(gl.TEXTURE26);
+    }
+    else if (num == 27) {
+        gl.activeTexture(gl.TEXTURE27);
+    }
     else if (num == 28) {
         gl.activeTexture(gl.TEXTURE28);
     }
@@ -581,6 +631,8 @@ function sendImageToTEXTURE(image, num) {
     gl.uniform1i(u_Sampler2, 2);
     gl.uniform1i(u_Sampler3, 3);
 
+    gl.uniform1i(u_Sampler26, 26);
+    gl.uniform1i(u_Sampler27, 27);
     gl.uniform1i(u_Sampler28, 28);
     console.log('finished loadTexture');
 }
@@ -629,7 +681,7 @@ function renderAllShapes() {
     // ----- MAP ---------------
     drawMap();
 
-    // ----- CUBES ---------------
+    // ----- ENVIRON ---------------
     // FOUNDATION - PREV: SKY
     var sky = new Cube();
     sky.textureNum = 0;
@@ -644,21 +696,44 @@ function renderAllShapes() {
     ground.matrix.scale(60,0.01,60);
     ground.render();
 
+    // SHAPES -------------
+    /* SHAPES LEGEND
+    star        28
+    circle      27
+    triangle    26
+    */
+    var block1 = new Cube();
+    block1.textureNum = 28;
+    if (shape1 == 's1TRIANGLE') {
+        block1.textureNum = 26;
+    }
+    if (shape1 == 's1CIRCLE') {
+        block1.textureNum = 27;
+    }
+    if (shape1 == 's1STAR') {
+        block1.textureNum = 28;
+    }
+    block1.matrix.scale(5, 5, 5);
+    block1.matrix.translate(8, -0.05, 8);
+    block1.matrix.rotate(-15, 0, 1, 0);
+    block1.render();
+
+
     // LETTERS -------------
-    /* TEXTURENUM LEGEND
+    /* DEFUNCT - TEXTURENUM LEGEND
     a 2     f 7      k 12     p 17     u 22     z 27
-    b 3     g 8      l 13     q 18     v 23     star/default 28
+    b 3     g 8      l 13     q 18     v 23  
     c 4     h 9      m 14     r 19     w 24
     d 5     i 10     n 15     s 20     x 25
     e 6     j 11     o 16     t 21     y 26
     */
 
-    var cubeTEST = new Cube2();
-    cubeTEST.textureNum = 3;
-    cubeTEST.matrix.scale(10, 10, 10); // OG: 5, 5, 5
-    cubeTEST.matrix.translate(1.5, -0.05, 1.5);
-    cubeTEST.matrix.rotate(0, 1, 0, 0);
-    cubeTEST.render();
+    // var cubeTEST = new Cube2();
+    // cubeTEST.textureNum = 3;
+    // cubeTEST.matrix.scale(10, 10, 10); // OG: 5, 5, 5
+    // cubeTEST.matrix.translate(1.5, -0.05, 1.5);
+    // cubeTEST.matrix.rotate(0, 1, 0, 0);
+    // cubeTEST.render();
 
     // var cube1 = new Cube();
     // cube1.textureNum = 28;
