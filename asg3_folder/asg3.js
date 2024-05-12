@@ -84,6 +84,8 @@ let shape1;
 let shape2;
 let shape3;
 
+let LETTER1;
+
 // constants
 const POINT = 0;
 const TRIANGLE = 1;
@@ -95,8 +97,7 @@ let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegment = 5;
 
-let g_globalAngle = 165;  
-// RESET TO 0 WHEN DONE
+let g_globalAngle = -105;  // RESET TO 0 WHEN DONE
 
 let g_yellowAngle = 0;  // ADDED IN 2.6
 let g_magentaAngle = 0; // ADDED IN 2.7
@@ -292,10 +293,10 @@ function addActionsUI() {
     //     // console.log(selectedLEN, '-letter word selected');   // DEBUG
     // });
 
-//     document.getElementById('spelling1').addEventListener('change', function() {
-//         selectedLETTER1 = this.value;
-//         console.log('letter selected: ', selectedLETTER1);
-//     })
+    document.getElementById('spell1').addEventListener('change', function() {
+        LETTER1 = this.value;
+        console.log('letter selected: ', LETTER1);
+    })
 
 }
 
@@ -708,6 +709,37 @@ function renderAllShapes() {
     ground.matrix.scale(60,0.01,60);
     ground.render();
 
+    // OBJECTS -------------
+    var chest = new Cube();
+    chest.color = [0.0490, 0.490, 0.0710, 1];
+    chest.textureNum = -2;
+    chest.matrix.scale(20, 12, 10);
+    chest.matrix.translate(1.4, -0.05, 0.45);
+    chest.render();
+
+    var chestLid = new Cube();
+    chestLid.color = [0.570, 0.358, 0.0798, 1];
+    chestLid.textureNum = -2;
+    chestLid.matrix.scale(21, 2, 12);
+    chestLid.matrix.translate(1.3, 5.5, 0.3);
+    chestLid.render();
+
+    var door = new Cube();
+    door.color = [0.580, 0.433, 0.313, 1];
+    door.textureNum = -2;
+    door.matrix.scale(22, 35, 2);
+    door.matrix.translate(0.1, -0.02, -0.5);
+    door.render();
+
+    var doorHan = new Cube()
+    doorHan.color = [0.380, 0.351, 0.327, 1];
+    doorHan.textureNum = -2;
+    doorHan.matrix.scale(2, 2, 2);
+    doorHan.matrix.translate(10.5, 12, -0.3);
+    doorHan.render();
+
+    // MORE SHAPES HERE
+
     // SHAPES -------------
     /* SHAPES LEGEND
     star        28
@@ -763,69 +795,170 @@ function renderAllShapes() {
     block3.render();
 
     // LETTERS -------------
-    /* DEFUNCT - TEXTURENUM LEGEND
-    a 2     f 7      k 12     p 17     u 22     z 27
-    b 3     g 8      l 13     q 18     v 23  
-    c 4     h 9      m 14     r 19     w 24
-    d 5     i 10     n 15     s 20     x 25
-    e 6     j 11     o 16     t 21     y 26
-    */
+    var cubeTEST = new Cube2();
+    cubeTEST.textureNum = 3;
+    cubeTEST.matrix.scale(5, 5, 5);
+    cubeTEST.matrix.translate(0.8, -0.05, 9.2);
+    cubeTEST.matrix.rotate(90, 0, 1, 0);
+    cubeTEST.render();
 
-    // var cubeTEST = new Cube2();
-    // cubeTEST.textureNum = 3;
-    // cubeTEST.matrix.scale(10, 10, 10); // OG: 5, 5, 5
-    // cubeTEST.matrix.translate(1.5, -0.05, 1.5);
-    // cubeTEST.matrix.rotate(0, 1, 0, 0);
-    // cubeTEST.render();
+    // MORE LETTER CUBES HERE
+}
 
-    // var cube1 = new Cube();
-    // cube1.textureNum = 28;
-    // cube1.matrix.scale(10, 10, 10); // OG: 5, 5, 5
-    // cube1.matrix.translate(1.5, -0.05, 1.5);
-    // cube1.matrix.rotate(40, 0, 1, 0);
-    // cube1.render();
+// -- FOR LETTER BLOCK USE -----
+class Cube2 {
+    constructor() {
+        this.type = 'cube2';
+        this.color = [1.0, 1.0, 1.0, 1.0];
+        this.matrix = new Matrix4();
+        this.textureNum = -2;
+    }
 
-    // var cube2 = new Cube();
-    // cube2.textureNum = 28;
-    // cube2.matrix.scale(5, 5, 5);
-    // cube2.matrix.translate(3.1, -0.05, 1);
-    // cube2.matrix.rotate(-15, 0, 1, 0);
-    // cube2.render();
+    render() {
+        var rgba = this.color;
 
-    // var cube3 = new Cube();
-    // cube3.textureNum = 28;
-    // cube3.matrix.scale(5, 5, 5);
-    // cube3.matrix.translate(2.5, 0.95, 1.25);
-    // cube3.render();
+        gl.uniform1i(u_whichTexture, this.textureNum);
+        gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
 
-    // OBJECTS -------------
-    var chest = new Cube();
-    chest.color = [0.0490, 0.490, 0.0710, 1];
-    chest.textureNum = -2;
-    chest.matrix.scale(20, 12, 10);
-    chest.matrix.translate(1.4, -0.05, 0.45);
-    chest.render();
+        // NEW!
+        // gl.activeTexture(gl.TEXTURE0 + this.textureNum);
+        // gl.bindTexture(gl.TEXTURE_2D, texture);
+        // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 
-    var chestLid = new Cube();
-    chestLid.color = [0.570, 0.358, 0.0798, 1];
-    chestLid.textureNum = -2;
-    chestLid.matrix.scale(21, 2, 12);
-    chestLid.matrix.translate(1.3, 5.5, 0.3);
-    chestLid.render();
+        // pass the matrix to u_ModelMatrix attribute
+        gl.uniformMatrix4fv(u_ModelMatrix, false, this.matrix.elements);
 
-    var door = new Cube();
-    door.color = [0.580, 0.433, 0.313, 1];
-    door.textureNum = -2;
-    door.matrix.scale(22, 35, 2);
-    door.matrix.translate(0.1, -0.02, -0.5);
-    door.render();
+        // if (LETTER1 == 'A1') {
+        // // -- A -----
+        // // back cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0,0.8,  0,1,  0.2,1] ); // /TOP - < ^ > 0,1,  0.5,1,  0,0.5
+        // drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0,0.8,  0.2,0.8,  0.2,1] );   // /BOTTOM - < ^ > 0,0.8,  0.2,0.8,  0.2,1 
+        // // front cube - LGTM
+        // drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0,0.8,  0,1,  0.2,1] );
+        // drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0,0.8,  0.2,0.8,  0.2,1] );   // BOTTOM
+        // // right cube - LGTM
+        // drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0,0.8,  0,1,  0.2,1] ); // /TOP - < ^ >
+        // drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0,0.8,  0.2,0.8,  0.2,1] );// BOTTOM < ^ >
+        // // left cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0,0.8,  0,1,  0.2,1] );
+        // drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0,0.8,  0.2,0.8,  0.2,1] );
+        // // top of cube
+        // drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0,0.8,  0,1,  0.2,1] );
+        // drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0,0.8,  0.2,0.8,  0.2,1] );
+        // }
 
-    var doorHan = new Cube()
-    doorHan.color = [0.380, 0.351, 0.327, 1];
-    doorHan.textureNum = -2;
-    doorHan.matrix.scale(2, 2, 2);
-    doorHan.matrix.translate(10.5, 12, -0.3);
-    doorHan.render();
+        // if (LETTER1 == "B1") {
+        // // -- B -----
+        // // back cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.2,0.8,  0.2,1,  0.4,1] ); // /TOP - < ^ > 0.2,0.8,  0.2,1,  0.4,1
+        // drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.2,0.8,  0.4,0.8,  0.4,1 ] );   // /BOTTOM - < ^ > 0.2,0.8,  0.4,0.8,  0.4,1 
+        // // front cube - LGTM
+        // drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.2,0.8,  0.2,1,  0.4,1] ); // TOP - < ^ > - 
+        // drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.2,0.8,  0.4,0.8,  0.4,1] );   // BOTTOM
+        // // right cube - LGTM
+        // drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.2,0.8,  0.2,1,  0.4,1] ); // /TOP - < ^ >
+        // drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.2,0.8,  0.4,0.8,  0.4,1] );// BOTTOM < ^ >
+        // // left cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.2,0.8,  0.2,1,  0.4,1] );
+        // drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.2,0.8,  0.4,0.8,  0.4,1] );
+        // // top of cube
+        // drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.2,0.8,  0.2,1,  0.4,1] );
+        // drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.2,0.8,  0.4,0.8,  0.4,1] );
+        // }
 
-    // MORE SHAPES HERE
+        // if (LETTER1 == "C1") {
+        // // -- C -----
+        // // back cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.38,0.8,  0.38,1,  0.59,1] ); // /TOP - < ^ > 0.38,0.8,  0.38,1,  0.58,1
+        // drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.38,0.8,  0.58,0.8,  0.59,1] );   // /BOTTOM - < ^ > 0.38,0.8,  0.58,0.8,  0.58,1
+        // // front cube - LGTM
+        // drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.38,0.8,  0.38,1,  0.59,1] ); // TOP - < ^ > - 
+        // drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.38,0.8,  0.58,0.8,  0.59,1] );   // BOTTOM
+        // // right cube - LGTM
+        // drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.38,0.8,  0.38,1,  0.59,1] ); // /TOP - < ^ >
+        // drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.38,0.8,  0.58,0.8,  0.59,1] );// BOTTOM < ^ >
+        // // left cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.38,0.8,  0.38,1,  0.59,1] );
+        // drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.38,0.8,  0.58,0.8,  0.59,1] );
+        // // top of cube
+        // drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.38,0.8,  0.38,1,  0.59,1] );
+        // drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.38,0.8,  0.58,0.8,  0.59,1] );
+        // }
+
+        // if (LETTER1 == "D1") {
+        // // -- D -----
+        // // back cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.58,0.8,  0.58,1,  0.78,1] ); // /TOP - < ^ > 0.58,0.8,  0.58,1,  0.78,1
+        // drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.58,0.8,  0.78,0.8,  0.78,1] );   // /BOTTOM - < ^ > 0.58,0.8,  0.78,0.8,  0.78,1
+        // // front cube - LGTM
+        // drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.58,0.8,  0.58,1,  0.78,1] ); // TOP - < ^ > - 
+        // drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.58,0.8,  0.78,0.8,  0.78,1] );   // BOTTOM
+        // // right cube - LGTM
+        // drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.58,0.8,  0.58,1,  0.78,1] ); // /TOP - < ^ >
+        // drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.58,0.8,  0.78,0.8,  0.78,1] );// BOTTOM < ^ >
+        // // left cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.58,0.8,  0.58,1,  0.78,1] );
+        // drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.58,0.8,  0.78,0.8,  0.78,1] );
+        // // top of cube
+        // drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.58,0.8,  0.58,1,  0.78,1] );
+        // drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.58,0.8,  0.78,0.8,  0.78,1] );
+        // }
+
+        // if (LETTER1 == "E1") {
+        // // -- E -----
+        // // back cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.78,0.8,  0.78,1,  0.97,1] ); // /TOP - < ^ > 0.78,0.8,  0.78,1,  0.97,1
+        // drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.78,0.8,  0.97,0.8,  0.97,1] );   // /BOTTOM - < ^ > 0.78,0.8,  0.97,0.8,  0.97,1
+        // // front cube - LGTM
+        // drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.78,0.8,  0.78,1,  0.97,1] ); // TOP - < ^ > - 
+        // drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.78,0.8,  0.97,0.8,  0.97,1] );   // BOTTOM
+        // // right cube - LGTM
+        // drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.78,0.8,  0.78,1,  0.97,1] ); // /TOP - < ^ >
+        // drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.78,0.8,  0.97,0.8,  0.97,1] );// BOTTOM < ^ >
+        // // left cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.78,0.8,  0.78,1,  0.97,1] );
+        // drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.78,0.8,  0.97,0.8,  0.97,1] );
+        // // top of cube
+        // drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.78,0.8,  0.78,1,  0.97,1] );
+        // drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.78,0.8,  0.97,0.8,  0.97,1] );
+        // }
+
+        // if (LETTER1 == "F1") {
+        // // -- F -----
+        // // back cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0,0.61,  0,0.8,  0.19,0.8] ); // /TOP - < ^ > 0,0.62,  0,0.8,  0.19,0.8
+        // drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0,0.61,  0.19,0.61,  0.19,0.8] );   // /BOTTOM - < ^ > 0,0.62,  0.19,0.62,  0.19,0.8
+        // // front cube - LGTM
+        // drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0,0.61,  0,0.8,  0.19,0.8] ); // TOP - < ^ > - 
+        // drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0,0.61,  0.19,0.61,  0.19,0.8] );   // BOTTOM
+        // // right cube - LGTM
+        // drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0,0.61,  0,0.8,  0.19,0.8] ); // /TOP - < ^ >
+        // drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0,0.61,  0.19,0.61,  0.19,0.8] );// BOTTOM < ^ >
+        // // left cube - LGTM
+        // drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0,0.61,  0,0.8,  0.19,0.8] );
+        // drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0,0.61,  0.19,0.61,  0.19,0.8] );
+        // // top of cube
+        // drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0,0.61,  0,0.8,  0.19,0.8] );
+        // drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0,0.61,  0.19,0.61,  0.19,0.8] );
+        //}
+
+        // if (LETTER1 == "G1") {
+        // -- G -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.19,0.61,  0.19,0.8,  0.38,0.8] ); // /TOP - < ^ > 0.19,0.61,  0.19,0.8,  0.38,0.8
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.19,0.61,  0.38,0.61,  0.38,0.8] );   // /BOTTOM - < ^ > 0.19,0.61,  0.38,0.61,  0.38,0.8
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.19,0.61,  0.19,0.8,  0.38,0.8] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.19,0.61,  0.38,0.61,  0.38,0.8] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.19,0.61,  0.19,0.8,  0.38,0.8] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.19,0.61,  0.38,0.61,  0.38,0.8] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.19,0.61,  0.19,0.8,  0.38,0.8] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.19,0.61,  0.38,0.61,  0.38,0.8] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.19,0.61,  0.19,0.8,  0.38,0.8] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.19,0.61,  0.38,0.61,  0.38,0.8] );
+        // }
+    }
 }
