@@ -204,15 +204,22 @@ function addActionsUI() {
         );
      });
 
-    document.getElementById('dropdown').addEventListener('change', function() {
-        selectedLEN = this.value
-        // console.log(selectedLEN, '-letter word selected');   // DEBUG
+    document.getElementById('progressDROPDOWN').addEventListener('change', function() {
+        console.log('test');
+        if (this.value == 'stage1') {
+            L1 = true;
+        }
     });
 
-    document.getElementById('spelling1').addEventListener('change', function() {
-        selectedLETTER1 = this.value;
-        console.log('letter selected: ', selectedLETTER1);
-    })
+    // document.getElementById('dropdown').addEventListener('change', function() {
+    //     selectedLEN = this.value
+    //     // console.log(selectedLEN, '-letter word selected');   // DEBUG
+    // });
+
+//     document.getElementById('spelling1').addEventListener('change', function() {
+//         selectedLETTER1 = this.value;
+//         console.log('letter selected: ', selectedLETTER1);
+//     })
 
 }
 
@@ -360,24 +367,31 @@ var blockColorArray2 = [];
 var blockColorArray3 = [];
 var blockColorArray4 = [];
 
+let L1 = false;
+let L2 = false;
+let L3 = false;
+let L4 = false;
+
 function drawMap() {
 
-    for (x = 0; x < 8; x++) {   // LAYER 1
-        for (y = 0; y < 8; y++) {
-            if (!blockColorArray[x]) {
-                blockColorArray[x] = [];
-            }
-            if (g_map[x][y] == 1 && !blockColorArray[x][y]) {
-                blockColorArray[x][y] = randomColor();
-            }
-            if (g_map[x][y] == 1) {
-                var body = new Cube();
-                body.color = blockColorArray[x][y];
-                body.textureNum = -2;
-                body.matrix.scale(2, 2, 2);
-                body.matrix.rotate(15, 0, 1, 0);
-                body.matrix.translate(x + 1, -0.1, y + 3.5);
-                body.render();
+    if (L1 == true) {
+        for (x = 0; x < 8; x++) {   // LAYER 1
+            for (y = 0; y < 8; y++) {
+                if (!blockColorArray[x]) {
+                    blockColorArray[x] = [];
+                }
+                if (g_map[x][y] == 1 && !blockColorArray[x][y]) {
+                    blockColorArray[x][y] = randomColor();
+                }
+                if (g_map[x][y] == 1) {
+                    var body = new Cube();
+                    body.color = blockColorArray[x][y];
+                    body.textureNum = -2;
+                    body.matrix.scale(2, 2, 2);
+                    body.matrix.rotate(15, 0, 1, 0);
+                    body.matrix.translate(x + 1, -0.1, y + 3.5);
+                    body.render();
+                }
             }
         }
     }
