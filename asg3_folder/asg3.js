@@ -94,6 +94,8 @@ let LETTER3;
 let LETTER4;
 let LETTER5;
 
+let checkbox;
+
 // constants
 const POINT = 0;
 const TRIANGLE = 1;
@@ -504,7 +506,7 @@ function drawMap() {
                     body.textureNum = -2;
                     body.matrix.scale(2, 2, 2);
                     body.matrix.rotate(15, 0, 1, 0);
-                    body.matrix.translate(x + 1, -0.1, y + 3.5);
+                    body.matrix.translate(x + 2, -0.1, y + 5.5);
                     body.render();
                 }
             }
@@ -526,7 +528,7 @@ function drawMap() {
                     body.textureNum = -2;
                     body.matrix.scale(2, 2, 2);
                     body.matrix.rotate(15, 0, 1, 0);
-                    body.matrix.translate(x + 1, 0.9, y + 3.5);
+                    body.matrix.translate(x + 2, 0.9, y + 5.5);
                     body.render();
                 }
             }
@@ -548,7 +550,7 @@ function drawMap() {
                     body.textureNum = -2;
                     body.matrix.scale(2, 2, 2);
                     body.matrix.rotate(15, 0, 1, 0);
-                    body.matrix.translate(x + 1, 1.9, y + 3.5);
+                    body.matrix.translate(x + 2, 1.9, y + 5.5);
                     body.render();
                 }
             }
@@ -570,7 +572,7 @@ function drawMap() {
                     body.textureNum = -2;
                     body.matrix.scale(2, 2, 2);
                     body.matrix.rotate(15, 0, 1, 0);
-                    body.matrix.translate(x + 1, 2.9, y + 3.5);
+                    body.matrix.translate(x + 2, 2.9, y + 5.5);
                     body.render();
                 }
             }
