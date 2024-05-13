@@ -105,7 +105,7 @@ let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegment = 5;
 
-let g_globalAngle = -105;  // RESET TO 0 WHEN DONE
+let g_globalAngle = 0;  // RESET TO 0 WHEN DONE
 
 let g_yellowAngle = 0;  // ADDED IN 2.6
 let g_magentaAngle = 0; // ADDED IN 2.7
@@ -301,11 +301,6 @@ function addActionsUI() {
         shape3 = this.value;
         console.log(shape3);
     });
-
-    // document.getElementById('dropdown').addEventListener('change', function() {
-    //     selectedLEN = this.value
-    //     // console.log(selectedLEN, '-letter word selected');   // DEBUG
-    // });
 
     document.getElementById('spell1').addEventListener('change', function() {
         LETTER1 = this.value;
@@ -779,6 +774,7 @@ function renderAllShapes() {
     chestLid.textureNum = -2;
     chestLid.matrix.scale(21, 2, 12);
     chestLid.matrix.translate(1.3, 5.5, 0.3);
+    chestLid.matrix.rotate(0, 1, 0, 0);
     chestLid.render();
 
     var door = new Cube();
@@ -913,7 +909,7 @@ function renderAllShapes() {
         SOUP2.matrix.scale(5, 5, 5);
         SOUP2.matrix.translate(0.7, -0.05, 5.5);
         SOUP2.matrix.rotate(80, 0, 1, 0);
-        SOUP2.render()
+        SOUP2.render();
     }
     if (LETTER4 == "Z4") {
         var SOUP2 = new Cube();
@@ -921,7 +917,7 @@ function renderAllShapes() {
         SOUP2.matrix.scale(5, 5, 5);
         SOUP2.matrix.translate(0.7, -0.05, 5.5);
         SOUP2.matrix.rotate(80, 0, 1, 0);
-        SOUP2.render()
+        SOUP2.render();
     }
 
     // LETTER5 = "T5";
@@ -939,7 +935,7 @@ function renderAllShapes() {
         SOUP3.matrix.scale(5, 5, 5);
         SOUP3.matrix.translate(0.7, -0.05, 4.45);
         SOUP3.matrix.rotate(90, 0, 1, 0);
-        SOUP3.render()
+        SOUP3.render();
     }
 }
 
