@@ -20,13 +20,10 @@ br {
 }
 
 #castleDIV, #shapeBlockDIV, #letterBlockDIV {
+    font-size: 20px;
     margin-left: 30%;
     text-align: left;
     padding-bottom: 1%;
-}
-
-#shapeBlockDIV {
-
 }
 
 canvas {
