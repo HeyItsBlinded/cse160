@@ -1,3 +1,7 @@
+body{
+    background-color:darkgrey;
+}
+
 br {
     display: block;
     content: ''; 
@@ -16,7 +20,7 @@ br {
 }
 
 #castleDIV, #shapeBlockDIV, #letterBlockDIV {
-    margin-left: 20%;
+    margin-left: 30%;
     text-align: left;
     padding-bottom: 1%;
 }
