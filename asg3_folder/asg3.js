@@ -617,7 +617,7 @@ function initTextures() {
         return false;
     }
     alphaTEXTURE.onload = function() { sendImageToTEXTURE(alphaTEXTURE, 3); };
-    alphaTEXTURE.src = 'textures/alphaGrid.png';
+    alphaTEXTURE.src = 'textures/alphagrid.png';
     // ----------
     var zTEXTURE = new Image();
     if (!zTEXTURE) {
