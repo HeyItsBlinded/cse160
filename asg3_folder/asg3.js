@@ -90,6 +90,7 @@ let shape3;
 
 let LETTER1;
 let LETTER2;
+let LETTER3;
 
 // constants
 const POINT = 0;
@@ -307,13 +308,20 @@ function addActionsUI() {
     document.getElementById('spell1').addEventListener('change', function() {
         LETTER1 = this.value;
         console.log('LETTER1: ', LETTER1);
-    })
+    });
 
     document.getElementById('spell2').addEventListener('change', function() {
         LETTER2 = this.value;
         console.log('current LETTER1: ', LETTER1);
         console.log('LETTER2: ', LETTER2);
-    })
+    });
+
+    document.getElementById('spell3').addEventListener('change', function() {
+        LETTER3 = this.value;
+        console.log('current LETTER1: ', LETTER1);
+        console.log('current LETTER2: ', LETTER2);
+        console.log('LETTER3: ', LETTER3);
+    });
 }
 
 // function click(ev) {
@@ -831,7 +839,7 @@ function renderAllShapes() {
         cube1.textureNum = 3;
         cube1.matrix.scale(5, 5, 5);
         cube1.matrix.translate(0.8, -0.05, 9.2);
-        cube1.matrix.rotate(90, 0, 1, 0);
+        cube1.matrix.rotate(100, 0, 1, 0);
         cube1.render();
     }
     if (LETTER1 == "Z1") {
@@ -839,7 +847,7 @@ function renderAllShapes() {
         cube1.textureNum = 4;
         cube1.matrix.scale(5, 5, 5);
         cube1.matrix.translate(0.8, -0.05, 9.2);
-        cube1.matrix.rotate(90, 0, 1, 0);
+        cube1.matrix.rotate(100, 0, 1, 0);
         cube1.render();
     }
 
@@ -848,7 +856,7 @@ function renderAllShapes() {
         var cube = new Cube3();
         cube.textureNum = 3;
         cube.matrix.scale(5, 5, 5);
-        cube.matrix.translate(0.8, -0.05, 8);
+        cube.matrix.translate(0.8, -0.05, 8.2);
         cube.matrix.rotate(110, 0, 1, 0);
         cube.render();
     }
@@ -856,8 +864,25 @@ function renderAllShapes() {
         var cube = new Cube()
         cube.textureNum = 4;
         cube.matrix.scale(5, 5, 5);
-        cube.matrix.translate(0.8, -0.05, 8);
+        cube.matrix.translate(0.8, -0.05, 8.2);
         cube.matrix.rotate(110, 0, 1, 0);
+        cube.render();
+    }
+
+    if (LETTER3 !== "Z3") {
+        var SOUP = new Cube4();
+        SOUP.textureNum = 3;
+        SOUP.matrix.scale(5, 5, 5);
+        SOUP.matrix.translate(0.7, -0.05, 6.9);
+        SOUP.matrix.rotate(100, 0, 1, 0);
+        SOUP.render();
+    }
+    if (LETTER3 == "Z3") {
+        var cube = new Cube()
+        cube.textureNum = 4;
+        cube.matrix.scale(5, 5, 5);
+        cube.matrix.translate(0.7, -0.05, 6.9);
+        cube.matrix.rotate(100, 0, 1, 0);
         cube.render();
     }
 
@@ -1844,6 +1869,506 @@ class Cube3 {
         }
 
         if (LETTER2 == "Y2") {
+        // -- Y -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.78,0.03,  0.78,0.22,  0.97,0.22] ); // /TOP - < ^ > 0.78,0.03,  0.78,0.22,  0.97,0.22
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.78,0.03,  0.97,0.03,  0.97,0.22] );   // /BOTTOM - < ^ > 0.78,0.03,  0.97,0.03,  0.97,0.22 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.78,0.03,  0.78,0.22,  0.97,0.22] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.78,0.03,  0.97,0.03,  0.97,0.22] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.78,0.03,  0.78,0.22,  0.97,0.22] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.78,0.03,  0.97,0.03,  0.97,0.22] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.78,0.03,  0.78,0.22,  0.97,0.22] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.78,0.03,  0.97,0.03,  0.97,0.22] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.78,0.03,  0.78,0.22,  0.97,0.22] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.78,0.03,  0.97,0.03,  0.97,0.22] );
+        }
+    }
+}
+
+// LETTER BLOCK 3
+class Cube4 {
+    constructor() {
+        this.type = 'cube4';
+        this.color = [1.0, 1.0, 1.0, 1.0];
+        this.matrix = new Matrix4();
+        this.textureNum = -2;
+    }
+
+    render() {
+        var rgba = this.color;
+
+        gl.uniform1i(u_whichTexture, this.textureNum);
+        gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
+
+        // NEW!
+        // gl.activeTexture(gl.TEXTURE0 + this.textureNum);
+        // gl.bindTexture(gl.TEXTURE_2D, texture);
+        // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+        // pass the matrix to u_ModelMatrix attribute
+        gl.uniformMatrix4fv(u_ModelMatrix, false, this.matrix.elements);
+
+        if (LETTER3 == 'A3') {
+        // -- A -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0,0.8,  0,1,  0.2,1] ); // /TOP - < ^ > 0,1,  0.5,1,  0,0.5
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0,0.8,  0.2,0.8,  0.2,1] );   // /BOTTOM - < ^ > 0,0.8,  0.2,0.8,  0.2,1 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0,0.8,  0,1,  0.2,1] );
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0,0.8,  0.2,0.8,  0.2,1] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0,0.8,  0,1,  0.2,1] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0,0.8,  0.2,0.8,  0.2,1] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0,0.8,  0,1,  0.2,1] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0,0.8,  0.2,0.8,  0.2,1] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0,0.8,  0,1,  0.2,1] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0,0.8,  0.2,0.8,  0.2,1] );
+        }
+
+        if (LETTER3 == "B3") {
+        // -- B -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.2,0.8,  0.2,1,  0.4,1] ); // /TOP - < ^ > 0.2,0.8,  0.2,1,  0.4,1
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.2,0.8,  0.4,0.8,  0.4,1 ] );   // /BOTTOM - < ^ > 0.2,0.8,  0.4,0.8,  0.4,1 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.2,0.8,  0.2,1,  0.4,1] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.2,0.8,  0.4,0.8,  0.4,1] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.2,0.8,  0.2,1,  0.4,1] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.2,0.8,  0.4,0.8,  0.4,1] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.2,0.8,  0.2,1,  0.4,1] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.2,0.8,  0.4,0.8,  0.4,1] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.2,0.8,  0.2,1,  0.4,1] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.2,0.8,  0.4,0.8,  0.4,1] );
+        }
+
+        if (LETTER3 == "C3") {
+        // -- C -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.38,0.8,  0.38,1,  0.59,1] ); // /TOP - < ^ > 0.38,0.8,  0.38,1,  0.58,1
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.38,0.8,  0.58,0.8,  0.59,1] );   // /BOTTOM - < ^ > 0.38,0.8,  0.58,0.8,  0.58,1
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.38,0.8,  0.38,1,  0.59,1] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.38,0.8,  0.58,0.8,  0.59,1] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.38,0.8,  0.38,1,  0.59,1] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.38,0.8,  0.58,0.8,  0.59,1] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.38,0.8,  0.38,1,  0.59,1] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.38,0.8,  0.58,0.8,  0.59,1] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.38,0.8,  0.38,1,  0.59,1] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.38,0.8,  0.58,0.8,  0.59,1] );
+        }
+
+        if (LETTER3 == "D3") {
+        // -- D -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.58,0.8,  0.58,1,  0.78,1] ); // /TOP - < ^ > 0.58,0.8,  0.58,1,  0.78,1
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.58,0.8,  0.78,0.8,  0.78,1] );   // /BOTTOM - < ^ > 0.58,0.8,  0.78,0.8,  0.78,1
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.58,0.8,  0.58,1,  0.78,1] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.58,0.8,  0.78,0.8,  0.78,1] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.58,0.8,  0.58,1,  0.78,1] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.58,0.8,  0.78,0.8,  0.78,1] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.58,0.8,  0.58,1,  0.78,1] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.58,0.8,  0.78,0.8,  0.78,1] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.58,0.8,  0.58,1,  0.78,1] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.58,0.8,  0.78,0.8,  0.78,1] );
+        }
+
+        if (LETTER3 == "E3") {
+        // -- E -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.78,0.8,  0.78,1,  0.97,1] ); // /TOP - < ^ > 0.78,0.8,  0.78,1,  0.97,1
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.78,0.8,  0.97,0.8,  0.97,1] );   // /BOTTOM - < ^ > 0.78,0.8,  0.97,0.8,  0.97,1
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.78,0.8,  0.78,1,  0.97,1] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.78,0.8,  0.97,0.8,  0.97,1] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.78,0.8,  0.78,1,  0.97,1] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.78,0.8,  0.97,0.8,  0.97,1] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.78,0.8,  0.78,1,  0.97,1] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.78,0.8,  0.97,0.8,  0.97,1] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.78,0.8,  0.78,1,  0.97,1] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.78,0.8,  0.97,0.8,  0.97,1] );
+        }
+
+        if (LETTER3 == "F3") {
+        // -- F -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0,0.61,  0,0.8,  0.19,0.8] ); // /TOP - < ^ > 0,0.62,  0,0.8,  0.19,0.8
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0,0.61,  0.19,0.61,  0.19,0.8] );   // /BOTTOM - < ^ > 0,0.62,  0.19,0.62,  0.19,0.8
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0,0.61,  0,0.8,  0.19,0.8] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0,0.61,  0.19,0.61,  0.19,0.8] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0,0.61,  0,0.8,  0.19,0.8] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0,0.61,  0.19,0.61,  0.19,0.8] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0,0.61,  0,0.8,  0.19,0.8] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0,0.61,  0.19,0.61,  0.19,0.8] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0,0.61,  0,0.8,  0.19,0.8] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0,0.61,  0.19,0.61,  0.19,0.8] );
+        }
+
+        if (LETTER3 == "G3") {
+        // -- G -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.19,0.61,  0.19,0.8,  0.38,0.8] ); // /TOP - < ^ > 0.19,0.61,  0.19,0.8,  0.38,0.8
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.19,0.61,  0.38,0.61,  0.38,0.8] );   // /BOTTOM - < ^ > 0.19,0.61,  0.38,0.61,  0.38,0.8
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.19,0.61,  0.19,0.8,  0.38,0.8] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.19,0.61,  0.38,0.61,  0.38,0.8] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.19,0.61,  0.19,0.8,  0.38,0.8] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.19,0.61,  0.38,0.61,  0.38,0.8] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.19,0.61,  0.19,0.8,  0.38,0.8] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.19,0.61,  0.38,0.61,  0.38,0.8] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.19,0.61,  0.19,0.8,  0.38,0.8] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.19,0.61,  0.38,0.61,  0.38,0.8] );
+        }
+
+        if (LETTER3 == "H3") {
+        // -- H -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.38,0.61,  0.38,0.81,  0.59,0.81] ); // /TOP - < ^ > 0.38,0.61,  0.38,0.81,  0.59,0.81
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.38,0.61,  0.59,0.61,  0.59,0.81] );   // /BOTTOM - < ^ > 0.38,0.61,  0.59,0.61,  0.59,0.81
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.38,0.61,  0.38,0.81,  0.59,0.81] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.38,0.61,  0.59,0.61,  0.59,0.81] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.38,0.61,  0.38,0.81,  0.59,0.81] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.38,0.61,  0.59,0.61,  0.59,0.81] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.38,0.61,  0.38,0.81,  0.59,0.81] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.38,0.61,  0.59,0.61,  0.59,0.81] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.38,0.61,  0.38,0.81,  0.59,0.81] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.38,0.61,  0.59,0.61,  0.59,0.81] );
+        }
+
+        if (LETTER3 == "I3") {
+        // -- I -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.59,0.61,  0.59,0.81,  0.78,0.81] ); // /TOP - < ^ > 0.59,0.61,  0.59,0.81,  0.78,0.81
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.59,0.61,  0.78,0.61,  0.78,0.81] );   // /BOTTOM - < ^ > 0.59,0.61,  0.78,0.61,  0.78,0.81
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.59,0.61,  0.59,0.81,  0.78,0.81] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.59,0.61,  0.78,0.61,  0.78,0.81] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.59,0.61,  0.59,0.81,  0.78,0.81] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.59,0.61,  0.78,0.61,  0.78,0.81] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.59,0.61,  0.59,0.81,  0.78,0.81] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.59,0.61,  0.78,0.61,  0.78,0.81] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.59,0.61,  0.59,0.81,  0.78,0.81] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.59,0.61,  0.78,0.61,  0.78,0.81] );
+        }
+
+        if (LETTER3 == "J3") {
+        // -- J -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.78,0.61,  0.78,0.81,  0.97,0.81] ); // /TOP - < ^ > 0.78,0.61,  0.78,0.81,  0.97,0.81
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.78,0.61,  0.97,0.61,  0.97,0.81] );   // /BOTTOM - < ^ > 0.78,0.61,  0.97,0.61,  0.97,0.81
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.78,0.61,  0.78,0.81,  0.97,0.81] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.78,0.61,  0.97,0.61,  0.97,0.81] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.78,0.61,  0.78,0.81,  0.97,0.81] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.78,0.61,  0.97,0.61,  0.97,0.81] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.78,0.61,  0.78,0.81,  0.97,0.81] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.78,0.61,  0.97,0.61,  0.97,0.81] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.78,0.61,  0.78,0.81,  0.97,0.81] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.78,0.61,  0.97,0.61,  0.97,0.81] );
+        }
+
+        if (LETTER3 == "K3") {
+        // -- K -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0,0.41,  0,0.61,  0.19,0.61] ); // /TOP - < ^ > 0,0.42,  0,0.61,  0.19,0.61
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0,0.41,  0.19,0.41,  0.19,0.61] );   // /BOTTOM - < ^ > 0,0.42,  0.19,0.42,  0.19,0.61
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0,0.41,  0,0.61,  0.19,0.61] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0,0.41,  0.19,0.41,  0.19,0.61] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0,0.41,  0,0.61,  0.19,0.61] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0,0.41,  0.19,0.41,  0.19,0.61] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0,0.41,  0,0.61,  0.19,0.61] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0,0.41,  0.19,0.41,  0.19,0.61] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0,0.41,  0,0.61,  0.19,0.61] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0,0.41,  0.19,0.41,  0.19,0.61] );
+        }
+
+        if (LETTER3 == "L3") {
+        // -- L -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.19,0.41,  0.19,0.61,  0.39,0.61] ); // /TOP - < ^ > 0.19,0.41,  0.19,0.61,  0.39,0.61
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.19,0.41,  0.39,0.41,  0.39,0.61] );   // /BOTTOM - < ^ > 0.19,0.41,  0.39,0.41,  0.39,0.61
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.19,0.41,  0.19,0.61,  0.39,0.61] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.19,0.41,  0.39,0.41,  0.39,0.61] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.19,0.41,  0.19,0.61,  0.39,0.61] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.19,0.41,  0.39,0.41,  0.39,0.61] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.19,0.41,  0.19,0.61,  0.39,0.61] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.19,0.41,  0.39,0.41,  0.39,0.61] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.19,0.41,  0.19,0.61,  0.39,0.61] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.19,0.41,  0.39,0.41,  0.39,0.61] );
+        }
+
+        if (LETTER3 == "M3") {
+        // -- M -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.39,0.41,  0.39,0.61,  0.58,0.61] ); // /TOP - < ^ > 0.39,0.41,  0.39,0.61,  0.58,0.61
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.39,0.41,  0.58,0.41,  0.58,0.61] );   // /BOTTOM - < ^ > 0.39,0.41,  0.58,0.41,  0.58,0.61
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.39,0.41,  0.39,0.61,  0.58,0.61] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.39,0.41,  0.58,0.41,  0.58,0.61] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.39,0.41,  0.39,0.61,  0.58,0.61] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.39,0.41,  0.58,0.41,  0.58,0.61] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.39,0.41,  0.39,0.61,  0.58,0.61] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.39,0.41,  0.58,0.41,  0.58,0.61] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.39,0.41,  0.39,0.61,  0.58,0.61] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.39,0.41,  0.58,0.41,  0.58,0.61] );
+        }
+
+        if (LETTER3 == "N3") {
+        // -- N -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.58,0.41,  0.58,0.61,  0.78,0.61] ); // /TOP - < ^ > 0.58,0.41,  0.58,0.61,  0.78,0.61  
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.58,0.41,  0.78,0.41,  0.78,0.61] );   // /BOTTOM - < ^ > 0.58,0.41,  0.78,0.41,  0.78,0.61 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.58,0.41,  0.58,0.61,  0.78,0.61] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.58,0.41,  0.78,0.41,  0.78,0.61] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.58,0.41,  0.58,0.61,  0.78,0.61] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.58,0.41,  0.78,0.41,  0.78,0.61] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.58,0.41,  0.58,0.61,  0.78,0.61] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.58,0.41,  0.78,0.41,  0.78,0.61] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.58,0.41,  0.58,0.61,  0.78,0.61] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.58,0.41,  0.78,0.41,  0.78,0.61] );
+        }
+
+        if (LETTER3 == "O3") {
+        // -- O -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.78,0.42,  0.78,0.61,  0.97,0.61] ); // /TOP - < ^ > 0.78,0.42,  0.78,0.61,  0.97,0.61  
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.78,0.42,  0.97,0.42,  0.97,0.61] );   // /BOTTOM - < ^ > 0.78,0.42,  0.97,0.42,  0.97,0.61  
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.78,0.42,  0.78,0.61,  0.97,0.61] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.78,0.42,  0.97,0.42,  0.97,0.61] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.78,0.42,  0.78,0.61,  0.97,0.61] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.78,0.42,  0.97,0.42,  0.97,0.61] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.78,0.42,  0.78,0.61,  0.97,0.61] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.78,0.42,  0.97,0.42,  0.97,0.61] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.78,0.42,  0.78,0.61,  0.97,0.61] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.78,0.42,  0.97,0.42,  0.97,0.61] );
+        }
+
+        if (LETTER3 == "P3") {
+        // -- P -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0,0.22,  0,0.42,  0.19,0.42] ); // /TOP - < ^ > 0,0.22,  0,0.42,  0.19,0.42  
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0,0.22,  0.19,0.22,  0.19,0.42] );   // /BOTTOM - < ^ > 0,0.22,  0.19,0.22,  0.19,0.42   
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0,0.22,  0,0.42,  0.19,0.42] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0,0.22,  0.19,0.22,  0.19,0.42] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0,0.22,  0,0.42,  0.19,0.42] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0,0.22,  0.19,0.22,  0.19,0.42] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0,0.22,  0,0.42,  0.19,0.42] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0,0.22,  0.19,0.22,  0.19,0.42] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0,0.22,  0,0.42,  0.19,0.42] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0,0.22,  0.19,0.22,  0.19,0.42] );
+        }
+
+        if (LETTER3 == "Q3") {
+        // -- Q -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.19,0.22,  0.19,0.41,  0.38,0.41] ); // /TOP - < ^ > 0.19,0.22,  0.19,0.41,  0.38,0.41 
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.19,0.22,  0.38,0.22,  0.38,0.41] );   // /BOTTOM - < ^ > 0.19,0.22,  0.38,0.22,  0.38,0.41 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.19,0.22,  0.19,0.41,  0.38,0.41] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.19,0.22,  0.38,0.22,  0.38,0.41] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.19,0.22,  0.19,0.41,  0.38,0.41] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.19,0.22,  0.38,0.22,  0.38,0.41] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.19,0.22,  0.19,0.41,  0.38,0.41] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.19,0.22,  0.38,0.22,  0.38,0.41] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.19,0.22,  0.19,0.41,  0.38,0.41] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.19,0.22,  0.38,0.22,  0.38,0.41] );
+        }
+
+        if (LETTER3 == "R3"){
+        // -- R -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.38,0.22,  0.38,0.42,  0.58,0.42] ); // /TOP - < ^ > 0.38,0.22,  0.38,0.42,  0.58,0.42 
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.38,0.22,  0.58,0.22,  0.58,0.42] );   // /BOTTOM - < ^ > 0.38,0.22,  0.58,0.22,  0.58,0.42 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.38,0.22,  0.38,0.42,  0.58,0.42] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.38,0.22,  0.58,0.22,  0.58,0.42] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.38,0.22,  0.38,0.42,  0.58,0.42] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.38,0.22,  0.58,0.22,  0.58,0.42] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.38,0.22,  0.38,0.42,  0.58,0.42] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.38,0.22,  0.58,0.22,  0.58,0.42] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.38,0.22,  0.38,0.42,  0.58,0.42] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.38,0.22,  0.58,0.22,  0.58,0.42] );
+        }
+
+        if (LETTER3 == "S3") {
+        // -- S -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.58,0.22,  0.58,0.42,  0.78,0.42] ); // /TOP - < ^ > 0.58,0.22,  0.58,0.42,  0.78,0.42 
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.58,0.22,  0.78,0.22,  0.78,0.42] );   // /BOTTOM - < ^ > 0.58,0.22,  0.78,0.22,  0.78,0.42 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.58,0.22,  0.58,0.42,  0.78,0.42] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.58,0.22,  0.78,0.22,  0.78,0.42] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.58,0.22,  0.58,0.42,  0.78,0.42] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.58,0.22,  0.78,0.22,  0.78,0.42] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.58,0.22,  0.58,0.42,  0.78,0.42] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.58,0.22,  0.78,0.22,  0.78,0.42] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.58,0.22,  0.58,0.42,  0.78,0.42] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.58,0.22,  0.78,0.22,  0.78,0.42] );
+        }
+
+        if (LETTER3 == "T3") {
+        // -- T -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.78,0.22,  0.78,0.42,  0.97,0.42] ); // /TOP - < ^ > 0.78,0.22,  0.78,0.42,  0.97,0.42 
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.78,0.22,  0.97,0.22,  0.97,0.42] );   // /BOTTOM - < ^ > 0.78,0.22,  0.97,0.22,  0.97,0.42 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.78,0.22,  0.78,0.42,  0.97,0.42] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.78,0.22,  0.97,0.22,  0.97,0.42] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.78,0.22,  0.78,0.42,  0.97,0.42] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.78,0.22,  0.97,0.22,  0.97,0.42] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.78,0.22,  0.78,0.42,  0.97,0.42] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.78,0.22,  0.97,0.22,  0.97,0.42] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.78,0.22,  0.78,0.42,  0.97,0.42] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.78,0.22,  0.97,0.22,  0.97,0.42] );
+        }
+
+        if (LETTER3 == "U3") {
+        // -- U -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0,0.03,  0,0.22,  0.2,0.22] ); // /TOP - < ^ > 0,0.03,  0,0.22,  0.2,0.22
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0,0.03,  0.2,0.03,  0.2,0.22] );   // /BOTTOM - < ^ > 0,0.03,  0.2,0.03,  0.2,0.22 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0,0.03,  0,0.22,  0.2,0.22] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0,0.03,  0.2,0.03,  0.2,0.22] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0,0.03,  0,0.22,  0.2,0.22] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0,0.03,  0.2,0.03,  0.2,0.22] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0,0.03,  0,0.22,  0.2,0.22] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0,0.03,  0.2,0.03,  0.2,0.22] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0,0.03,  0,0.22,  0.2,0.22] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0,0.03,  0.2,0.03,  0.2,0.22] );
+        }
+
+        if (LETTER3 == "V3") {
+        // -- V -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.2,0.03,  0.2,0.22,  0.39,0.22] ); // /TOP - < ^ > 0.2,0.03,  0.2,0.22,  0.39,0.22
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.2,0.03,  0.39,0.03,  0.39,0.22] );   // /BOTTOM - < ^ > 0.2,0.03,  0.39,0.03,  0.39,0.22 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.2,0.03,  0.2,0.22,  0.39,0.22] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.2,0.03,  0.39,0.03,  0.39,0.22] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.2,0.03,  0.2,0.22,  0.39,0.22] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.2,0.03,  0.39,0.03,  0.39,0.22] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.2,0.03,  0.2,0.22,  0.39,0.22] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.2,0.03,  0.39,0.03,  0.39,0.22] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.2,0.03,  0.2,0.22,  0.39,0.22] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.2,0.03,  0.39,0.03,  0.39,0.22] );
+        }
+
+        if (LETTER3 == "W3") {
+        // -- W -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.39,0.03,  0.39,0.22,  0.58,0.22] ); // /TOP - < ^ > 0.39,0.03,  0.39,0.22,  0.58,0.22
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.39,0.03,  0.58,0.03,  0.58,0.22] );   // /BOTTOM - < ^ > 0.39,0.03,  0.58,0.03,  0.58,0.22 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.39,0.03,  0.39,0.22,  0.58,0.22] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.39,0.03,  0.58,0.03,  0.58,0.22] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.39,0.03,  0.39,0.22,  0.58,0.22] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.39,0.03,  0.58,0.03,  0.58,0.22] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.39,0.03,  0.39,0.22,  0.58,0.22] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.39,0.03,  0.58,0.03,  0.58,0.22] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.39,0.03,  0.39,0.22,  0.58,0.22] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.39,0.03,  0.58,0.03,  0.58,0.22] );
+        }
+
+        if (LETTER3 == "X3") {
+        // -- X -----
+        // back cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.58,0.03,  0.58,0.22,  0.78,0.22] ); // /TOP - < ^ > 0.58,0.03,  0.58,0.22,  0.78,0.22
+        drawTriangle3DUV( [0,0,0,   1,0,0,   1,1,0], [0.58,0.03,  0.78,0.03,  0.78,0.22] );   // /BOTTOM - < ^ > 0.58,0.03,  0.78,0.03,  0.78,0.22 
+        // front cube - LGTM
+        drawTriangle3DUV( [0,0,1,  0,1,1,  1,1,1], [0.58,0.03,  0.58,0.22,  0.78,0.22] ); // TOP - < ^ > - 
+        drawTriangle3DUV( [0,0,1,  1,0,1,  1,1,1], [0.58,0.03,  0.78,0.03,  0.78,0.22] );   // BOTTOM
+        // right cube - LGTM
+        drawTriangle3DUV( [1,0,0,   1,1,0,   1,1,1], [0.58,0.03,  0.58,0.22,  0.78,0.22] ); // /TOP - < ^ >
+        drawTriangle3DUV( [1,0,0,   1,0,1,   1,1,1], [0.58,0.03,  0.78,0.03,  0.78,0.22] );// BOTTOM < ^ >
+        // left cube - LGTM
+        drawTriangle3DUV( [0,0,0,   0,1,0,   0,1,1], [0.58,0.03,  0.58,0.22,  0.78,0.22] );
+        drawTriangle3DUV( [0,0,0,   0,0,1,   0,1,1], [0.58,0.03,  0.78,0.03,  0.78,0.22] );
+        // top of cube
+        drawTriangle3DUV( [0,1,0,   0,1,1,   1,1,1], [0.58,0.03,  0.58,0.22,  0.78,0.22] );
+        drawTriangle3DUV( [0,1,0,   1,1,0,   1,1,1], [0.58,0.03,  0.78,0.03,  0.78,0.22] );
+        }
+
+        if (LETTER3 == "Y3") {
         // -- Y -----
         // back cube - LGTM
         drawTriangle3DUV( [0,0,0,   0,1,0,   1,1,0], [0.78,0.03,  0.78,0.22,  0.97,0.22] ); // /TOP - < ^ > 0.78,0.03,  0.78,0.22,  0.97,0.22
