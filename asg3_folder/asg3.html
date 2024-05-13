@@ -82,15 +82,6 @@
 
             <br>
 
-            <!-- CHILD SAFETY LOCK -->
-            <!--
-                words supported: bitch, pussy
-            -->
-            <!-- <input type="checkbox" id="SAFETYcheckbox">
-            <label for="SAFETYcheckbox">child-safety lock</label> -->
-
-            <br>
-
             <!-- LETTER SELECT -->
             <label for="spell1">letter 1</label>
             <select id="spell1" name="spell1">
@@ -247,10 +238,27 @@
                 <option value="Z5">Z</option>
             </select>
 
+            <br>
             <!-- RED - A B C D E F G -->
             <!-- GREEN - H I J K L M N -->
             <!-- BLUE  - O P Q R S T -->
             <!-- YELLOW - U V W X Y Z -->
+
+            <!-- CHILD SAFETY LOCK -->
+            <!--
+                words supported: pussy, bitch, cocks, penis, dicks, dickz, fucks, fuckz, puthy, horny
+            -->
+            <button id="toggleButton" onclick="toggleState()">toggle child-safety lock</button>
+            <p id="valueDisplay"></p>
+            <script>
+                let isToggleValue = true;
+
+                function toggleState() {
+                    isToggleValue = !isToggleValue;
+                    document.getElementById('valueDisplay').textContent = 'lock is on: ' + isToggleValue;
+                }
+            </script>
+
         </div>
     </body>
 </html>
