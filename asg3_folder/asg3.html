@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>colored points</title>
-        <!-- <link rel="stylesheet" href="asg2_style.css"> -->
+        <link rel="stylesheet" href="asg3_style.css">
     </head>
     <body onload="main()">
         <script src="../lib/webgl-utils.js"></script>
@@ -20,11 +20,19 @@
         <a href="../index.html">back to hub</a>
 
         <br>
+        <p>
+            Note to the grader: Hi o/ Use W/A/S/D for movement and Q/E for left-right rotation.
+            The concept here is a kid's playroom, and there are three ways to play; rotate around
+            the room to find them all! Use the controls below to interact with the various activites.
+            Note: best experienced if activities are played in clock-wise order!
+        </p>
 
+        <div id="canvasContainer">
         <canvas id="webgl" width="500" height="500">
             Please use browser supporting "canvas"
         </canvas>
-        <p id="numdot">[DISPLAY]</p>
+        </div>
+        <!-- <p id="numdot">[DISPLAY]</p> -->
 
         <!-- -- -- -- -- -- -->
         <div id="interface">
@@ -37,6 +45,7 @@
 
             <br>
 
+            <div id="castleDIV">
             <!-- CASTLE PROGRESS -->
             <label>castle progress</label>
             <select id="progressDROPDOWN" name="castleProgress">
@@ -46,12 +55,13 @@
                 <option value="stage3">stage 3</option>
                 <option value="stage4">stage 4</option>
             </select>
-
             <!-- CASTLE CLEAR -->
             <input type="button" id="clearCastle" value="clear castle">
+            </div>
 
             <br>
 
+            <div id="shapeBlockDIV">
             <!-- SHAPE SELECT -->
             <label>shape1 select</label>
             <select id="shape1SELECT" name="shape1NAME">
@@ -79,9 +89,11 @@
                 <option value="s3CIRCLE">circle</option>
                 <option value="s3TRIANGLE">triangle</option>
             </select>
+            </div>
 
             <br>
 
+            <div id="letterBlockDIV">
             <!-- LETTER SELECT -->
             <label for="spell1">letter 1</label>
             <select id="spell1" name="spell1">
@@ -239,6 +251,7 @@
             </select>
 
             <br>
+
             <!-- RED - A B C D E F G -->
             <!-- GREEN - H I J K L M N -->
             <!-- BLUE  - O P Q R S T -->
@@ -246,7 +259,9 @@
 
             <!-- CHILD SAFETY LOCK -->
             <!--
-                words supported: pussy, bitch, cocks, penis, dicks, dickz, fucks, fuckz, puthy, horny
+                words supported: pussy, bitch, cock(s), penis, dick(s/z), fuck(s/z), puthy, horny, fugly, arson, cunt(y),
+                                 whore, turd(s)
+                                 shit(s/z), peen(s), arse(s/z), dyke(s), piss, slut(s/z), damn, turd(s/z)
             -->
             <button id="toggleButton" onclick="toggleState()">toggle child-safety lock</button>
             <p id="valueDisplay"></p>
@@ -258,7 +273,7 @@
                     document.getElementById('valueDisplay').textContent = 'lock is on: ' + isToggleValue;
                 }
             </script>
-
+            </div>
         </div>
     </body>
 </html>

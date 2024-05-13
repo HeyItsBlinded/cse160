@@ -107,7 +107,7 @@ let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegment = 5;
 
-let g_globalAngle = -100;  // RESET TO 0 WHEN DONE
+let g_globalAngle = -10;  // RESET TO 0 WHEN DONE
 
 let g_yellowAngle = 0;  // ADDED IN 2.6
 let g_magentaAngle = 0; // ADDED IN 2.7
@@ -851,7 +851,7 @@ function renderAllShapes() {
     block3.matrix.rotate(35, 0, 1, 0);
     block3.render();
 
-    // CHILD SAFETY LOCK
+    // -- CHILD SAFETY LOCK ----------
     if (isToggleValue == true) {
         if (LETTER1 == 'P1' && LETTER2 == 'U2' && LETTER3 == 'S3' && LETTER4 == 'S4' && LETTER5 == 'Y5') {
             console.log('pussy spelled :(');
@@ -859,10 +859,6 @@ function renderAllShapes() {
         }
         if (LETTER1 == 'B1' && LETTER2 == 'I2' && LETTER3 == 'T3' && LETTER4 == 'C4' && LETTER5 == 'H5') {
             console.log('bitch spelled :(');
-            return;
-        }
-        if (LETTER1 == 'C1' && LETTER2 == 'O2' && LETTER3 == 'C3' && LETTER4 == 'K4' && LETTER5 == 'S5') {
-            console.log('cocks spelled :(');
             return;
         }
         if (LETTER1 == 'P1' && LETTER2 == 'E2' && LETTER3 == 'N3' && LETTER4 == 'I4' && LETTER5 == 'S5') {
@@ -873,28 +869,76 @@ function renderAllShapes() {
             console.log('bitch spelled :(');
             return;
         }
-        if (LETTER1 == 'D1' && LETTER2 == 'I2' && LETTER3 == 'C3' && LETTER4 == 'K4' && LETTER5 == 'S5') {
-            console.log('dicks spelled :(');
-            return;
-        }
-        if (LETTER1 == 'D1' && LETTER2 == 'I2' && LETTER3 == 'C3' && LETTER4 == 'K4' && LETTER5 == 'Z5') {
-            console.log('dickz spelled :(');
-            return;
-        }
-        if (LETTER1 == 'F1' && LETTER2 == 'U2' && LETTER3 == 'C3' && LETTER4 == 'K4' && LETTER5 == 'S5') {
-            console.log('fucks spelled :(');
-            return;
-        }
-        if (LETTER1 == 'F1' && LETTER2 == 'U2' && LETTER3 == 'C3' && LETTER4 == 'K4' && LETTER5 == 'Z5') {
-            console.log('fuckz spelled :(');
-            return;
-        }
         if (LETTER1 == 'P1' && LETTER2 == 'U2' && LETTER3 == 'T3' && LETTER4 == 'H4' && LETTER5 == 'Y5') {
             console.log('puthy spelled :(');
             return;
         }
         if (LETTER1 == 'H1' && LETTER2 == 'O2' && LETTER3 == 'R3' && LETTER4 == 'N4' && LETTER5 == 'Y5') {
             console.log('horny spelled :(');
+            return;
+        }
+        if (LETTER1 == 'F1' && LETTER2 == 'U2' && LETTER3 == 'G3' && LETTER4 == 'L4' && LETTER5 == 'Y5') {
+            console.log('fugly spelled :(');
+            return;
+        }
+        if (LETTER1 == 'A1' && LETTER2 == 'R2' && LETTER3 == 'S3' && LETTER4 == 'O4' && LETTER5 == 'N5') {
+            console.log('arson spelled :(');
+            return;
+        }
+        if (LETTER1 == 'W1' && LETTER2 == 'H2' && LETTER3 == 'O3' && LETTER4 == 'R4' && LETTER5 == 'E5') {
+            console.log('whore spelled :(');
+            return;
+        }
+        if (LETTER1 == 'T1' && LETTER2 == 'U2' && LETTER3 == 'R3' && LETTER4 == 'D4' && LETTER5 == 'S5') {
+            console.log('turds spelled :(');
+            return;
+        }
+        if (LETTER1 == 'F1' && LETTER2 == 'U2' && LETTER3 == 'C3' && LETTER4 == 'K4') {
+            console.log('fuck spelled :(');
+            return;
+        }
+        if (LETTER1 == 'D1' && LETTER2 == 'Y2' && LETTER3 == 'K3' && LETTER4 == 'E4') {
+            console.log('dyke spelled :(');
+            return;
+        }
+        if (LETTER1 == 'S1' && LETTER2 == 'H2' && LETTER3 == 'I3' && LETTER4 == 'T4') {
+            console.log('shit spelled :(');
+            return;
+        }
+        if (LETTER1 == 'P1' && LETTER2 == 'E2' && LETTER3 == 'E3' && LETTER4 == 'N4') {
+            console.log('peen spelled :(');
+            return;
+        }
+        if (LETTER1 == 'D1' && LETTER2 == 'I2' && LETTER3 == 'C3' && LETTER4 == 'K4') {
+            console.log('dick spelled :(');
+            return;
+        }
+        if (LETTER1 == 'A1' && LETTER2 == 'R2' && LETTER3 == 'S3' && LETTER4 == 'E4') {
+            console.log('arse spelled :(');
+            return;
+        }
+        if (LETTER1 == 'C1' && LETTER2 == 'U2' && LETTER3 == 'N3' && LETTER4 == 'T4') {
+            console.log('cunt spelled :(');
+            return;
+        }
+        if (LETTER1 == 'P1' && LETTER2 == 'I2' && LETTER3 == 'S3' && LETTER4 == 'S4') {
+            console.log('piss spelled :(');
+            return;
+        }
+        if (LETTER1 == 'C1' && LETTER2 == 'O2' && LETTER3 == 'C3' && LETTER4 == 'K4') {
+            console.log('cock spelled :(');
+            return;
+        }
+        if (LETTER1 == 'S1' && LETTER2 == 'L2' && LETTER3 == 'U3' && LETTER4 == 'T4') {
+            console.log('slut spelled :(');
+            return;
+        }
+        if (LETTER1 == 'D1' && LETTER2 == 'A2' && LETTER3 == 'M3' && LETTER4 == 'N4') {
+            console.log('damn spelled :(');
+            return;
+        }
+        if (LETTER1 == 'T1' && LETTER2 == 'U2' && LETTER3 == 'R3' && LETTER4 == 'D4') {
+            console.log('turd spelled :(');
             return;
         }
     }
