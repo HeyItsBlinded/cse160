@@ -50,19 +50,6 @@ mtlLoader.load('materials.mtl', (mtl) => {
     });
 });
 
-// {
-//     const mtlLoader = new MTLLoader();
-//     mtlLoader.load('saber copy.mtl', (mtl) => {
-//         mtl.preload();
-//         const objLoader = new OBJLoader();
-//         mtl.materials.Material.side = THREE.DoubleSide;
-//         objLoader.setMaterials(mtl);
-//         objLoader.load('saber copy.obj', (root) => {
-//             scene.add(root);
-//         });
-//     });
-// }
-
 // ----- SHAPES -----
 // const boxWidth = 1;
 // const boxHeight = 1;
@@ -71,34 +58,40 @@ mtlLoader.load('materials.mtl', (mtl) => {
 // const material = new THREE.MeshBasicMaterial( {map: texture} );
 // const cube = new THREE.Mesh(geometry, material);
 
-const cylinderRadius = 0.5;
-const cylinderHeight = 1;
-const cylinderGeometry = new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cylinderHeight, 32);
-const cylinderMaterial = new THREE.MeshPhongMaterial({ color: 0x8844aa });
-const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-scene.add(cylinder);
-cylinder.position.x = 2;
-const angle = Math.PI / 4;
-cylinder.rotation.x = angle;
+// const planeGEO = new THREE.PlaneGeometry(1,1);
+// const planeMAT = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+// const plane = new THREE.Mesh( planeGEO, planeMAT);
+// scene.add(plane)
+// plane.rotation.x = 180;
+
+// const cylinderRadius = 0.5;
+// const cylinderHeight = 1;
+// const cylinderGeometry = new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cylinderHeight, 32);
+// const cylinderMaterial = new THREE.MeshPhongMaterial({ color: 0x8844aa });
+// const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+// scene.add(cylinder);
+// cylinder.position.x = 2;
+// const angle = Math.PI / 4;
+// cylinder.rotation.x = angle;
 
 const isoRadius = 0.45;
 const isoGeometry = new THREE.IcosahedronGeometry(isoRadius);
 const isoMaterial = new THREE.MeshPhongMaterial({ color: 0x0044ff });
 const icosahedron = new THREE.Mesh(isoGeometry, isoMaterial);
 scene.add(icosahedron);
-icosahedron.position.x = -2;
-const isoAngle = Math.PI / 4;
-icosahedron.rotation.x = isoAngle;
+icosahedron.position.x = 0;
+// const isoAngle = Math.PI / 4;
+icosahedron.rotation.x = 190;
 
-const textureLoader = new THREE.TextureLoader();
-const slabTexture = textureLoader.load('wall.jpg');
-const slabWidth = 0.5;
-const slabHeight = 1.0;
-const slabDepth = 0.25;
-const slabGeometry = new THREE.BoxGeometry(slabWidth, slabHeight, slabDepth);
-const slabMaterial = new THREE.MeshPhongMaterial({ map: slabTexture });
-const slab = new THREE.Mesh(slabGeometry, slabMaterial);
-scene.add(slab);
+// const textureLoader = new THREE.TextureLoader();
+// const slabTexture = textureLoader.load('wall.jpg');
+// const slabWidth = 0.5;
+// const slabHeight = 1.0;
+// const slabDepth = 0.25;
+// const slabGeometry = new THREE.BoxGeometry(slabWidth, slabHeight, slabDepth);
+// const slabMaterial = new THREE.MeshPhongMaterial({ map: slabTexture });
+// const slab = new THREE.Mesh(slabGeometry, slabMaterial);
+// scene.add(slab);
 
 // ----- CONTROLS -----
 // const controls = new OrbitControls(camera, renderer.domElement);
@@ -117,5 +110,6 @@ function animateSlab() {
 // ----- FUNCTION CALLS -----
 // animate();
 
-animateSlab();
+// animateSlab();
+renderer.render(scene, camera);
 console.log('test test testing');
