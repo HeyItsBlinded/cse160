@@ -1,4 +1,14 @@
 // vite.config.js
-export default {
-    base: '/cse160/'
-}
+import { resolve } from 'path'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        nested: resolve(__dirname, 'asg5_folder/asg5.html'),
+      },
+    },
+  },
+})
