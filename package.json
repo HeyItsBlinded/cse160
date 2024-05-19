@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "stats.js": "^0.17.0",
+    "three": "^0.163.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1",
+    "vite": "^5.2.11"
+  },
+  "scripts": {
+    "predeploy": "npx vite build",
+    "deploy": "gh-pages -d dist"
+  }
+}

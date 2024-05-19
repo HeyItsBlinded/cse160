@@ -53,6 +53,37 @@ const cubeMAT = new THREE.MeshPhongMaterial( {color: 0xa3a3a3} );
 const cube = new THREE.Mesh(cubeGEO, cubeMAT);
 scene.add(cube);
 
+// -- 20 PRIMITIVES ----------
+const dice1GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+const dice1MAT = new THREE.MeshPhongMaterial( {color: 0xff1122} );
+const dice1 = new THREE.Mesh(dice1GEO, dice1MAT);
+scene.add(dice1);
+dice1.position.set(1.4, 4.08, 1);
+
+const dice2GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+const dice2MAT = new THREE.MeshPhongMaterial( {color: 0x25BEA6} );
+const dice2 = new THREE.Mesh(dice2GEO, dice2MAT);
+scene.add(dice2);
+dice2.position.set(1.4, 4.08, 0);
+
+const dice3GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+const dice3MAT = new THREE.MeshPhongMaterial( {color: 0x79A450} );
+const dice3 = new THREE.Mesh(dice3GEO, dice3MAT);
+scene.add(dice3);
+dice3.position.set(0, 4.08, 0);
+
+const dice4GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+const dice4MAT = new THREE.MeshPhongMaterial( {color: 0xE1A4F3} );
+const dice4 = new THREE.Mesh(dice4GEO, dice4MAT);
+scene.add(dice4);
+dice4.position.set(-0.5, 4.08, 1);
+
+const dice5GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+const dice5MAT = new THREE.MeshPhongMaterial( {color: 0xECA617} );
+const dice5 = new THREE.Mesh(dice5GEO, dice5MAT);
+scene.add(dice5);
+dice5.position.set(-2, 4.08, 1);
+
 // ----- (BLENDER) OBJS -----
 const objLoader = new OBJLoader();
 objLoader.load('customModels/table.obj', (root) => {
@@ -68,21 +99,6 @@ objLoader.load('customModels/table.obj', (root) => {
     });
     scene.add(root);
 });
-
-// VR-Mobil by Vladimir Ilic [CC-BY] via Poly Pizza
-// const mtlLoader = new MTLLoader();
-// mtlLoader.load('customModels/vespaMAT.mtl', (mtl) => {
-//     mtl.preload();
-    
-//     const objLoader = new OBJLoader();
-//     objLoader.setMaterials(mtl);
-    
-//     objLoader.load('customModels/vespa.obj', (root) => {
-//         root.scale.set(0.5, 0.5, 0.5);
-//         root.position.set(-1, 0, -0.5);
-//         scene.add(root);
-//     });
-// });
 
 // -- FUNCTIONS ----------
 function animate() {
