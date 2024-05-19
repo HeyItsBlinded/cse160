@@ -47,73 +47,114 @@ var skyboxARRAY = [
 var skybox = new THREE.Mesh(skyboxGEO, skyboxARRAY);
 scene.add(skybox);
 
+// -- COLOR INDEX ----------
+const color1 = new THREE.MeshPhongMaterial( {color: 0xff1122} );
+const color2 = new THREE.MeshPhongMaterial( {color: 0x25BEA6} );
+const color3 = new THREE.MeshPhongMaterial( {color: 0x79A450} );
+const color4 = new THREE.MeshPhongMaterial( {color: 0xE1A4F3} );
+const color5 = new THREE.MeshPhongMaterial( {color: 0xECA617} );
+
+// -- SHAPE INDEX ----------
+const d6GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+const d8GEO = new THREE.OctahedronGeometry(0.2);
+const d12GEO = new THREE.DodecahedronGeometry(0.2);
+const d20GEO = new THREE.IcosahedronGeometry(0.2);
+
 // -- GROUND ----------
 const cubeGEO = new THREE.BoxGeometry(20, 0.25, 20);
 const cubeMAT = new THREE.MeshPhongMaterial( {color: 0xa3a3a3} );
 const cube = new THREE.Mesh(cubeGEO, cubeMAT);
 scene.add(cube);
 
-// -- 20 PRIMITIVES ----------
-const dice1GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-const dice1MAT = new THREE.MeshPhongMaterial( {color: 0xff1122} );
-const dice1 = new THREE.Mesh(dice1GEO, dice1MAT);
+// -- PROPS ----------
+// D6s -----
+const dice1 = new THREE.Mesh(d6GEO, color1);
 scene.add(dice1);
 dice1.position.set(1.4, 4.08, 1);
 
-const dice2GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-const dice2MAT = new THREE.MeshPhongMaterial( {color: 0x25BEA6} );
-const dice2 = new THREE.Mesh(dice2GEO, dice2MAT);
+const dice2 = new THREE.Mesh(d6GEO, color2);
 scene.add(dice2);
 dice2.position.set(1.4, 4.08, 0);
 
-const dice3GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-const dice3MAT = new THREE.MeshPhongMaterial( {color: 0x79A450} );
-const dice3 = new THREE.Mesh(dice3GEO, dice3MAT);
+const dice3 = new THREE.Mesh(d6GEO, color3);
 scene.add(dice3);
 dice3.position.set(0, 4.08, 0);
 
-const dice4GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-const dice4MAT = new THREE.MeshPhongMaterial( {color: 0xE1A4F3} );
-const dice4 = new THREE.Mesh(dice4GEO, dice4MAT);
+const dice4 = new THREE.Mesh(d6GEO, color4);
 scene.add(dice4);
 dice4.position.set(-0.5, 4.08, 1);
 
-const dice5GEO = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-const dice5MAT = new THREE.MeshPhongMaterial( {color: 0xECA617} );
-const dice5 = new THREE.Mesh(dice5GEO, dice5MAT);
+const dice5 = new THREE.Mesh(d6GEO, color5);
 scene.add(dice5);
 dice5.position.set(-2, 4.08, 1);
 
 // D12s -----
-const dice6GEO = new THREE.DodecahedronGeometry(0.2);
-const dice6MAT = new THREE.MeshPhongMaterial( {color: 0xff1122} );
-const dice6 = new THREE.Mesh(dice6GEO, dice6MAT);
+const dice6 = new THREE.Mesh(d12GEO, color1);
 scene.add(dice6);
 dice6.position.set(-4, 4.08, 2);
 
-const dice7GEO = new THREE.DodecahedronGeometry(0.2);
-const dice7MAT = new THREE.MeshPhongMaterial( {color: 0x25BEA6} );
-const dice7 = new THREE.Mesh(dice7GEO, dice7MAT);
+const dice7 = new THREE.Mesh(d12GEO, color2);
 scene.add(dice7);
 dice7.position.set(-3, 4.08, 4);
 
-const dice8GEO = new THREE.DodecahedronGeometry(0.2);
-const dice8MAT = new THREE.MeshPhongMaterial( {color: 0x79A450} );
-const dice8 = new THREE.Mesh(dice8GEO, dice8MAT);
+const dice8 = new THREE.Mesh(d12GEO, color3);
 scene.add(dice8);
 dice8.position.set(0, 4.08, -2);
 
-const dice9GEO = new THREE.DodecahedronGeometry(0.2);
-const dice9MAT = new THREE.MeshPhongMaterial( {color: 0xE1A4F3} );
-const dice9 = new THREE.Mesh(dice9GEO, dice9MAT);
+const dice9 = new THREE.Mesh(d12GEO, color4);
 scene.add(dice9);
 dice9.position.set(1, 4.08, -2);
 
-const dice10GEO = new THREE.DodecahedronGeometry(0.2);
-const dice10MAT = new THREE.MeshPhongMaterial( {color: 0xECA617} );
-const dice10 = new THREE.Mesh(dice10GEO, dice10MAT);
+const dice10 = new THREE.Mesh(d12GEO, color5);
 scene.add(dice10);
 dice10.position.set(3, 4.08, -4);
+
+// D8s -----
+const dice11 = new THREE.Mesh(d8GEO, color1);
+scene.add(dice11);
+dice11.position.set(-1, 4.08, 2);
+dice11.rotateX((Math.PI / 180) * 35);
+
+const dice12 = new THREE.Mesh(d8GEO, color2);
+scene.add(dice12);
+dice12.position.set(3, 4.08, -2);
+dice12.rotateX((Math.PI / 180) * 35);
+
+const dice13 = new THREE.Mesh(d8GEO, color3);
+scene.add(dice13);
+dice13.position.set(-4, 4.08, 3);
+dice13.rotateX((Math.PI / 180) * 35);
+
+const dice14 = new THREE.Mesh(d8GEO, color4);
+scene.add(dice14);
+dice14.position.set(-2.5, 4.08, 3);
+dice14.rotateX((Math.PI / 180) * 35);
+
+const dice15 = new THREE.Mesh(d8GEO, color5);
+scene.add(dice15);
+dice15.position.set(-0.75, 4.08, -0.25);
+dice15.rotateX((Math.PI / 180) * 35);
+
+// D20s -----
+const dice16 = new THREE.Mesh(d20GEO, color1);
+scene.add(dice16);
+dice16.position.set(5, 4.08, -3);
+
+const dice17 = new THREE.Mesh(d20GEO, color2);
+scene.add(dice17);
+dice17.position.set(0.2, 4.08, 2);
+
+const dice18 = new THREE.Mesh(d20GEO, color3);
+scene.add(dice18);
+dice18.position.set(-4, 4.08, 5);
+
+const dice19 = new THREE.Mesh(d20GEO, color4);
+scene.add(dice19);
+dice19.position.set(-1.5, 4.08, 3);
+
+const dice20 = new THREE.Mesh(d20GEO, color5);
+scene.add(dice20);
+dice20.position.set(-6, 4.08, 4);
 
 // ----- (BLENDER) OBJS -----
 const objLoader = new OBJLoader();
