@@ -84,6 +84,37 @@ const dice5 = new THREE.Mesh(dice5GEO, dice5MAT);
 scene.add(dice5);
 dice5.position.set(-2, 4.08, 1);
 
+// D12s -----
+const dice6GEO = new THREE.DodecahedronGeometry(0.2);
+const dice6MAT = new THREE.MeshPhongMaterial( {color: 0xff1122} );
+const dice6 = new THREE.Mesh(dice6GEO, dice6MAT);
+scene.add(dice6);
+dice6.position.set(-4, 4.08, 2);
+
+const dice7GEO = new THREE.DodecahedronGeometry(0.2);
+const dice7MAT = new THREE.MeshPhongMaterial( {color: 0x25BEA6} );
+const dice7 = new THREE.Mesh(dice7GEO, dice7MAT);
+scene.add(dice7);
+dice7.position.set(-3, 4.08, 4);
+
+const dice8GEO = new THREE.DodecahedronGeometry(0.2);
+const dice8MAT = new THREE.MeshPhongMaterial( {color: 0x79A450} );
+const dice8 = new THREE.Mesh(dice8GEO, dice8MAT);
+scene.add(dice8);
+dice8.position.set(0, 4.08, -2);
+
+const dice9GEO = new THREE.DodecahedronGeometry(0.2);
+const dice9MAT = new THREE.MeshPhongMaterial( {color: 0xE1A4F3} );
+const dice9 = new THREE.Mesh(dice9GEO, dice9MAT);
+scene.add(dice9);
+dice9.position.set(1, 4.08, -2);
+
+const dice10GEO = new THREE.DodecahedronGeometry(0.2);
+const dice10MAT = new THREE.MeshPhongMaterial( {color: 0xECA617} );
+const dice10 = new THREE.Mesh(dice10GEO, dice10MAT);
+scene.add(dice10);
+dice10.position.set(3, 4.08, -4);
+
 // ----- (BLENDER) OBJS -----
 const objLoader = new OBJLoader();
 objLoader.load('customModels/table.obj', (root) => {
