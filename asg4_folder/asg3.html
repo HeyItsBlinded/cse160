@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>asg3 - virtual world</title>
+        <link rel="stylesheet" href="asg3_style.css">
+    </head>
+    <body onload="main()">
+        <script src="../lib/webgl-utils.js"></script>
+        <script src="../lib/webgl-debug.js"></script> 
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="../lib/cuon-matrix-cse160.js"></script>
+        <script src="camera.js"></script>
+        <script src="asg3.js"></script>
+        <script src="triangle.js"></script>
+        <script src="cube.js"></script>
+        <script src="cube2.js"></script>
+        <script src="custom.js"></script>
+
+        <a href="../index.html">back to hub</a>
+
+        <br>
+        <p>
+            Note to the grader: Hi o/ Use W/A/S/D for movement and Q/E for left-right rotation.
+            The concept here is a kid's playroom, and there are three ways to play; rotate around
+            the room to find them all! Use the controls below to interact with the various activites.
+            Note: best experienced if activities are played in clock-wise order!
+        </p>
+
+        <div id="canvasContainer">
+        <canvas id="webgl" width="600" height="600">
+            Please use browser supporting "canvas"
+        </canvas>
+        </div>
+        <!-- <p id="numdot">[DISPLAY]</p> -->
+
+        <!-- -- -- -- -- -- -->
+        <div id="interface">
+            <!-- CAMERA ANGLE SLIDER -->
+            <label>rotate left/right</label>
+            <input type="range" min="-359" max="359" value="0" class="slider" id="angleSlide1">
+
+            <!-- <label>printLocToConsole</label> -->
+            <input type="button" id="printLocToConsole" value="printLocToConsole">
+
+            <br>
+
+            <div id="castleDIV">
+            <!-- CASTLE PROGRESS -->
+            <label>castle progress</label>
+            <select id="progressDROPDOWN" name="castleProgress">
+                <option>select</option>
+                <option value="stage1">stage 1</option>
+                <option value="stage2">stage 2</option>
+                <option value="stage3">stage 3</option>
+                <option value="stage4">stage 4</option>
+            </select>
+            <!-- CASTLE CLEAR -->
+            <input type="button" id="clearCastle" value="clear castle">
+            </div>
+
+            <br>
+
+            <div id="shapeBlockDIV">
+            <!-- SHAPE SELECT -->
+            <label>shape1 select</label>
+            <select id="shape1SELECT" name="shape1NAME">
+                <!-- <option>select</option> -->
+                <option>select</option>
+                <option value="s1STAR">star</option>
+                <option value="s1CIRCLE">circle</option>
+                <option value="s1TRIANGLE">triangle</option>
+            </select>
+
+            <label>shape2 select</label>
+            <select id="shape2SELECT" name="shape2NAME">
+                <!-- <option>select</option> -->
+                <option>select</option>
+                <option value="s2STAR">star</option>
+                <option value="s2CIRCLE">circle</option>
+                <option value="s2TRIANGLE">triangle</option>
+            </select>
+
+            <label>shape3 select</label>
+            <select id="shape3SELECT" name="shape3NAME">
+                <!-- <option>select</option> -->
+                <option>select</option>
+                <option value="s3STAR">star</option>
+                <option value="s3CIRCLE">circle</option>
+                <option value="s3TRIANGLE">triangle</option>
+            </select>
+            </div>
+
+            <br>
+
+            <div id="letterBlockDIV">
+            <!-- LETTER SELECT -->
+            <label for="spell1">letter 1</label>
+            <select id="spell1" name="spell1">
+                <option value="default1">select</option>        
+                <option value="A1">A</option>                   
+                <option value="B1">B</option>                   
+                <option value="C1">C</option>                      
+                <option value="D1">D</option>           
+                <option value="E1">E</option>          
+                <option value="F1">F</option>             
+                <option value="G1">G</option>           
+                <option value="H1">H</option>              
+                <option value="I1">I</option>                
+                <option value="J1">J</option>                
+                <option value="K1">K</option>                  
+                <option value="L1">L</option>               
+                <option value="M1">M</option>
+                <option value="N1">N</option>
+                <option value="O1">O</option>
+                <option value="P1">P</option>
+                <option value="Q1">Q</option>
+                <option value="R1">R</option>
+                <option value="S1">S</option>
+                <option value="T1">T</option>
+                <option value="U1">U</option>
+                <option value="V1">V</option>
+                <option value="W1">W</option>
+                <option value="X1">X</option>
+                <option value="Y1">Y</option>
+                <option value="Z1">Z</option>
+            </select>
+
+            <label for="spell2">letter 2</label>
+            <select id="spell2" name="spell2">
+                <option value="default1">select</option>        
+                <option value="A2">A</option>                   
+                <option value="B2">B</option>                   
+                <option value="C2">C</option>                      
+                <option value="D2">D</option>           
+                <option value="E2">E</option>          
+                <option value="F2">F</option>             
+                <option value="G2">G</option>           
+                <option value="H2">H</option>              
+                <option value="I2">I</option>                
+                <option value="J2">J</option>                
+                <option value="K2">K</option>                  
+                <option value="L2">L</option>               
+                <option value="M2">M</option>
+                <option value="N2">N</option>
+                <option value="O2">O</option>
+                <option value="P2">P</option>
+                <option value="Q2">Q</option>
+                <option value="R2">R</option>
+                <option value="S2">S</option>
+                <option value="T2">T</option>
+                <option value="U2">U</option>
+                <option value="V2">V</option>
+                <option value="W2">W</option>
+                <option value="X2">X</option>
+                <option value="Y2">Y</option>
+                <option value="Z2">Z</option>
+            </select>
+
+            <label for="spell3">letter 3</label>
+            <select id="spell3" name="spell3">
+                <option value="default1">select</option>        
+                <option value="A3">A</option>                   
+                <option value="B3">B</option>                   
+                <option value="C3">C</option>                      
+                <option value="D3">D</option>           
+                <option value="E3">E</option>          
+                <option value="F3">F</option>             
+                <option value="G3">G</option>           
+                <option value="H3">H</option>              
+                <option value="I3">I</option>                
+                <option value="J3">J</option>                
+                <option value="K3">K</option>                  
+                <option value="L3">L</option>               
+                <option value="M3">M</option>
+                <option value="N3">N</option>
+                <option value="O3">O</option>
+                <option value="P3">P</option>
+                <option value="Q3">Q</option>
+                <option value="R3">R</option>
+                <option value="S3">S</option>
+                <option value="T3">T</option>
+                <option value="U3">U</option>
+                <option value="V3">V</option>
+                <option value="W3">W</option>
+                <option value="X3">X</option>
+                <option value="Y3">Y</option>
+                <option value="Z3">Z</option>
+            </select>
+
+            <label for="spell4">letter 4</label>
+            <select id="spell4" name="spell4">
+                <option value="default1">select</option>        
+                <option value="A4">A</option>                   
+                <option value="B4">B</option>                   
+                <option value="C4">C</option>                      
+                <option value="D4">D</option>           
+                <option value="E4">E</option>          
+                <option value="F4">F</option>             
+                <option value="G4">G</option>           
+                <option value="H4">H</option>              
+                <option value="I4">I</option>                
+                <option value="J4">J</option>                
+                <option value="K4">K</option>                  
+                <option value="L4">L</option>               
+                <option value="M4">M</option>
+                <option value="N4">N</option>
+                <option value="O4">O</option>
+                <option value="P4">P</option>
+                <option value="Q4">Q</option>
+                <option value="R4">R</option>
+                <option value="S4">S</option>
+                <option value="T4">T</option>
+                <option value="U4">U</option>
+                <option value="V4">V</option>
+                <option value="W4">W</option>
+                <option value="X4">X</option>
+                <option value="Y4">Y</option>
+                <option value="Z4">Z</option>
+            </select>
+
+            <label for="spell5">letter 5</label>
+            <select id="spell5" name="spell5">
+                <option value="default1">select</option>        
+                <option value="A5">A</option>                   
+                <option value="B5">B</option>                   
+                <option value="C5">C</option>                      
+                <option value="D5">D</option>           
+                <option value="E5">E</option>          
+                <option value="F5">F</option>             
+                <option value="G5">G</option>           
+                <option value="H5">H</option>              
+                <option value="I5">I</option>                
+                <option value="J5">J</option>                
+                <option value="K5">K</option>                  
+                <option value="L5">L</option>               
+                <option value="M5">M</option>
+                <option value="N5">N</option>
+                <option value="O5">O</option>
+                <option value="P5">P</option>
+                <option value="Q5">Q</option>
+                <option value="R5">R</option>
+                <option value="S5">S</option>
+                <option value="T5">T</option>
+                <option value="U5">U</option>
+                <option value="V5">V</option>
+                <option value="W5">W</option>
+                <option value="X5">X</option>
+                <option value="Y5">Y</option>
+                <option value="Z5">Z</option>
+            </select>
+
+            <br>
+
+            <!-- RED - A B C D E F G -->
+            <!-- GREEN - H I J K L M N -->
+            <!-- BLUE  - O P Q R S T -->
+            <!-- YELLOW - U V W X Y Z -->
+
+            <!-- CHILD SAFETY LOCK -->
+            <!--
+                words supported: pussy, bitch, cock(s), penis, dick(s/z), fuck(s/z), puthy, horny, fugly, arson, cunt(y),
+                                 whore, turd(s)
+                                 shit(s/z), peen(s), arse(s/z), dyke(s), piss, slut(s/z), damn, turd(s/z)
+            -->
+            <button id="toggleButton" onclick="toggleState()">toggle child-safety lock</button>
+            <p id="valueDisplay"></p>
+            <script>
+                let isToggleValue = true;
+
+                function toggleState() {
+                    isToggleValue = !isToggleValue;
+                    document.getElementById('valueDisplay').textContent = 'lock is on: ' + isToggleValue;
+                }
+            </script>
+            </div>
+        </div>
+    </body>
+</html>
