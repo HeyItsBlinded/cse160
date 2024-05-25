@@ -169,9 +169,9 @@ function connectVariablesToGLSL() {
         return;
     }
 
-    a_Normal = gl.getAttribLocation(gl.program, 'a_UV');    // NEW! - as seen in 4.2
-    if (a_UV < 0) {
-        console.log('failed to get the storage location of a_UV');
+    a_Normal = gl.getAttribLocation(gl.program, 'a_Normal');    // NEW! - as seen in 4.2
+    if (a_Normal < 0) {
+        console.log('failed to get the storage location of a_Normal');
         return;
     }
 
@@ -776,14 +776,14 @@ function renderAllShapes() {
     var sky = new Cube();
     sky.textureNum = 0;
     if (g_normalOn) sky.textureNum = -3;
-    sky.matrix.translate(-0.5,-0.5,0);
+    sky.matrix.translate(50,49.5,50);  // OG: -0.5,-0.5,0
     sky.matrix.scale(-50, -50, -50);
     sky.render();
 
     // CARPET - PREV: GROUND
     var ground = new Cube();
     ground.textureNum = 1;
-    if (g_normalOn) body.textureNum = -3;
+    // if (g_normalOn) ground.textureNum = -3;
     ground.matrix.translate(-0.7, -0.5, -0.2);
     ground.matrix.scale(60,0.01,60);
     ground.render();

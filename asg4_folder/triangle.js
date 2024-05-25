@@ -57,12 +57,12 @@ function drawTriangle3DUVNormal(vertices, uv, normals) {  // NEW! - as seen in 4
   }
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW);
-  gl.vertexAttribPointer(a_Position, -3, gl.FLOAT, false, 0, 0);
+  gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(a_Position);
 
   var uvBuffer = gl.createBuffer();
   if (!uvBuffer) {
-    console.log('failed to create the bufer object');
+    console.log('failed to create the buffer object');
     return -1;
   }
   gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
