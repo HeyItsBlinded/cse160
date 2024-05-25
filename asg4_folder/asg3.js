@@ -3,50 +3,61 @@ var VSHADER_SOURCE = `
     precision mediump float;
     attribute vec4 a_Position;
     attribute vec2 a_UV;
+    attribute vec3 a_Normal;    // NEW! - as seen in 4.2
     varying vec2 v_UV;
+    varying vec3 v_Normal;   // NEW! - as seen in 4.2
     uniform mat4 u_ModelMatrix;
     uniform mat4 u_GlobalRotateMatrix;
     uniform mat4 u_ViewMatrix;
     uniform mat4 u_ProjectionMatrix;
     void main() {
         gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
-        // gl_Position = u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
         v_UV = a_UV;
+        v_Normal = a_Normal;    // NEW! - as seen in 4.2
     }`
 
 // Fragment shader program
 var FSHADER_SOURCE = `
     precision mediump float;
     varying vec2 v_UV;
+    varying vec3 v_Normal;   // NEW! - as seen in 4.2
     uniform vec4 u_FragColor;
+
     uniform sampler2D u_Sampler0;
     uniform sampler2D u_Sampler1;
     uniform sampler2D u_Sampler2;
     uniform sampler2D u_Sampler3;
     uniform sampler2D u_Sampler4;
-
     uniform sampler2D u_Sampler26;
     uniform sampler2D u_Sampler27;
     uniform sampler2D u_Sampler28;
 
     uniform int u_whichTexture;
     void main() {
-        if (u_whichTexture == -2) {
+        if (u_whichTexture == -3) {     // NEW! - as seen in 4.2
+            gl_FragColor = vec4((v_Normal + 1.0) / 2.0, 1.0);
+        }
+        else if (u_whichTexture == -2) {
             gl_FragColor = u_FragColor;
-        } else if (u_whichTexture == -1) {
+        } 
+        else if (u_whichTexture == -1) {
             gl_FragColor = vec4(v_UV, 1.0, 1.0);
-        } else if (u_whichTexture == 0) {
+        } 
+        else if (u_whichTexture == 0) {
             gl_FragColor = texture2D(u_Sampler0, v_UV);
-        } else if (u_whichTexture == 1) {
+        } 
+        else if (u_whichTexture == 1) {
             gl_FragColor = texture2D(u_Sampler1, v_UV);
-        } else if (u_whichTexture == 2) {
+        } 
+        else if (u_whichTexture == 2) {
             gl_FragColor = texture2D(u_Sampler2, v_UV);
-        } else if (u_whichTexture == 3) {
+        } 
+        else if (u_whichTexture == 3) {
             gl_FragColor = texture2D(u_Sampler3, v_UV);
-        } else if (u_whichTexture == 4) {
+        } 
+        else if (u_whichTexture == 4) {
             gl_FragColor = texture2D(u_Sampler4, v_UV);
         }
-        
         else if (u_whichTexture == 26) {
             gl_FragColor = texture2D(u_Sampler26, v_UV);
         }
@@ -106,11 +117,12 @@ let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegment = 5;
+let g_normalOn = false;     // NEW! - as seen in 4.2
 
-let g_globalAngle = -10;  // RESET TO 0 WHEN DONE
+let g_globalAngle = 0;  // RESET TO 0 WHEN DONE
 
-let g_yellowAngle = 0;  // ADDED IN 2.6
-let g_magentaAngle = 0; // ADDED IN 2.7
+let g_yellowAngle = 0; 
+let g_magentaAngle = 0;
 let g_yellowAnimation = false;
 let g_magentaAnimation = false;
 var g_startTime = performance.now() / 1000.0;
@@ -120,7 +132,7 @@ function main() {
     setupWebGL();
     connectVariablesToGLSL();
     addActionsUI();
-    document.onkeydown = keydown;   // ADDED 3.7
+    document.onkeydown = keydown; 
     initTextures();
 
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -154,6 +166,12 @@ function connectVariablesToGLSL() {
     a_UV = gl.getAttribLocation(gl.program, 'a_UV');
     if (!a_UV < 0) {
         console.log('failed to get storage location of a_UV');
+        return;
+    }
+
+    a_Normal = gl.getAttribLocation(gl.program, 'a_UV');    // NEW! - as seen in 4.2
+    if (a_UV < 0) {
+        console.log('failed to get the storage location of a_UV');
         return;
     }
 
@@ -246,6 +264,9 @@ function connectVariablesToGLSL() {
 }
 
 function addActionsUI() {
+    // NORMAL CONTROLS - NEW! - as seen in 4.2
+    document.getElementById('normalOn').onclick = function() { g_normalOn = true };
+    document.getElementById('normalOff').onclick = function() { g_normalOn = false };
 
     // CAMERA ANGLE SLIDERS
     document.getElementById('angleSlide1').addEventListener('input', function() { g_globalAngle = this.value; renderAllShapes(); });
@@ -754,13 +775,15 @@ function renderAllShapes() {
     // FOUNDATION - PREV: SKY
     var sky = new Cube();
     sky.textureNum = 0;
+    if (g_normalOn) sky.textureNum = -3;
     sky.matrix.translate(-0.5,-0.5,0);
-    sky.matrix.scale(50, 50, 50);
+    sky.matrix.scale(-50, -50, -50);
     sky.render();
 
     // CARPET - PREV: GROUND
     var ground = new Cube();
     ground.textureNum = 1;
+    if (g_normalOn) body.textureNum = -3;
     ground.matrix.translate(-0.7, -0.5, -0.2);
     ground.matrix.scale(60,0.01,60);
     ground.render();
