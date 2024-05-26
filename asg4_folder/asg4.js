@@ -36,6 +36,7 @@ var FSHADER_SOURCE = `
 
     uniform int u_whichTexture;
     uniform vec3 u_lightPos;    // NEW! - as seen in 4.4
+    uniform vec3 u_cameraPos;   // NEW! - as seen in 4.6
     varying vec4 v_VertPos;     // NEW! - as seen in 4.4
 
     void main() {
@@ -76,13 +77,26 @@ var FSHADER_SOURCE = `
             gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
         }
 
-        vec3 lightVector = vec3(v_VertPos) - u_lightPos;
+        vec3 lightVector = u_lightPos - vec3(v_VertPos);
         float r = length(lightVector);
-        if (r < 4.0) {
-            gl_FragColor = vec4(1, 0, 0, 1);
-        } else if (r < 8.0) {
-            gl_FragColor = vec4(0, 1, 0, 1);
-        }
+
+        // red green distance vis...
+
+        // light falloff vis...
+
+        vec3 L = normalize(lightVector);
+        vec3 N = normalize(v_Normal);
+        float nDotL = max(dot(N,L), 0.0);
+
+        vec3 R = reflect(-L, N);
+
+        vec3 E = normalize(u_cameraPos - vec3(v_VertPos));
+
+        float specular = pow(max(dot(E, R), 0.0), 10);
+
+        vec3 diffuse = vec3(gl_FragColor) * nDotL;
+        vec3 ambient = vec3(gl_FragColor) * 0.3;
+        gl_FragColor = vec4(specular + diffuse + ambient, 1.0);
     }`
 
 // global variables
@@ -132,6 +146,8 @@ let g_selectedType = POINT;
 let g_selectedSegment = 5;
 let g_normalOn = false;     // NEW! - as seen in 4.2
 let g_lightPos = [0, 1, -2];
+let u_lightPos;
+let u_cameraPos;
 
 let g_globalAngle = 0;  // RESET TO 0 WHEN DONE
 
@@ -204,6 +220,12 @@ function connectVariablesToGLSL() {
     u_lightPos = gl.getUniformLocation(gl.program, 'u_lightPos');
     if (!u_lightPos) {
         console.log('failed to get the storage location of u_lightPos');
+        return;
+    }
+
+    u_cameraPos = gl.getUniformLocation(gl.program, 'u_cameraPos');
+    if (!u_cameraPos) {
+        console.log('failed to get the storage location of u_cameraPos');
         return;
     }
 
@@ -808,6 +830,7 @@ function renderAllShapes() {
 
     // ----- LIGHT ---------------
     gl.uniform3f(u_lightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+    gl.uniform3f(u_cameraPos, g_camera.eye.x, g_camera.eye.y, g_camera.eye.z);
 
     var light = new Cube();
     light.color = [2,2,0,1];
