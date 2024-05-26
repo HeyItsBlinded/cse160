@@ -500,6 +500,11 @@ function renderAllShapes() {
     ground.render();
 
     // OBJECTS -------------
+    var ball = new Sphere();
+    ball.textureNum = -3;   // normals always on
+    ball.matrix.scale(10, 10, 10);
+    ball.render();
+
     var chest = new Cube();
     chest.color = [0.0490, 0.490, 0.0710, 1];
     chest.textureNum = -2;
