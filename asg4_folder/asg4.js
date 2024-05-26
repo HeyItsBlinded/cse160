@@ -6,14 +6,17 @@ var VSHADER_SOURCE = `
     attribute vec3 a_Normal;
     varying vec2 v_UV;
     varying vec3 v_Normal;
+    varying vec4 v_VertPos;
     uniform mat4 u_ModelMatrix;
+    uniform mat4 u_NormalMatrix;    // ADDED
     uniform mat4 u_GlobalRotateMatrix;
     uniform mat4 u_ViewMatrix;
     uniform mat4 u_ProjectionMatrix;
     void main() {
         gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
         v_UV = a_UV;
-        v_Normal = a_Normal;
+        v_Normal = normalize(vec3(u_NormalMatrix * vec4(a_Normal, 1)));
+        v_VertPos = u_ModelMatrix * a_Position;
     }`
 
 // Fragment shader program
@@ -31,6 +34,8 @@ var FSHADER_SOURCE = `
     uniform sampler2D u_Sampler28;
 
     uniform int u_whichTexture;
+    uniform vec3 u_lightPos;
+    varying vec4 v_VertPos;
 
     void main() {
         if (u_whichTexture == -3) {
@@ -59,6 +64,14 @@ var FSHADER_SOURCE = `
         else {
             gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
         }
+
+        vec3 lightVector = vec3(v_VertPos) - u_lightPos;
+        float r = length(lightVector);
+        if (r < 5.0) {
+            gl_FragColor = vec4(1, 0, 0, 1);
+        } else if (r < 10.0) {
+            gl_FragColor = vec4(0, 1, 0, 1);
+        }
     }`
 
 // global variables
@@ -72,7 +85,8 @@ let u_ModelMatrix;
 let u_ProjectionMatrix;
 let u_ViewMatrix;
 let u_GlobalRotateMatrix;
-let g_normalOn = true;
+let g_normalOn = false;
+let g_lightPos = [0, 1, -2];
 
 let u_Sampler0;
 let u_Sampler1;
@@ -168,6 +182,11 @@ function connectVariablesToGLSL() {
     return;
     }
 
+    u_lightPos = gl.getUniformLocation(gl.program, 'u_lightPos');
+    if (!u_lightPos) {
+        console.log('failed to get storage location of u_lightPos');
+    }
+
     u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
     if (!u_ModelMatrix) {
         console.log('failed to get the storage location of u_ModelMatrix');
@@ -235,6 +254,20 @@ function addActionsUI() {
     // NORMAL ON OFF BUTTONS
     document.getElementById('normalOn').onclick = function() {g_normalOn = true};
     document.getElementById('normalOff').onclick = function() {g_normalOn = false};
+
+    // LIGHT POSITION SLIDERS
+    document.getElementById('lightSlideX').addEventListener('input', function() { 
+        g_lightPos[0] = this.value / 100;
+        renderAllShapes();
+    });
+    document.getElementById('lightSlideY').addEventListener('input', function() { 
+        g_lightPos[1] = this.value / 100;
+        renderAllShapes();
+    });
+    document.getElementById('lightSlideZ').addEventListener('input', function() { 
+        g_lightPos[2] = this.value / 100;
+        renderAllShapes();
+    });
 
     // CAMERA ANGLE SLIDERS
     document.getElementById('angleSlide1').addEventListener('input', function() { g_globalAngle = this.value; renderAllShapes(); });
@@ -483,10 +516,21 @@ function renderAllShapes() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
+    gl.uniform3f(u_lightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+
+    // ----- LIGHT ---------------
+    var light = new Cube();
+    light.color = [2, 2, 0, 1];
+    light.matrix.translate(g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+    light.matrix.scale(2, 2, 2);
+    light.matrix.translate(20, 20, 1);
+    light.render();
+
     // ----- ENVIRON ---------------
     // FOUNDATION - PREV: SKY
     var sky = new Cube();
-    sky.textureNum = 2;
+    sky.color = [0, 0.5, 0.5, 1];
+    sky.textureNum = -2;
     if (g_normalOn) sky.textureNum = -3;
     sky.matrix.translate(50,49.5,70);  // OG - -0.5,-0.5,0
     sky.matrix.scale(-50, -50, -70);
@@ -494,7 +538,8 @@ function renderAllShapes() {
 
     // CARPET - PREV: GROUND
     var ground = new Cube();
-    ground.textureNum = 1;
+    ground.color = [0.5, 0, 0.5, 1];
+    ground.textureNum = -2;
     ground.matrix.translate(-0.7, -0.5, -0.2);
     ground.matrix.scale(50,0.01,100);
     ground.render();
@@ -505,7 +550,7 @@ function renderAllShapes() {
     if (g_normalOn) ball.textureNum = -3;
     ball.matrix.scale(10, 10, 10);
     ball.matrix.translate(1.5,1,1.5);
-    ball.matrix.rotate(0, 0, 1, 0);
+    // ball.matrix.rotate(0, 0, 1, 0);
     ball.render();
 
     var chest = new Cube();
