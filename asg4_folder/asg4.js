@@ -72,7 +72,7 @@ let u_ModelMatrix;
 let u_ProjectionMatrix;
 let u_ViewMatrix;
 let u_GlobalRotateMatrix;
-let g_normalOn = false;
+let g_normalOn = true;
 
 let u_Sampler0;
 let u_Sampler1;
@@ -473,9 +473,9 @@ function renderAllShapes() {
     cube lines up with the origin. then that way, it looks like
     the center of your environment is the rotation axis.
     */
-    globalRotMat.translate(24.5, 24.5, 25);
+    globalRotMat.translate(20.5, 20.5, 21);
     globalRotMat.rotate(g_globalAngle, 0, 1, 0);
-    globalRotMat.translate(-24.5, -24.5, -25);   
+    globalRotMat.translate(-20.5, -20.5, -21);   
 
     gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 
@@ -488,21 +488,24 @@ function renderAllShapes() {
     var sky = new Cube();
     sky.textureNum = 2;
     if (g_normalOn) sky.textureNum = -3;
-    sky.matrix.translate(50,49.5,100);  // OG - -0.5,-0.5,0
-    sky.matrix.scale(-50, -50, -100);
+    sky.matrix.translate(50,49.5,70);  // OG - -0.5,-0.5,0
+    sky.matrix.scale(-50, -50, -70);
     sky.render();
 
     // CARPET - PREV: GROUND
     var ground = new Cube();
     ground.textureNum = 1;
     ground.matrix.translate(-0.7, -0.5, -0.2);
-    ground.matrix.scale(60,0.01,120);
+    ground.matrix.scale(50,0.01,100);
     ground.render();
 
     // OBJECTS -------------
     var ball = new Sphere();
-    ball.textureNum = -3;   // normals always on
+    ball.textureNum = -2;
+    if (g_normalOn) ball.textureNum = -3;
     ball.matrix.scale(10, 10, 10);
+    ball.matrix.translate(1.5,1,1.5);
+    ball.matrix.rotate(0, 0, 1, 0);
     ball.render();
 
     var chest = new Cube();
