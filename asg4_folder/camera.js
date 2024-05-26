@@ -6,9 +6,9 @@ class Camera{   // ADAPTED FROM 3.8
         this.up = new Vector3([0, 2, 0]);
 
     /* FOR DRAFTING
-    eye:  20.25 15 48.5 
-    at:  20.25 5 -54.5 
-    up:  0 2 0
+    eye:  32.75 26 56 
+ at:  32.75 0 -56 
+ up:  0 2 0
 
     // RESET TO WHEN DONE
     eye:  23.25 5 50.5 

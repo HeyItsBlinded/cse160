@@ -78,9 +78,9 @@ var FSHADER_SOURCE = `
 
         vec3 lightVector = vec3(v_VertPos) - u_lightPos;
         float r = length(lightVector);
-        if (r < 2.0) {
+        if (r < 4.0) {
             gl_FragColor = vec4(1, 0, 0, 1);
-        } else if (r < 4.0) {
+        } else if (r < 8.0) {
             gl_FragColor = vec4(0, 1, 0, 1);
         }
     }`
@@ -451,6 +451,8 @@ function updateAnimationAngles() {
     if (g_magentaAnimation) {
         g_magentaAngle = (45 * Math.sin(3 * g_seconds));
     }
+
+    g_lightPos[0] = Math.cos(g_seconds)*10;
 }
 
 // WASD CONTROL
@@ -835,8 +837,9 @@ function renderAllShapes() {
     var testObj = new Sphere();
     testObj.textureNum = 5;
     if (g_normalOn) testObj.textureNum = -3;
-    testObj.matrix.scale(10, 10, 10);
-    testObj.matrix.translate(1.5, 0.75, -0.5);
+    testObj.matrix.scale(7, 7, 7);
+    testObj.matrix.translate(1.5, 0.75, 0.5);
+    testObj.matrix.rotate(180, 0, 1, 0);
     testObj.render();
 
     var chest = new Cube();
