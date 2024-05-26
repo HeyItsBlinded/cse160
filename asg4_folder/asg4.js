@@ -789,6 +789,13 @@ function renderAllShapes() {
     ground.render();
 
     // OBJECTS -------------
+    var testObj = new Sphere();
+    testObj.textureNum = 5;
+    if (g_normalOn) testObj.textureNum = -3;
+    testObj.matrix.scale(10, 10, 10);
+    testObj.matrix.translate(1.5, 0.75, -0.5);
+    testObj.render();
+
     var chest = new Cube();
     chest.color = [0.0490, 0.490, 0.0710, 1];
     chest.textureNum = -2;
