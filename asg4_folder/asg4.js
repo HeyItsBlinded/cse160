@@ -3,33 +3,39 @@ var VSHADER_SOURCE = `
     precision mediump float;
     attribute vec4 a_Position;
     attribute vec2 a_UV;
+    attribute vec3 a_Normal;
     varying vec2 v_UV;
+    varying vec3 v_Normal;
     uniform mat4 u_ModelMatrix;
     uniform mat4 u_GlobalRotateMatrix;
     uniform mat4 u_ViewMatrix;
     uniform mat4 u_ProjectionMatrix;
     void main() {
         gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
-        // gl_Position = u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
         v_UV = a_UV;
+        v_Normal = a_Normal;
     }`
 
 // Fragment shader program
 var FSHADER_SOURCE = `
     precision mediump float;
     varying vec2 v_UV;
+    varying vec3 v_Normal;
     uniform vec4 u_FragColor;
+
     uniform sampler2D u_Sampler0;
     uniform sampler2D u_Sampler1;
     uniform sampler2D u_Sampler2;
-
     uniform sampler2D u_Sampler26;
     uniform sampler2D u_Sampler27;
     uniform sampler2D u_Sampler28;
 
     uniform int u_whichTexture;
+
     void main() {
-        if (u_whichTexture == -2) {
+        if (u_whichTexture == -3) {
+            gl_FragColor = vec4((v_Normal + 1.0) / 2.0, 1.0);
+        } else if (u_whichTexture == -2) {
             gl_FragColor = u_FragColor;
         } else if (u_whichTexture == -1) {
             gl_FragColor = vec4(v_UV, 1.0, 1.0);
@@ -66,6 +72,7 @@ let u_ModelMatrix;
 let u_ProjectionMatrix;
 let u_ViewMatrix;
 let u_GlobalRotateMatrix;
+let g_normalOn = false;
 
 let u_Sampler0;
 let u_Sampler1;
@@ -95,8 +102,8 @@ let g_selectedSegment = 5;
 
 let g_globalAngle = -10;  // RESET TO 0 WHEN DONE
 
-let g_yellowAngle = 0;  // ADDED IN 2.6
-let g_magentaAngle = 0; // ADDED IN 2.7
+let g_yellowAngle = 0; 
+let g_magentaAngle = 0; 
 let g_yellowAnimation = false;
 let g_magentaAnimation = false;
 var g_startTime = performance.now() / 1000.0;
@@ -143,16 +150,22 @@ function connectVariablesToGLSL() {
         return;
     }
 
-    u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
-    if (!u_FragColor) {
-        console.log('Failed to get the storage location of u_FragColor');
-    return;
+    a_Normal = gl.getAttribLocation(gl.program, 'a_Normal');
+    if (a_Normal < 0) {
+        console.log('failed to get the storage location of a_Normal');
+        return;
     }
 
     u_whichTexture = gl.getUniformLocation(gl.program, 'u_whichTexture');
     if (!u_whichTexture) {
         console.log('failed to get storage location of u_whichTexture');
         return false;
+    }
+
+    u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
+    if (!u_FragColor) {
+        console.log('Failed to get the storage location of u_FragColor');
+    return;
     }
 
     u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
@@ -219,6 +232,9 @@ function connectVariablesToGLSL() {
 }
 
 function addActionsUI() {
+    // NORMAL ON OFF BUTTONS
+    document.getElementById('normalOn').onclick = function() {g_normalOn = true};
+    document.getElementById('normalOff').onclick = function() {g_normalOn = false};
 
     // CAMERA ANGLE SLIDERS
     document.getElementById('angleSlide1').addEventListener('input', function() { g_globalAngle = this.value; renderAllShapes(); });
@@ -235,12 +251,10 @@ function addActionsUI() {
         shape1 = this.value;
         console.log(shape1);
     });
-
     document.getElementById('shape2SELECT').addEventListener('change', function() {
         shape2 = this.value;
         console.log(shape2);
     });
-
     document.getElementById('shape3SELECT').addEventListener('change', function() {
         shape3 = this.value;
         console.log(shape3);
@@ -472,16 +486,17 @@ function renderAllShapes() {
     // ----- ENVIRON ---------------
     // FOUNDATION - PREV: SKY
     var sky = new Cube();
-    sky.textureNum = 0;
-    sky.matrix.translate(-0.5,-0.5,0);
-    sky.matrix.scale(50, 50, 50);
+    sky.textureNum = 2;
+    if (g_normalOn) sky.textureNum = -3;
+    sky.matrix.translate(50,49.5,100);  // OG - -0.5,-0.5,0
+    sky.matrix.scale(-50, -50, -100);
     sky.render();
 
     // CARPET - PREV: GROUND
     var ground = new Cube();
     ground.textureNum = 1;
     ground.matrix.translate(-0.7, -0.5, -0.2);
-    ground.matrix.scale(60,0.01,60);
+    ground.matrix.scale(60,0.01,120);
     ground.render();
 
     // OBJECTS -------------
@@ -499,20 +514,6 @@ function renderAllShapes() {
     chestLid.matrix.translate(1.3, 5.5, 0.3);
     chestLid.matrix.rotate(0, 1, 0, 0);
     chestLid.render();
-
-    var door = new Cube();
-    door.color = [0.580, 0.433, 0.313, 1];
-    door.textureNum = -2;
-    door.matrix.scale(22, 35, 2);
-    door.matrix.translate(0.1, -0.02, -0.5);
-    door.render();
-
-    var doorHan = new Cube()
-    doorHan.color = [0.380, 0.351, 0.327, 1];
-    doorHan.textureNum = -2;
-    doorHan.matrix.scale(2, 2, 2);
-    doorHan.matrix.translate(10.5, 12, -0.3);
-    doorHan.render();
 
     // MORE SHAPES HERE
 
