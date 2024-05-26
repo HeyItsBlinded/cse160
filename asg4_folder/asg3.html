@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>asg3 - virtual world</title>
+        <title>asg4 - lighting</title>
         <!-- <link rel="stylesheet" href="asg3_style.css"> -->
     </head>
     <body onload="main()">
@@ -14,21 +14,15 @@
         <script src="asg4.js"></script>
         <script src="triangle.js"></script>
         <script src="cube.js"></script>
-        <script src="sphere.js"></script>
+        <script src="cube2.js"></script>
         <script src="custom.js"></script>
 
         <a href="../index.html">back to hub</a>
 
         <br>
-        <p>
-            Note to the grader: Hi o/ Use W/A/S/D for movement and Q/E for left-right rotation.
-            The concept here is a kid's playroom, and there are three ways to play; rotate around
-            the room to find them all! Use the controls below to interact with the various activites.
-            Note: best experienced if activities are played in clock-wise order!
-        </p>
 
         <div id="canvasContainer">
-        <canvas id="webgl" width="600" height="600">
+        <canvas id="webgl" width="400" height="400">
             Please use browser supporting "canvas"
         </canvas>
         </div>
@@ -36,21 +30,6 @@
 
         <!-- -- -- -- -- -- -->
         <div id="interface">
-            <!-- LIGHT CONTROLS -->
-            <label>lightX</label>
-            <input type="range" min="0" max="1000" value="0" class="slider" id="lightSlideX">
-            <label>lightY</label>
-            <input type="range" min="0" max="1000" value="100" class="slider" id="lightSlideY">
-            <label>lightZ</label>
-            <input type="range" min="0" max="1000" value="-200" class="slider" id="lightSlideZ">
-
-            <br>
-
-            <!-- NORMAL CONTROLS -->
-            <label>normal controls</label>
-            <input type="button" id="normalOn" value="normal ON">
-            <input type="button" id="normalOff" value="normal OFF">
-
             <!-- CAMERA ANGLE SLIDER -->
             <label>rotate left/right</label>
             <input type="range" min="-359" max="359" value="0" class="slider" id="angleSlide1">
