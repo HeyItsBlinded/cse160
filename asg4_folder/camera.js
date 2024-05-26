@@ -1,8 +1,8 @@
 class Camera{   // ADAPTED FROM 3.8
     constructor() {
         // SET CAMERA STARTING LOCATION
-        this.eye = new Vector3([20.25, 15, 48.5]);
-        this.at = new Vector3([20.25, 5, -64]);
+        this.eye = new Vector3([25.75, 26, 50]);
+        this.at = new Vector3([25.75, 0, -62]);
         this.up = new Vector3([0, 2, 0]);
 
     /* FOR DRAFTING

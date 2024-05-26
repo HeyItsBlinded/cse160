@@ -3,9 +3,10 @@ var VSHADER_SOURCE = `
     precision mediump float;
     attribute vec4 a_Position;
     attribute vec2 a_UV;
-    attribute vec3 a_Normal;    // NEW! - as seen in 4.2
+    attribute vec3 a_Normal;   
     varying vec2 v_UV;
-    varying vec3 v_Normal;   // NEW! - as seen in 4.2
+    varying vec3 v_Normal;  
+    varying vec4 v_VertPos;     // NEW! - as seen in 4.4
     uniform mat4 u_ModelMatrix;
     uniform mat4 u_GlobalRotateMatrix;
     uniform mat4 u_ViewMatrix;
@@ -13,14 +14,15 @@ var VSHADER_SOURCE = `
     void main() {
         gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
         v_UV = a_UV;
-        v_Normal = a_Normal;    // NEW! - as seen in 4.2
+        v_Normal = a_Normal;   
+        v_VertPos = u_ModelMatrix * a_Position;     // NEW! - as seen in 4.4
     }`
 
 // Fragment shader program
 var FSHADER_SOURCE = `
     precision mediump float;
     varying vec2 v_UV;
-    varying vec3 v_Normal;   // NEW! - as seen in 4.2
+    varying vec3 v_Normal;  
     uniform vec4 u_FragColor;
 
     uniform sampler2D u_Sampler0;
@@ -33,8 +35,11 @@ var FSHADER_SOURCE = `
     uniform sampler2D u_Sampler28;
 
     uniform int u_whichTexture;
+    uniform vec3 u_lightPos;    // NEW! - as seen in 4.4
+    varying vec4 v_VertPos;     // NEW! - as seen in 4.4
+
     void main() {
-        if (u_whichTexture == -3) {     // NEW! - as seen in 4.2
+        if (u_whichTexture == -3) {
             gl_FragColor = vec4((v_Normal + 1.0) / 2.0, 1.0);
         }
         else if (u_whichTexture == -2) {
@@ -69,6 +74,14 @@ var FSHADER_SOURCE = `
         }
         else {
             gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
+        }
+
+        vec3 lightVector = vec3(v_VertPos) - u_lightPos;
+        float r = length(lightVector);
+        if (r < 2.0) {
+            gl_FragColor = vec4(1, 0, 0, 1);
+        } else if (r < 4.0) {
+            gl_FragColor = vec4(0, 1, 0, 1);
         }
     }`
 
@@ -118,6 +131,7 @@ let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegment = 5;
 let g_normalOn = false;     // NEW! - as seen in 4.2
+let g_lightPos = [0, 1, -2];
 
 let g_globalAngle = 0;  // RESET TO 0 WHEN DONE
 
@@ -185,6 +199,12 @@ function connectVariablesToGLSL() {
     if (!u_whichTexture) {
         console.log('failed to get storage location of u_whichTexture');
         return false;
+    }
+
+    u_lightPos = gl.getUniformLocation(gl.program, 'u_lightPos');
+    if (!u_lightPos) {
+        console.log('failed to get the storage location of u_lightPos');
+        return;
     }
 
     u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
@@ -267,6 +287,19 @@ function addActionsUI() {
     // NORMAL CONTROLS - NEW! - as seen in 4.2
     document.getElementById('normalOn').onclick = function() { g_normalOn = true };
     document.getElementById('normalOff').onclick = function() { g_normalOn = false };
+
+    document.getElementById('lightSlideX').addEventListener('input', function() { 
+        g_lightPos[0] = this.value / 100;
+        renderAllShapes();
+    });
+    document.getElementById('lightSlideY').addEventListener('input', function() { 
+        g_lightPos[1] = this.value / 100;
+        renderAllShapes();
+    });
+    document.getElementById('lightSlideZ').addEventListener('input', function() { 
+        g_lightPos[2] = this.value / 100;
+        renderAllShapes();
+    });
 
     // CAMERA ANGLE SLIDERS
     document.getElementById('angleSlide1').addEventListener('input', function() { g_globalAngle = this.value; renderAllShapes(); });
@@ -770,6 +803,16 @@ function renderAllShapes() {
 
     // ----- MAP ---------------
     drawMap();
+
+    // ----- LIGHT ---------------
+    gl.uniform3f(u_lightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+
+    var light = new Cube();
+    light.color = [2,2,0,1];
+    light.matrix.translate(g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+    light.matrix.scale(2, 2, 2);
+    light.matrix.translate(19, 15, 1);
+    light.render();
 
     // ----- ENVIRON ---------------
     // FOUNDATION - PREV: SKY
