@@ -1,8 +1,9 @@
+// LGTM
 class Camera{
     constructor() {
         // SET CAMERA STARTING LOCATION
-        this.eye = new Vector3([25, 20, 70]);
-        this.at = new Vector3([25, 20, -32.5]);
+        this.eye = new Vector3([0, 1, 3]);
+        this.at = new Vector3([0, -5, -100]);
         this.up = new Vector3([0, 2, 0]);
 
     /* FOR DRAFTING
@@ -13,22 +14,22 @@ class Camera{
     }
 
     forward() {
-        this.eye.elements[2] -= 0.5;
-        this.at.elements[2] -= 0.5;
+        this.eye.elements[2] -= 0.005;
+        this.at.elements[2] -= 0.005;
     }
 
     back() {
-        this.eye.elements[2] += 0.5;
-        this.at.elements[2] += 0.5;
+        this.eye.elements[2] += 0.005;
+        this.at.elements[2] += 0.005;
     }
 
     left() {
-        this.eye.elements[0] -= 0.5;
-        this.at.elements[0] -= 0.5;
+        this.eye.elements[0] -= 0.005;
+        this.at.elements[0] -= 0.005;
     }
 
     right() {
-        this.eye.elements[0] += 0.5;
-        this.at.elements[0] += 0.5;
+        this.eye.elements[0] += 0.005;
+        this.at.elements[0] += 0.005;
     }
 }

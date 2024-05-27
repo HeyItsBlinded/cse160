@@ -1,3 +1,4 @@
+// LGTM
 class Sphere {
     constructor() {
         this.type = 'sphere';

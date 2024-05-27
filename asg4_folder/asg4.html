@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>asg4 - lighting</title>
+    <!-- <link rel="stylesheet" href="asg3_style.css"> -->
+  </head>
+
+  <body onload="main()">
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix-cse160.js"></script>
+    <script src="Camera.js"></script>
+    <script src="asg4.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Cube.js"></script>
+    <script src="Sphere.js"></script>
+
+    <a href="../index.html">back to hub</a>
+
+    <br>
+
+    <canvas id="webgl" position="absolute" width=600 height=500>
+    Please use a browser that supports canvas
+    </canvas>
+
+    <p id = "numdot"> XXX </p>
+
+    <!-- NORMALS BUTTON(S) -->
+    <label>normals</label>
+    <button type="button" id="normalOn">ON</button>
+    <button type="button" id="normalOff">OFF</button>
+
+    <br>
+
+    <!-- LIGHT TOGGLE -->
+    <label>light</label>
+    <button type="button" id="lightOn">ON</button>
+    <button type="button" id="lightOff">OFF</button>
+
+    <br>
+
+    <!-- SPOTLIGHT TOGGLE -->
+    <label>spotlight</label>
+    <input type="button" id="spotLightOn" value="spotLightOn"></button>
+    <input type="button" id="spotLightOff" value="spotLightOff"></button>
+
+    <br>
+
+    <!-- CAMERA CONTROLS -->
+    Camera <input type = "range" min="-100" max="180" value="0" class="slider" id="angleSlideX">
+
+    <br>
+
+    <!-- LIGHT COORD CONTROLS -->
+    <label>lightX</label>
+    <input type = "range" min="-250" max="250" value="0" class="slider" id="lightSlideX">
+    <label>lightY</label>
+    <input type = "range" min="-250" max="250" value="100" class="slider" id="lightSlideY">
+    <label>lightZ</label>
+    <input type = "range" min="-250" max="250" value="100" class="slider" id="lightSlideZ">
+
+    <br>
+
+    <!-- LIGHT COLOR CONTROLS -->
+    <label>light - R</label>
+    <input type="range" min="0" max="100" value="100" class="slider" id="redSlide">
+    <label>light - G</label>
+    <input type="range" min="0" max="100" value="100" class="slider" id="greenSlide">
+    <label>light - B</label>
+    <input type="range" min="0" max="100" value="100" class="slider" id="blueSlide">
+
+  </body>
+</html>
